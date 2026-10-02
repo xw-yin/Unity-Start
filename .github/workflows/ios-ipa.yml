@@ -131,6 +131,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           lfs: true
+          clean: false # Keep this dedicated runner's Unity Library cache between exports.
       - name: Export using the locally activated Unity Editor
         shell: pwsh
         env:
@@ -147,6 +148,7 @@ jobs:
           $process = Start-Process -FilePath $env:UNITY_EDITOR_PATH -ArgumentList $arguments -Wait -PassThru -WindowStyle Hidden
           if ($process.ExitCode -ne 0) { Get-Content -LiteralPath $log -Tail 80; throw "Unity export failed ($($process.ExitCode))" }
           if (!(Test-Path build/iOS/Unity-iPhone.xcodeproj/project.pbxproj)) { throw 'Unity did not export the Xcode project.' }
+          if (!(Select-String -LiteralPath $log -SimpleMatch 'HOMECOMING UNSIGNED IOS XCODE EXPORT SUCCEEDED' -Quiet)) { throw 'The current export did not complete; refusing to upload a stale Xcode project.' }
       - uses: actions/upload-artifact@v4
         with:
           name: Homecoming-Xcode-${{ github.run_number }}
