@@ -18,6 +18,8 @@ powershell -ExecutionPolicy Bypass -File .github/scripts/start_local_runner.ps1
 
 首次未签名构建已通过：[Actions 运行 #2](https://github.com/xw-yin/Unity-Start/actions/runs/37015936677)。验证产物为 arm64、iOS 15.0 起、包名 `com.xwyin.homecoming`，主程序无代码签名及描述文件。Unity 预编译的 `UnityRuntime.framework` 保留供应商签名；自签工具需同时重新签名应用内的 frameworks。
 
+手机操作与画质更新版已通过：[Actions 运行 #3](https://github.com/xw-yin/Unity-Start/actions/runs/37024756088)。下载 `Homecoming-unsigned-IPA-3`，构建号为 `3`。此版本支持单指转动、双指缩放、全景／人物／换鞋视角、暂停重播及横屏安全区，已移除对话框，并提高渲染分辨率、抗锯齿和阴影质量。
+
 ## 原有云端签名模式
 
 以下 Secrets 仅用于 `ad-hoc`、`app-store` 和 `development`；未签名模式不要求它们。
