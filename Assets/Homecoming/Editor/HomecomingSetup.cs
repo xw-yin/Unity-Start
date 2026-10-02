@@ -22,6 +22,7 @@ namespace Homecoming.Editor
         {
             if(EditorApplication.isPlayingOrWillChangePlaymode) return;
             if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            HomecomingMobileReview.SaveLightingProfile();
             System.IO.Directory.CreateDirectory("Assets/Homecoming/Scenes");
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var root=new GameObject("暮色归家 · Homecoming");
@@ -49,6 +50,7 @@ namespace Homecoming.Editor
                     material=AssetDatabase.LoadAssetAtPath<Material>(path);
                     if(material) material.CopyPropertiesFromMaterial(source);
                     else { material=source; AssetDatabase.CreateAsset(material,path); }
+                    EditorUtility.SetDirty(material);
                     saved.Add(source,material);
                 }
                 renderer.sharedMaterial=material;

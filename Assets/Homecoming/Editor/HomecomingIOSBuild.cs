@@ -30,7 +30,11 @@ namespace Homecoming.Editor
             PlayerSettings.bundleVersion = "1.0.0";
             PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS, Argument("-iosBundleID", "com.xwyin.homecoming"));
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.iOS, ScriptingImplementation.IL2CPP);
-            PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
+            PlayerSettings.allowedAutorotateToLandscapeLeft = true;
+            PlayerSettings.allowedAutorotateToLandscapeRight = true;
+            PlayerSettings.allowedAutorotateToPortrait = false;
+            PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
             PlayerSettings.iOS.buildNumber = Argument("-iosBuildNumber", "1");
             PlayerSettings.iOS.targetOSVersionString = "15.0";
             PlayerSettings.iOS.appleDeveloperTeamID = Argument("-iosTeamID");

@@ -13,12 +13,16 @@ namespace Homecoming
         HomecomingMotion motion;
         Vector3 bagRestPosition; Quaternion bagRestRotation;
         XiaModelBuilder modelBuilder;
-        float elapsed, orbit;
+        float elapsed;
         int phase;
-        bool greeted, tea, started;
-        bool closeUp;
-        Font chineseFont;
-        readonly string[] captions = { "钥匙声响起，熟悉的脚步停在门外。", "叶奈法：我回来啦……今天走了好多路。", "叶奈法：让我先换个鞋，终于到家了。", "叶奈法：还是家里的拖鞋最舒服。", "叶奈法：看到你在家，今天的疲惫都少了一半。" };
+        bool started, paused;
+        HomecomingCameraController cameraControls;
+        public bool Started => started;
+        public bool Paused => paused;
+        public bool Finished => elapsed >= 32;
+        public HomecomingCameraController CameraControls => cameraControls;
+        public void TogglePlayback() { if(Finished) Replay(); else if(!started) started=true; else paused=!paused; }
+        public void Replay() { ResetStory(); started=true; }
 
         void Awake() { Build(); }
 
@@ -26,8 +30,9 @@ namespace Homecoming
         {
             var m = new Material(Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard"));
             m.name = name; m.color = color; m.SetFloat("_Smoothness", smoothness);
+            if(name.Contains("黄铜")) m.SetFloat("_Metallic",.75f);
             if(name.Contains("木") || name.Contains("织物")) m.SetTexture("_BaseMap",SurfaceDetail.Weave(name+"纹理",name.Contains("木")));
-            m.EnableKeyword("_EMISSION"); m.SetColor("_EmissionColor",color*.055f); return m;
+            return m;
         }
         GameObject Shape(string name, PrimitiveType type, Vector3 position, Vector3 scale, Material material, Transform parent = null)
         {
@@ -55,7 +60,7 @@ namespace Homecoming
         void Lamp(string name, Vector3 p, Color color, float intensity, float range, Transform parent = null)
         {
             var g = new GameObject(name); g.transform.SetParent(parent ? parent : transform, false); g.transform.localPosition = p;
-            var l = g.AddComponent<Light>(); l.type = LightType.Point; l.color = color; l.intensity = intensity*1.2f; l.range = range; l.shadows = LightShadows.None;
+            var l = g.AddComponent<Light>(); l.type = LightType.Point; l.color = color; l.intensity = intensity*.7f; l.range = range; l.shadows = LightShadows.None;
         }
 
         public void Build()
@@ -63,7 +68,7 @@ namespace Homecoming
             for (int i = transform.childCount - 1; i >= 0; i--) { var child = transform.GetChild(i).gameObject; child.SetActive(false); if (Application.isPlaying) Destroy(child); else DestroyImmediate(child); }
             var cream = Mat("暖白墙面", new Color(.83f,.77f,.65f));
             var wood = Mat("胡桃木", new Color(.25f,.13f,.08f));
-            var oak = Mat("橡木地板", new Color(.56f,.35f,.19f));
+            var oak = Mat("橡木地板", new Color(.48f,.35f,.24f),.32f);
             var green = Mat("鼠尾草绿", new Color(.28f,.40f,.34f));
             var fabric = Mat("米色织物", new Color(.73f,.64f,.51f));
             var dark = Mat("深色金属", new Color(.075f,.085f,.09f));
@@ -73,12 +78,18 @@ namespace Homecoming
             blouse = Mat("奶油色针织上衣", new Color(.94f,.87f,.72f)); skirt = Mat("墨绿半裙", new Color(.12f,.25f,.22f)); leather = Mat("棕色通勤鞋", new Color(.20f,.09f,.055f));
 
             Box("地基", new Vector3(0,-.13f,0), new Vector3(8,.2f,7), wood);
-            for(int x=0;x<16;x++) for(int z=0;z<7;z++) Box("木地板",new Vector3(-3.75f+x*.5f,-.015f,-3+z),new Vector3(.485f,.05f,.98f),oak);
+            for(int x=0;x<16;x++) for(int z=0;z<7;z++)
+                Box("木地板",new Vector3(-3.75f+x*.5f,-.015f,-3+z),new Vector3(.498f,.05f,.998f),oak).GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             Box("后墙左侧",new Vector3(-3.06f,1.55f,3.5f),new Vector3(1.88f,3.1f,.15f),cream);
             Box("后墙右侧",new Vector3(1.61f,1.55f,3.5f),new Vector3(4.78f,3.1f,.15f),cream);
             Box("门洞上墙",new Vector3(-1.45f,2.87f,3.5f),new Vector3(1.34f,.46f,.15f),cream);
             Box("门外走廊地面",new Vector3(-1.45f,-.015f,4.35f),new Vector3(3,.05f,2.1f),oak);
             Box("左墙",new Vector3(-4,1.55f,0),new Vector3(.15f,3.1f,7),cream);
+            var rightWall=Box("右墙",new Vector3(4,1.55f,0),new Vector3(.15f,3.1f,7),cream);
+            var frontWall=Box("镜头后方墙",new Vector3(0,1.55f,-3.5f),new Vector3(8,3.1f,.15f),cream);
+            var ceiling=Box("天花板",new Vector3(0,3.16f,0),new Vector3(8,.12f,7),Mat("哑光天花板",new Color(.83f,.81f,.76f),.02f));
+            // The directional key represents diffused interior light; the room shell must not block it.
+            foreach(var shell in new[]{rightWall,frontWall,ceiling}) shell.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             Box("踢脚线左",new Vector3(-3.06f,.1f,3.38f),new Vector3(1.88f,.16f,.07f),wood);
             Box("踢脚线右",new Vector3(1.61f,.1f,3.38f),new Vector3(4.78f,.16f,.07f),wood);
             Box("玄关背景",new Vector3(-1.45f,2.83f,3.39f),new Vector3(1.55f,.38f,.04f),green);
@@ -135,15 +146,19 @@ namespace Homecoming
             Plant(new Vector3(-3.25f,.4f,2.65f),1.25f,green,wood);
             Shape("落地灯杆",PrimitiveType.Cylinder,new Vector3(3.52f,.90f,2.9f),new Vector3(.035f,.90f,.035f),gold);
             ModelMesh.Object("锥形布艺灯罩",ModelMesh.Loft("灯罩",new[]{new ModelMesh.Ring(-.20f,.29f,.29f),new ModelMesh.Ring(.20f,.18f,.18f)},48),fabric,transform,new Vector3(3.52f,1.86f,2.9f));
-            Lamp("客厅暖光",new Vector3(3.45f,1.7f,2.70f),new Color(1,.73f,.46f),3,6);
-            Lamp("玄关暖光",new Vector3(-1.1f,2.8f,1.6f),new Color(1,.82f,.62f),5,7);
+            Lamp("客厅暖光",new Vector3(3.45f,1.7f,2.70f),new Color(1,.83f,.65f),1.5f,6);
+            Lamp("玄关暖光",new Vector3(-1.1f,2.65f,1.6f),new Color(1,.89f,.76f),3,7);
             Lamp("窗边补光",new Vector3(-3.3f,2,-.1f),new Color(.53f,.67f,1),2.5f,6);
             Lamp("玄关前方柔光",new Vector3(-1.1f,1.85f,-.15f),new Color(1,.93f,.85f),4.5f,4.5f);
             var sun = new GameObject("傍晚柔光"); sun.transform.SetParent(transform); sun.transform.rotation = Quaternion.Euler(45,-25,0);
-            var sunlight = sun.AddComponent<Light>(); sunlight.type = LightType.Directional; sunlight.intensity = .6f; sunlight.color = new Color(1,.84f,.69f); sunlight.shadows = LightShadows.Soft;
+            var sunlight = sun.AddComponent<Light>(); sunlight.type = LightType.Directional; sunlight.intensity = 1.05f; sunlight.color = new Color(1,.91f,.80f); sunlight.shadows = LightShadows.Soft;
+            sunlight.shadowBias=.12f; sunlight.shadowNormalBias=.3f; sunlight.shadowStrength=.8f;
             var fill=new GameObject("室内漫射补光");fill.transform.SetParent(transform,false);fill.transform.rotation=Quaternion.Euler(25,0,0);
-            var fillLight=fill.AddComponent<Light>();fillLight.type=LightType.Directional;fillLight.intensity=.38f;fillLight.color=new Color(.94f,.97f,1);fillLight.shadows=LightShadows.None;
-            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat; RenderSettings.ambientLight = new Color(.60f,.59f,.61f); RenderSettings.skybox = null;
+            var fillLight=fill.AddComponent<Light>();fillLight.type=LightType.Directional;fillLight.intensity=.20f;fillLight.color=new Color(.85f,.92f,1);fillLight.shadows=LightShadows.None;
+            RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor=new Color(.43f,.48f,.56f);
+            RenderSettings.ambientEquatorColor=new Color(.30f,.29f,.27f);
+            RenderSettings.ambientGroundColor=new Color(.16f,.13f,.11f); RenderSettings.skybox = null;
             BuildWoman();
             placedBag=Instantiate(bag,transform); placedBag.name="放在鞋柜上的手提包";
             placedBag.transform.localPosition=new Vector3(-1.86f,.17f,1.05f); placedBag.transform.localRotation=Quaternion.identity; placedBag.SetActive(false);
@@ -151,13 +166,23 @@ namespace Homecoming
             foreach(float x in new[]{-.915f,-1.585f}) Shoe("粉色家居拖鞋",new Vector3(x,.035f,1.10f),pink,slippers.transform);
             var cameraObject = new GameObject("Homecoming Camera"); cameraObject.tag = "MainCamera"; cameraObject.transform.SetParent(transform);
             view = cameraObject.AddComponent<Camera>(); view.fieldOfView = 44; view.nearClipPlane = .05f; view.backgroundColor = new Color(.12f,.14f,.18f); view.clearFlags = CameraClearFlags.SolidColor;
-            cameraObject.AddComponent<AudioListener>(); SetCamera();
+            cameraObject.AddComponent<AudioListener>();
+            HomecomingPresentation.Configure(view,transform,rig.transform);
+            cameraControls=cameraObject.AddComponent<HomecomingCameraController>();
+            cameraControls.Initialize(rig,view);
+            if(Application.isPlaying) HomecomingMobileUI.Create(this);
             ResetStory();
         }
         void Plant(Vector3 p,float height,Material leaves,Material stem)
         {
             Shape("植物茎",PrimitiveType.Cylinder,p+Vector3.up*height*.45f,new Vector3(.025f,height*.45f,.025f),stem);
-            for(int i=0;i<7;i++) { float a=i*2.4f; var leaf=Ball("绿叶",p+new Vector3(Mathf.Sin(a)*height*.17f,height*(.3f+i*.09f),Mathf.Cos(a)*height*.17f),new Vector3(height*.30f,height*.10f,height*.15f),leaves); leaf.transform.localEulerAngles = new Vector3(0,-a*Mathf.Rad2Deg,25); }
+            var leafMaterial=Mat("植物叶片",new Color(.21f,.32f,.22f),.18f); leafMaterial.SetFloat("_Cull",0);
+            for(int i=0;i<9;i++)
+            {
+                float a=i*137.5f;
+                var leaf=ModelMesh.Object("弧形叶片",SurfaceDetail.Leaf(height*.42f,height*.13f),leafMaterial,transform,p+Vector3.up*height*(.26f+i*.075f));
+                leaf.transform.localEulerAngles=new Vector3(0,a,18+i%3*7);
+            }
         }
         GameObject Shoe(string name,Vector3 p,Material m,Transform parent)
         {
@@ -182,7 +207,7 @@ namespace Homecoming
         }
         void ResetStory()
         {
-            elapsed=0; phase=0; greeted=false; tea=false; started=false;
+            elapsed=0; phase=0; paused=false; started=false;
             if(!woman) return; woman.localPosition=new Vector3(-1.45f,0,4.95f); woman.localRotation=Quaternion.identity;
             door.localRotation=Quaternion.identity; hips.localPosition=rig.hipRestPosition;
             rig.Neutral();
@@ -197,17 +222,15 @@ namespace Homecoming
         void Update()
         {
             // Unity may reload scripts while keeping the scene and its objects alive.
-            if(!rig) { if(Application.isPlaying) Build(); else return; }
+            if(!rig || !cameraControls) { if(Application.isPlaying) Build(); else return; }
             if(motion==null) motion=new HomecomingMotion(rig);
-            if(Keyboard.current != null) { if(Keyboard.current.spaceKey.wasPressedThisFrame) started=true; if(Keyboard.current.rKey.wasPressedThisFrame) ResetStory(); if(Keyboard.current.cKey.wasPressedThisFrame) closeUp=!closeUp; if(Keyboard.current.leftArrowKey.isPressed) orbit-=Time.deltaTime*25; if(Keyboard.current.rightArrowKey.isPressed) orbit+=Time.deltaTime*25; }
-            if(Mouse.current != null && Mouse.current.rightButton.isPressed) orbit+=Mouse.current.delta.ReadValue().x*.12f;
-            orbit=Mathf.Clamp(orbit,-30,30); SetCamera();
-            if(!started) return;
+            if(Keyboard.current != null) { if(Keyboard.current.spaceKey.wasPressedThisFrame) TogglePlayback(); if(Keyboard.current.rKey.wasPressedThisFrame) Replay(); if(Keyboard.current.cKey.wasPressedThisFrame) cameraControls.SetView((cameraControls.ViewIndex+1)%3); }
+            if(!started || paused || Finished) return;
             elapsed+=Time.deltaTime; float t=elapsed;
             motion.Sample(t);
             phase=t<1.5f?0:t<8?1:t<22?2:t<27?3:4;
             float action=t-1;
-            rig.Expression(t,phase==4 || greeted || tea);
+            rig.Expression(t,phase==4);
             door.localRotation=Quaternion.Euler(0,DoorAngle(t),0);
             bag.transform.localPosition=bagRestPosition; bag.transform.localRotation=bagRestRotation;
             float putBag=Mathf.SmoothStep(0,1,Mathf.Clamp01((action-7)/2));
@@ -233,33 +256,7 @@ namespace Homecoming
                 shoe.gameObject.SetActive(action>=HomecomingShoeGrip.Detach(i));
                 motion.Shoes.PlaceProxy(shoe,i,action);
             }
-            SetCamera();
         }
         public static float DoorAngle(float t) => -85*(Mathf.SmoothStep(0,1,Mathf.Clamp01(t/1.2f)))*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01((t-3.8f)/1.2f)));
-        void SetCamera()
-        {
-            if(!view) return;
-            var focus=closeUp&&rig ? rig.hips.position+new Vector3(0,.07f,-.10f) : new Vector3(-.55f,1.05f,1.7f);
-            var offset=closeUp ? new Vector3(.8f,.2f,-3.3f) : new Vector3(3.7f,1.9f,-5.8f);
-            view.fieldOfView=closeUp?38:44; view.transform.position=focus+Quaternion.Euler(0,orbit,0)*offset; view.transform.LookAt(focus);
-        }
-        void OnGUI()
-        {
-            if(!chineseFont) chineseFont=Font.CreateDynamicFontFromOSFont(new[]{"Microsoft YaHei","PingFang SC","PingFangSC-Regular","Heiti SC","SimHei","Arial"},22);
-            float scale=Mathf.Min(Screen.width/1280f,Screen.height/720f); GUI.matrix=Matrix4x4.TRS(Vector3.zero,Quaternion.identity,Vector3.one*scale);
-            float w=Screen.width/scale,h=Screen.height/scale;
-            var title=new GUIStyle(GUI.skin.label){font=chineseFont,fontSize=30}; title.normal.textColor=new Color(1,.90f,.73f);
-            var text=new GUIStyle(GUI.skin.label){font=chineseFont,fontSize=19,wordWrap=true}; text.normal.textColor=new Color(.94f,.92f,.88f);
-            var button=new GUIStyle(GUI.skin.button){font=chineseFont,fontSize=18};
-            GUI.Label(new Rect(35,26,600,45),"暮色归家  /  HOME AT LAST",title);
-            GUI.Label(new Rect(38,75,700,35),"18:40 · 秋日傍晚 · 两个人的小家",text);
-            GUI.Label(new Rect(w-370,35,340,65),Application.isMobilePlatform?"点击下方按钮开始\n剧情结束后可重播":"右键拖动 / ← → 调整镜头\n空格开始 · R 重播 · C 人物近景",text);
-            GUI.color=new Color(.11f,.13f,.12f,.94f); GUI.DrawTexture(new Rect(25,h-165,w-50,140),Texture2D.whiteTexture); GUI.color=Color.white;
-            GUI.Label(new Rect(48,h-148,w-96,34),started ? "叶奈法  ·  "+new[]{"门外","进门","换鞋","放松","到家"}[phase] : "一个普通的傍晚，等她回家。",title);
-            GUI.Label(new Rect(48,h-104,w-96,40),tea ? "叶奈法：谢谢你，热茶来得正好。一起坐一会儿吧。" : greeted ? "叶奈法：嗯，我回来啦。有你等我的感觉真好。" : captions[phase],text);
-            if(!started) { if(GUI.Button(new Rect(w-225,h-67,175,34),"开始 · 等她进门",button)) started=true; }
-            else if(phase==4) { if(GUI.Button(new Rect(48,h-65,175,34),"辛苦啦，欢迎回家",button)) greeted=true; if(GUI.Button(new Rect(238,h-65,175,34),"给她倒杯热茶",button)) tea=true; if(GUI.Button(new Rect(w-190,h-65,140,34),"再看一次",button)) ResetStory(); }
-            else GUI.Label(new Rect(48,h-63,700,30),"进门  →  坐下  →  脱鞋  →  换上拖鞋  →  欢迎回家",text);
-        }
     }
 }

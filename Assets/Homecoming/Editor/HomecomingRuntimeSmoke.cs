@@ -4,6 +4,9 @@ using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.UI;
 
 namespace Homecoming.Editor
 {
@@ -19,6 +22,8 @@ namespace Homecoming.Editor
         }
         public static void Run()
         {
+            SessionState.SetBool(Running+".PreviousReloadSetting",EditorSettings.enterPlayModeOptionsEnabled);
+            EditorSettings.enterPlayModeOptionsEnabled=false;
             EditorSceneManager.OpenScene("Assets/Homecoming/Scenes/Homecoming.unity");
             SessionState.SetBool(Running,true); EditorApplication.EnterPlaymode();
         }
@@ -26,7 +31,7 @@ namespace Homecoming.Editor
         {
             if(!SessionState.GetBool(Running,false)) return;
             if(state==PlayModeStateChange.EnteredPlayMode) { frames=0; EditorApplication.update-=Check; EditorApplication.update+=Check; }
-            if(state==PlayModeStateChange.EnteredEditMode) { SessionState.SetBool(Running,false); EditorApplication.Exit(0); }
+            if(state==PlayModeStateChange.EnteredEditMode) { EditorSettings.enterPlayModeOptionsEnabled=SessionState.GetBool(Running+".PreviousReloadSetting",false); SessionState.SetBool(Running,false); EditorApplication.Exit(0); }
         }
         static void Check()
         {
@@ -65,10 +70,55 @@ namespace Homecoming.Editor
                 if(rig.transform.position.z<3.8f) throw new Exception("重播未恢复门外等待位置");
                 if(!rig.leftShoe.activeSelf||rig.leftSlipper.activeSelf) throw new Exception("重播状态错误");
                 if(rig.importedSource && (!rig.GetComponent<Animator>().avatar.isHuman)) throw new Exception("导入人物的表情或人形骨骼无效");
+                CheckMobileInput(story);
                 Debug.Log("HOMECOMING PLAY MODE PASSED: outside waiting, retargeted walk, hand-held shoes, ground release, standing pose, replay.");
                 EditorApplication.ExitPlaymode();
             }
             catch(Exception error) { Debug.LogException(error); SessionState.SetBool(Running,false); EditorApplication.Exit(1); }
+        }
+        static void CheckMobileInput(HomecomingScene story)
+        {
+            var ui=story.GetComponentInChildren<HomecomingMobileUI>();
+            if(!ui) throw new Exception("Mobile UI missing in Play Mode.");
+            var buttons=ui.GetComponentsInChildren<Button>();
+            buttons[0].onClick.Invoke(); buttons[0].onClick.Invoke();
+            if(!story.Paused) throw new Exception("Runtime pause failed.");
+            buttons[0].onClick.Invoke(); if(story.Paused) throw new Exception("Runtime resume failed.");
+            buttons[3].onClick.Invoke();
+            var controls=story.CameraControls;
+            const BindingFlags flags=BindingFlags.Instance|BindingFlags.NonPublic;
+            var type=typeof(HomecomingCameraController); var read=type.GetMethod("ReadInput",flags);
+            var yaw=type.GetField("yaw",flags); var distance=type.GetField("distance",flags);
+            var touchscreen=InputSystem.AddDevice<Touchscreen>();
+            void Touch(int id,UnityEngine.InputSystem.TouchPhase phase,Vector2 position)
+            {
+                InputSystem.QueueStateEvent(touchscreen,new TouchState{touchId=id,phase=phase,position=position});
+                InputSystem.Update(); read.Invoke(controls,null);
+            }
+            var center=new Vector2(Screen.width*.5f,Screen.height*.5f);
+            float before=(float)yaw.GetValue(controls);
+            Touch(1,UnityEngine.InputSystem.TouchPhase.Began,center);
+            Touch(1,UnityEngine.InputSystem.TouchPhase.Moved,center+new Vector2(40,0));
+            Touch(1,UnityEngine.InputSystem.TouchPhase.Moved,center+new Vector2(80,0));
+            if(Mathf.Abs((float)yaw.GetValue(controls)-before)<1) throw new Exception("Single-finger touch did not orbit.");
+            Touch(2,UnityEngine.InputSystem.TouchPhase.Began,center-new Vector2(120,0));
+            float beforeZoom=(float)distance.GetValue(controls);
+            Touch(2,UnityEngine.InputSystem.TouchPhase.Moved,center-new Vector2(180,0));
+            Touch(2,UnityEngine.InputSystem.TouchPhase.Moved,center-new Vector2(220,0));
+            if(Mathf.Abs((float)distance.GetValue(controls)-beforeZoom)<.05f) throw new Exception("Pinch did not zoom.");
+            Touch(1,UnityEngine.InputSystem.TouchPhase.Ended,center+new Vector2(80,0));
+            Touch(2,UnityEngine.InputSystem.TouchPhase.Canceled,center-new Vector2(220,0));
+            Canvas.ForceUpdateCanvases();
+            var rect=buttons[0].GetComponent<RectTransform>();
+            var buttonPoint=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(rect.rect.center));
+            before=(float)yaw.GetValue(controls);
+            Touch(3,UnityEngine.InputSystem.TouchPhase.Began,buttonPoint);
+            Touch(3,UnityEngine.InputSystem.TouchPhase.Moved,buttonPoint+new Vector2(150,0));
+            Touch(3,UnityEngine.InputSystem.TouchPhase.Moved,buttonPoint+new Vector2(250,0));
+            if(Mathf.Abs((float)yaw.GetValue(controls)-before)>.01f) throw new Exception("UI touch also moved the camera.");
+            Touch(3,UnityEngine.InputSystem.TouchPhase.Canceled,buttonPoint);
+            InputSystem.RemoveDevice(touchscreen);
+            Debug.Log("HOMECOMING TOUCH INPUT PASSED: real touch events orbit, pinch, cancellation and UI gesture exclusion.");
         }
     }
 }
