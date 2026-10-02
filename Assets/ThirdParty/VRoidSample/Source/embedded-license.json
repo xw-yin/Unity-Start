@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "author": "VRoid Project",
+  "contactInformation": "https://www.pixiv.net/support.php?mode=select_vroid",
+  "reference": "",
+  "title": "AvatarSample_A",
+  "texture": 27,
+  "allowedUserName": "Everyone",
+  "violentUssageName": "Allow",
+  "sexualUssageName": "Allow",
+  "commercialUssageName": "Allow",
+  "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+  "licenseName": "Other",
+  "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow"
+}

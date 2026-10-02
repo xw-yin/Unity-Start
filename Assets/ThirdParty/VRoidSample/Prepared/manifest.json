@@ -1,0 +1,4782 @@
+{
+  "nodes": [
+    {
+      "name": "Face",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Body",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Root",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Hips",
+      "parent": 2,
+      "position": [
+        2.1066051e-05,
+        0.896144331,
+        0.00661799824
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Spine",
+      "parent": 3,
+      "position": [
+        -2.67573341e-09,
+        0.0579315424,
+        0.0101128668
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Chest",
+      "parent": 4,
+      "position": [
+        -1.26110535e-08,
+        0.11408025,
+        0.0114005171
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_UpperChest",
+      "parent": 5,
+      "position": [
+        6.39010977e-09,
+        0.111280918,
+        -0.0122334734
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_L_Bust1",
+      "parent": 6,
+      "position": [
+        -0.04604345,
+        -0.02440083,
+        0.0529675931
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_L_Bust2",
+      "parent": 7,
+      "position": [
+        -0.0197873339,
+        0.00976419449,
+        0.0404384062
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_R_Bust1",
+      "parent": 6,
+      "position": [
+        0.04604345,
+        -0.02440083,
+        0.0529675931
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_R_Bust2",
+      "parent": 9,
+      "position": [
+        0.0197873339,
+        0.00976419449,
+        0.04043836
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_C_Hood",
+      "parent": 6,
+      "position": [
+        3.088644e-09,
+        0.107460141,
+        -0.0907506
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_C_Hood_end",
+      "parent": 11,
+      "position": [
+        -4.953108e-09,
+        -0.0714815855,
+        -0.0138455927
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_L_HoodString1",
+      "parent": 6,
+      "position": [
+        -0.029383311,
+        0.08405042,
+        0.0515121222
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_L_HoodString2",
+      "parent": 13,
+      "position": [
+        -0.0053323973,
+        -0.09532428,
+        0.05490794
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_L_HoodString2_end",
+      "parent": 14,
+      "position": [
+        -0.00405924767,
+        -0.11444962,
+        0.00314190984
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_R_HoodString1",
+      "parent": 6,
+      "position": [
+        0.0293833222,
+        0.08405042,
+        0.0515121147
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_R_HoodString2",
+      "parent": 16,
+      "position": [
+        0.00533239357,
+        -0.09532428,
+        0.0549079329
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Sec_R_HoodString2_end",
+      "parent": 17,
+      "position": [
+        0.00405922532,
+        -0.11444962,
+        0.00314192474
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Neck",
+      "parent": 6,
+      "position": [
+        5.173206e-09,
+        0.102773428,
+        -0.0299452953
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Head",
+      "parent": 19,
+      "position": [
+        -4.18986019e-08,
+        0.0694720745,
+        0.008954108
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Adj_L_FaceEye",
+      "parent": 20,
+      "position": [
+        -0.01781112,
+        0.0610489845,
+        0.0312672481
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Adj_R_FaceEye",
+      "parent": 20,
+      "position": [
+        0.0178110525,
+        0.0610491037,
+        0.0312672853
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-d5d1d361-46ed-4466-8faa-4bd115827f20",
+      "parent": 20,
+      "position": [
+        -0.00240075681,
+        0.106237769,
+        0.109459445
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-6f5e8bc3-bcf6-4681-9e9f-6ccdb64829b4",
+      "parent": 23,
+      "position": [
+        -0.01082148,
+        -0.0511784554,
+        0.00382223725
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-81fd50ca-aff0-4bdf-b03a-40e4112f57fd",
+      "parent": 20,
+      "position": [
+        -0.06852487,
+        0.0709146261,
+        0.09165837
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-bc8615b0-3f7c-4a80-8184-d906475aa8fe",
+      "parent": 25,
+      "position": [
+        0.004159428,
+        -0.0659849644,
+        -0.0006721914
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-5d8a5c7d-7c5a-4ba9-a68d-67d0f7850910",
+      "parent": 26,
+      "position": [
+        0.02372523,
+        -0.05710566,
+        -0.009697773
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-1b7619a1-5ed2-4b11-ad37-5cee16440f0c",
+      "parent": 20,
+      "position": [
+        -0.0860763,
+        0.07578242,
+        0.00453609228
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-3619f0c9-aa66-425f-add4-6d06e04d99bb",
+      "parent": 28,
+      "position": [
+        -0.00108600408,
+        -0.0439025164,
+        -0.0009265989
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-f049e5c8-72ec-4f58-b0de-8e00969b338b",
+      "parent": 29,
+      "position": [
+        -0.00232642144,
+        -0.0428855419,
+        -0.004998669
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-bbeef66a-bb1b-4e1e-8fe4-bcac5f008639",
+      "parent": 30,
+      "position": [
+        0.0248249248,
+        -0.03184378,
+        0.005473979
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-88b31c21-9b22-453c-bff4-5ed8031dd455",
+      "parent": 20,
+      "position": [
+        -0.08727736,
+        0.08298981,
+        -0.0332133435
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-10f7ff84-3003-4008-99d5-7cae6ffc8713",
+      "parent": 32,
+      "position": [
+        0.00225709379,
+        -0.0447980165,
+        -0.0041648
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-3b45a449-b5b7-4da2-a992-a615ebd46c06",
+      "parent": 33,
+      "position": [
+        -0.0031394735,
+        -0.0446788073,
+        -0.00496798754
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-a8bb6f92-e750-4c19-9a19-4db4bc7d876c",
+      "parent": 34,
+      "position": [
+        0.0128327683,
+        -0.0349757671,
+        0.0144754164
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-85dbe327-2515-404b-a0b4-bd2ad74922a2",
+      "parent": 20,
+      "position": [
+        0.09149914,
+        0.0874207,
+        0.000775873661
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-72ce91c1-b1a8-4e83-96e8-92ba2821d85c",
+      "parent": 36,
+      "position": [
+        0.001949884,
+        -0.04378259,
+        -0.00192961842
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-a40a858b-b266-4e18-b499-c0cb27da6a84",
+      "parent": 37,
+      "position": [
+        0.008513026,
+        -0.04275751,
+        -0.000753290951
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-b09f551e-f257-4574-8f45-7bf0b5b61926",
+      "parent": 38,
+      "position": [
+        -0.007654071,
+        -0.0391829,
+        0.00734473765
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-4d09d031-7548-4c6d-9bbd-96f39a55d893",
+      "parent": 20,
+      "position": [
+        0.07366458,
+        0.09745872,
+        0.080063276
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-9f394ea9-32b9-46d0-8dcb-e3f7defaf3ce",
+      "parent": 40,
+      "position": [
+        0.002840601,
+        -0.0746898651,
+        0.00026345253
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-8ed39142-a856-42fe-9e29-023b2d365c3e",
+      "parent": 41,
+      "position": [
+        -0.0203592516,
+        -0.06895125,
+        -0.004112743
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-ac4466da-dc3f-455c-8f69-958f2d8372eb",
+      "parent": 20,
+      "position": [
+        -0.000377723423,
+        0.09227669,
+        -0.1178502
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-9a94fa10-95f5-4930-ba79-e3d2be16d1f3",
+      "parent": 43,
+      "position": [
+        0.0024003156,
+        -0.0424160957,
+        -0.000240892172
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-0bed2c3d-3b1b-44d4-9587-81a9089df1b2",
+      "parent": 44,
+      "position": [
+        0.004820185,
+        -0.0417736769,
+        -0.005101055
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "HairJoint-f6117f7a-2285-4821-9575-7800e295db7a",
+      "parent": 45,
+      "position": [
+        -0.00336679,
+        -0.0420615673,
+        -0.002922058
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Shoulder",
+      "parent": 6,
+      "position": [
+        -0.0200728066,
+        0.078248024,
+        -0.02460752
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_UpperArm",
+      "parent": 47,
+      "position": [
+        -0.0621720962,
+        -0.0107127428,
+        0.0038644
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_LowerArm",
+      "parent": 48,
+      "position": [
+        -0.239997283,
+        -0.0111750364,
+        0.0020134598
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Hand",
+      "parent": 49,
+      "position": [
+        -0.233359829,
+        -0.000508666039,
+        0.0192630254
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Index1",
+      "parent": 50,
+      "position": [
+        -0.0541668981,
+        0.004896164,
+        0.0187538527
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Index2",
+      "parent": 51,
+      "position": [
+        -0.0278349519,
+        -0.000106811523,
+        0.00445537642
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Index3",
+      "parent": 52,
+      "position": [
+        -0.01723051,
+        -0.000583052635,
+        0.00197479874
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Index3_end",
+      "parent": 53,
+      "position": [
+        -0.0204515457,
+        -0.000788807869,
+        0.00190605223
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Little1",
+      "parent": 50,
+      "position": [
+        -0.0537554473,
+        0.00267958641,
+        -0.023816552
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Little2",
+      "parent": 55,
+      "position": [
+        -0.02664262,
+        -0.0002387762,
+        -6.88992441e-05
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Little3",
+      "parent": 56,
+      "position": [
+        -0.0153269768,
+        0.000590920448,
+        -0.000881899148
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Little3_end",
+      "parent": 57,
+      "position": [
+        -0.0164327025,
+        0.0009725094,
+        -0.000523030758
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Middle1",
+      "parent": 50,
+      "position": [
+        -0.05608569,
+        0.00732004642,
+        0.00404827669
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Middle2",
+      "parent": 59,
+      "position": [
+        -0.0313050747,
+        -0.00117385387,
+        0.00204564258
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Middle3",
+      "parent": 60,
+      "position": [
+        -0.0192452073,
+        -0.00209915638,
+        0.0007592365
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Middle3_end",
+      "parent": 61,
+      "position": [
+        -0.02117902,
+        -0.00140821934,
+        0.0006882772
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Ring1",
+      "parent": 50,
+      "position": [
+        -0.0566125959,
+        0.00723302364,
+        -0.009844717
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Ring2",
+      "parent": 63,
+      "position": [
+        -0.0291240215,
+        -0.0004698038,
+        5.503744e-05
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Ring3",
+      "parent": 64,
+      "position": [
+        -0.0167976618,
+        0.0006119013,
+        0.000165320933
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Ring3_end",
+      "parent": 65,
+      "position": [
+        -0.01811874,
+        0.000290513039,
+        -0.0001790151
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Thumb1",
+      "parent": 50,
+      "position": [
+        -0.0016746521,
+        -0.006003499,
+        0.0156316273
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Thumb2",
+      "parent": 67,
+      "position": [
+        -0.0273039788,
+        -0.00229871273,
+        0.0293801576
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Thumb3",
+      "parent": 68,
+      "position": [
+        -0.0180413127,
+        -0.00128817558,
+        0.0167348385
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Thumb3_end",
+      "parent": 69,
+      "position": [
+        -0.0126709938,
+        -0.0006787777,
+        0.01373947
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Shoulder",
+      "parent": 6,
+      "position": [
+        0.0200727824,
+        0.0782510042,
+        -0.0246074758
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_UpperArm",
+      "parent": 71,
+      "position": [
+        0.0621684268,
+        -0.0107131,
+        0.00386413932
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_LowerArm",
+      "parent": 72,
+      "position": [
+        0.239999443,
+        -0.0111689568,
+        0.0019104816
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Hand",
+      "parent": 73,
+      "position": [
+        0.233353823,
+        -0.0004891157,
+        0.01929703
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Index1",
+      "parent": 74,
+      "position": [
+        0.05416447,
+        0.004886508,
+        0.0187632143
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Index2",
+      "parent": 75,
+      "position": [
+        0.0278341174,
+        -0.000110864639,
+        0.00445996225
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Index3",
+      "parent": 76,
+      "position": [
+        0.0172302127,
+        -0.00058555603,
+        0.001977563
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Index3_end",
+      "parent": 77,
+      "position": [
+        0.0204510689,
+        -0.0007915497,
+        0.00190932676
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Little1",
+      "parent": 74,
+      "position": [
+        0.0537593961,
+        0.00267732143,
+        -0.0238076225
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Little2",
+      "parent": 79,
+      "position": [
+        0.0266428,
+        -0.000241756439,
+        -6.41681254e-05
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Little3",
+      "parent": 80,
+      "position": [
+        0.0153268576,
+        0.000589489937,
+        -0.0008790381
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Little3_end",
+      "parent": 81,
+      "position": [
+        0.01643312,
+        0.000970959663,
+        -0.000519894063
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Middle1",
+      "parent": 74,
+      "position": [
+        0.0560857654,
+        0.00731265545,
+        0.00405834243
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Middle2",
+      "parent": 83,
+      "position": [
+        0.0313049555,
+        -0.00117778778,
+        0.00205038488
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Middle3",
+      "parent": 84,
+      "position": [
+        0.0192446113,
+        -0.00210142136,
+        0.0007619038
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Middle3_end",
+      "parent": 85,
+      "position": [
+        0.0211787224,
+        -0.001410842,
+        0.000691380352
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Ring1",
+      "parent": 74,
+      "position": [
+        0.056614995,
+        0.007228017,
+        -0.009834565
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Ring2",
+      "parent": 87,
+      "position": [
+        0.0291239619,
+        -0.0004733801,
+        5.967915e-05
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Ring3",
+      "parent": 88,
+      "position": [
+        0.0167979,
+        0.0006098747,
+        0.0001681745
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Ring3_end",
+      "parent": 89,
+      "position": [
+        0.01811862,
+        0.000288486481,
+        -0.000176034868
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Thumb1",
+      "parent": 74,
+      "position": [
+        0.00167137384,
+        -0.00600636,
+        0.0156308338
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Thumb2",
+      "parent": 91,
+      "position": [
+        0.0272906423,
+        -0.00228726864,
+        0.0293942653
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Thumb3",
+      "parent": 92,
+      "position": [
+        0.0180346966,
+        -0.00128161907,
+        0.0167426318
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Thumb3_end",
+      "parent": 93,
+      "position": [
+        0.0126667619,
+        -0.0006740093,
+        0.0137438886
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_UpperLeg",
+      "parent": 3,
+      "position": [
+        -0.0691543,
+        -0.0354265571,
+        -0.005371396
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_LowerLeg",
+      "parent": 95,
+      "position": [
+        0.0209028013,
+        -0.363107681,
+        -0.00645617349
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Foot",
+      "parent": 96,
+      "position": [
+        0.0103328936,
+        -0.4056067,
+        -0.02177025
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_ToeBase",
+      "parent": 97,
+      "position": [
+        -0.00192014873,
+        -0.05312383,
+        0.09754397
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_ToeBase_end",
+      "parent": 98,
+      "position": [
+        -0.0003452897,
+        -0.00175589323,
+        0.0393980742
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_UpperLeg",
+      "parent": 3,
+      "position": [
+        0.0691543147,
+        -0.0354265571,
+        -0.005371399
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_LowerLeg",
+      "parent": 100,
+      "position": [
+        -0.020903334,
+        -0.363107771,
+        -0.006456107
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Foot",
+      "parent": 101,
+      "position": [
+        -0.0103337839,
+        -0.405607,
+        -0.02177044
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_ToeBase",
+      "parent": 102,
+      "position": [
+        0.00191964954,
+        -0.0531237125,
+        0.09754397
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_ToeBase_end",
+      "parent": 103,
+      "position": [
+        0.000345014036,
+        -0.00175595284,
+        0.03939803
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Hairs",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "Hair001",
+      "parent": 105,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "secondary",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "F00_000_00_FaceMouth_00_FACE",
+      "texture": 0,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_000_00_EyeWhite_00_EYE",
+      "texture": 4,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_000_00_FaceEyeline_00_FACE",
+      "texture": 5,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_00_FaceEyelash_00_FACE",
+      "texture": 7,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_00_FaceBrow_00_FACE",
+      "texture": 8,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_00_EyeIris_00_EYE",
+      "texture": 9,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_000_00_EyeHighlight_00_EYE",
+      "texture": 10,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_00_Face_00_SKIN",
+      "texture": 11,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "OPAQUE",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_000_00_EyeExtra_01_EYE",
+      "texture": 14,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "BLEND",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_000_00_Body_00_SKIN",
+      "texture": 15,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": false
+    },
+    {
+      "name": "F00_006_01_Tops_01_CLOTH",
+      "texture": 17,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_008_01_Bottoms_01_CLOTH",
+      "texture": 18,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_001_01_Shoes_01_CLOTH",
+      "texture": 19,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_01",
+      "texture": 20,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_02",
+      "texture": 24,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_03",
+      "texture": 25,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_04",
+      "texture": 26,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "alpha": "MASK",
+      "cutoff": 0.5,
+      "doubleSided": true
+    }
+  ],
+  "parts": [
+    {
+      "name": "F00_000_00_FaceMouth_00_FACE",
+      "file": "Part_00.bytes",
+      "node": 0,
+      "material": 0,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_EyeWhite_00_EYE",
+      "file": "Part_01.bytes",
+      "node": 0,
+      "material": 1,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_FaceEyeline_00_FACE",
+      "file": "Part_02.bytes",
+      "node": 0,
+      "material": 2,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_FaceEyelash_00_FACE",
+      "file": "Part_03.bytes",
+      "node": 0,
+      "material": 3,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_FaceBrow_00_FACE",
+      "file": "Part_04.bytes",
+      "node": 0,
+      "material": 4,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_EyeIris_00_EYE",
+      "file": "Part_05.bytes",
+      "node": 0,
+      "material": 5,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_EyeHighlight_00_EYE",
+      "file": "Part_06.bytes",
+      "node": 0,
+      "material": 6,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_Face_00_SKIN",
+      "file": "Part_07.bytes",
+      "node": 0,
+      "material": 7,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_EyeExtra_01_EYE",
+      "file": "Part_08.bytes",
+      "node": 0,
+      "material": 8,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [
+        "a",
+        "i",
+        "u",
+        "e",
+        "o",
+        "blink",
+        "joy"
+      ],
+      "role": ""
+    },
+    {
+      "name": "F00_000_00_Body_00_SKIN",
+      "file": "Part_09.bytes",
+      "node": 1,
+      "material": 9,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "F00_006_01_Tops_01_CLOTH",
+      "file": "Part_10.bytes",
+      "node": 1,
+      "material": 10,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "F00_008_01_Bottoms_01_CLOTH",
+      "file": "Part_11.bytes",
+      "node": 1,
+      "material": 11,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "ShoeLeft",
+      "file": "Part_12.bytes",
+      "node": 1,
+      "material": 12,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": "ShoeLeft"
+    },
+    {
+      "name": "ShoeRight",
+      "file": "Part_13.bytes",
+      "node": 1,
+      "material": 12,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": "ShoeRight"
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_01",
+      "file": "Part_14.bytes",
+      "node": 106,
+      "material": 13,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_02",
+      "file": "Part_15.bytes",
+      "node": 106,
+      "material": 14,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_03",
+      "file": "Part_16.bytes",
+      "node": 106,
+      "material": 15,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    },
+    {
+      "name": "F00_000_Hair_00_HAIR_04",
+      "file": "Part_17.bytes",
+      "node": 106,
+      "material": 16,
+      "joints": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "expressions": [],
+      "role": ""
+    }
+  ],
+  "humanBones": [
+    {
+      "bone": "hips",
+      "node": 3,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftUpperLeg",
+      "node": 95,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightUpperLeg",
+      "node": 100,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftLowerLeg",
+      "node": 96,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightLowerLeg",
+      "node": 101,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftFoot",
+      "node": 97,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightFoot",
+      "node": 102,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "spine",
+      "node": 4,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "chest",
+      "node": 5,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "neck",
+      "node": 19,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "head",
+      "node": 20,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftShoulder",
+      "node": 47,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightShoulder",
+      "node": 71,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftUpperArm",
+      "node": 48,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightUpperArm",
+      "node": 72,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftLowerArm",
+      "node": 49,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightLowerArm",
+      "node": 73,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftHand",
+      "node": 50,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightHand",
+      "node": 74,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftToes",
+      "node": 98,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightToes",
+      "node": 103,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftEye",
+      "node": 21,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightEye",
+      "node": 22,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftThumbProximal",
+      "node": 67,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftThumbIntermediate",
+      "node": 68,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftThumbDistal",
+      "node": 69,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftIndexProximal",
+      "node": 51,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftIndexIntermediate",
+      "node": 52,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftIndexDistal",
+      "node": 53,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftMiddleProximal",
+      "node": 59,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftMiddleIntermediate",
+      "node": 60,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftMiddleDistal",
+      "node": 61,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftRingProximal",
+      "node": 63,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftRingIntermediate",
+      "node": 64,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftRingDistal",
+      "node": 65,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftLittleProximal",
+      "node": 55,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftLittleIntermediate",
+      "node": 56,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "leftLittleDistal",
+      "node": 57,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightThumbProximal",
+      "node": 91,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightThumbIntermediate",
+      "node": 92,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightThumbDistal",
+      "node": 93,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightIndexProximal",
+      "node": 75,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightIndexIntermediate",
+      "node": 76,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightIndexDistal",
+      "node": 77,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightMiddleProximal",
+      "node": 83,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightMiddleIntermediate",
+      "node": 84,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightMiddleDistal",
+      "node": 85,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightRingProximal",
+      "node": 87,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightRingIntermediate",
+      "node": 88,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightRingDistal",
+      "node": 89,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightLittleProximal",
+      "node": 79,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightLittleIntermediate",
+      "node": 80,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "rightLittleDistal",
+      "node": 81,
+      "useDefaultValues": true
+    },
+    {
+      "bone": "upperChest",
+      "node": 6,
+      "useDefaultValues": true
+    }
+  ],
+  "meta": {
+    "version": "1.0",
+    "author": "VRoid Project",
+    "contactInformation": "https://www.pixiv.net/support.php?mode=select_vroid",
+    "reference": "",
+    "title": "AvatarSample_A",
+    "texture": 27,
+    "allowedUserName": "Everyone",
+    "violentUssageName": "Allow",
+    "sexualUssageName": "Allow",
+    "commercialUssageName": "Allow",
+    "otherPermissionUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow",
+    "licenseName": "Other",
+    "otherLicenseUrl": "https://hub.vroid.com/license?allowed_to_use_user=everyone&characterization_allowed_user=everyone&corporate_commercial_use=allow&credit=unnecessary&modification=allow&personal_commercial_use=profit&redistribution=allow&sexual_expression=allow&version=1&violent_expression=allow"
+  }
+}

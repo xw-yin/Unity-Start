@@ -112,3 +112,13 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Local conversion reports, previews and signing material
+/Artifacts/
+/Tools/
+*.ipa
+*.p12
+*.mobileprovision
+*.xcarchive/
+__pycache__/
+*.pyc

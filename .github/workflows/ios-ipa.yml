@@ -1,0 +1,121 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      distribution:
+        description: IPA signing method
+        type: choice
+        options: [ad-hoc, app-store, development]
+        default: ad-hoc
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  configuration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - name: Verify signing validation rules
+        run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
+      - name: Check required credentials before starting a Mac runner
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          IOS_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_CERTIFICATE_P12_BASE64 }}
+          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+        shell: bash
+        run: |
+          missing=0
+          for key in UNITY_EMAIL UNITY_PASSWORD IOS_CERTIFICATE_P12_BASE64 IOS_PROVISIONING_PROFILE_BASE64 IOS_TEAM_ID; do
+            if [[ -z "${!key}" ]]; then
+              echo "::error::Missing repository secret: $key. See Docs/iOS-Build.md."
+              missing=1
+            fi
+          done
+          if [[ -z "$UNITY_LICENSE" && -z "$UNITY_SERIAL" ]]; then
+            echo '::error::Configure UNITY_LICENSE or UNITY_SERIAL for Unity activation.'
+            missing=1
+          fi
+          exit "$missing"
+
+  ipa:
+    needs: configuration
+    runs-on: macos-15
+    timeout-minutes: 120
+    env:
+      IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.xwyin.homecoming' }}
+      IOS_DISTRIBUTION: ${{ inputs.distribution }}
+      IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Install signing certificate and provisioning profile
+        id: signing
+        env:
+          IOS_CERTIFICATE_P12_BASE64: ${{ secrets.IOS_CERTIFICATE_P12_BASE64 }}
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          IOS_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+        run: python3 .github/scripts/ios_signing.py
+      - name: Export Homecoming Xcode project
+        uses: game-ci/unity-builder@4423ee75828dff56037d1d1cfdac6b68e3a6ba00 # v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+        with:
+          targetPlatform: iOS
+          unityVersion: auto
+          versioning: None
+          buildMethod: Homecoming.Editor.HomecomingIOSBuild.Build
+          customParameters: >-
+            -iosBundleID ${{ env.IOS_BUNDLE_ID }}
+            -iosTeamID ${{ env.IOS_TEAM_ID }}
+            -iosProfileUUID ${{ steps.signing.outputs.profile_uuid }}
+            -iosIdentity ${{ steps.signing.outputs.identity_sha }}
+            -iosBuildNumber ${{ github.run_number }}
+      - name: Archive and export signed IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/logs build/ipa
+          xcodebuild -project build/iOS/Unity-iPhone.xcodeproj \
+            -scheme Unity-iPhone -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath build/Homecoming.xcarchive archive \
+            | tee build/logs/archive.log
+          xcodebuild -exportArchive -archivePath build/Homecoming.xcarchive \
+            -exportPath build/ipa -exportOptionsPlist "$RUNNER_TEMP/ios-signing/ExportOptions.plist" \
+            | tee build/logs/export.log
+          test -n "$(find build/ipa -maxdepth 1 -name '*.ipa' -print -quit)"
+      - name: Upload signed IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Homecoming-iOS-${{ inputs.distribution }}-${{ github.run_number }}
+          path: build/ipa/*.ipa
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-build-logs-${{ github.run_number }}
+          path: |
+            build/logs/
+            build/**/*.log
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Remove signing material
+        if: always()
+        run: python3 .github/scripts/ios_signing.py --cleanup

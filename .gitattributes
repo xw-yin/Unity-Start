@@ -166,6 +166,8 @@ Packages/packages-lock.json linguist-generated
 
 # Spine export file for Unity
 *.skel.bytes            lfs
+*.vrm                   lfs
+Assets/ThirdParty/**/Prepared/*.bin lfs
 
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
