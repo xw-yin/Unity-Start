@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -91,6 +91,47 @@ namespace Homecoming.Editor
                 if(part.name.StartsWith("dress_05_")) rig.skirt=renderer;
             }
             rig.expressionRenderers=expressions.ToArray();
+            foreach(var shoe in new[]{rig.leftShoe,rig.rightShoe})
+            {
+                var skin=shoe.GetComponent<SkinnedMeshRenderer>();var mesh=skin.sharedMesh;var v=mesh.vertices;
+                var foot=shoe==rig.leftShoe?Bone("leftFoot"):Bone("rightFoot");
+                var calf=shoe==rig.leftShoe?Bone("leftLowerLeg"):Bone("rightLowerLeg");
+                var ankle=shoe.transform.InverseTransformPoint(foot.position);var knee=shoe.transform.InverseTransformPoint(calf.position);
+                float[] levels={.16f,.20f,.25f,.30f,.35f,.40f,.45f,.50f,.54f};var centers=new Vector3[levels.Length];
+                for(int ring=0;ring<levels.Length;ring++)
+                {
+                    var band=v.Where(p=>Mathf.Abs(p.y-levels[ring])<.027f).ToArray();
+                    centers[ring]=new Vector3((band.Min(p=>p.x)+band.Max(p=>p.x))*.5f,levels[ring],(band.Min(p=>p.z)+band.Max(p=>p.z))*.5f);
+                }
+                var w=new BoneWeight[v.Length];int bone=Array.IndexOf(skin.bones,foot);
+                for(int i=0;i<v.Length;i++)
+                {
+                    float blend=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.22f,v[i].y));
+                    var axis=Vector3.LerpUnclamped(ankle,knee,(v[i].y-ankle.y)/(knee.y-ankle.y));
+                    var center=centers[0];for(int ring=1;ring<levels.Length;ring++)if(v[i].y>=levels[ring-1])center=Vector3.Lerp(centers[ring-1],centers[ring],Mathf.InverseLerp(levels[ring-1],levels[ring],v[i].y));
+                    v[i].x+=blend*(axis.x-center.x);v[i].z+=blend*(axis.z-center.z);
+                    v[i].x=axis.x+(v[i].x-axis.x)*(1+.25f*blend);v[i].z=axis.z+(v[i].z-axis.z)*(1+.25f*blend);
+                    if(v[i].y>.12f)v[i].y=.12f+(v[i].y-.12f)*.833333f;
+                    w[i]=new BoneWeight{boneIndex0=bone,weight0=1};
+                }
+                mesh.vertices=v;mesh.boneWeights=w;mesh.RecalculateBounds();mesh.RecalculateTangents();EditorUtility.SetDirty(mesh);
+            }
+            YenneferLowerBody.Build(rig);
+            if(rig.skirt)
+            {
+                var mesh=rig.skirt.sharedMesh;var vertices=mesh.vertices;var normals=mesh.normals;var weights=new BoneWeight[vertices.Length];var delta=new Vector3[vertices.Length];var deltaNormals=new Vector3[vertices.Length];
+                int hip=Array.IndexOf(rig.skirt.bones,rig.hips);
+                for(int i=0;i<vertices.Length;i++)
+                {
+                    weights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
+                    float down=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.93f,.54f,vertices[i].y));
+                    float fold=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.93f,.85f,vertices[i].y));
+                    var bend=Quaternion.Euler((vertices[i].z>.10f?-70:60)*fold,0,0);var pivot=new Vector3(0,.905f,0);
+                    delta[i]=pivot+bend*(vertices[i]-pivot)-vertices[i];delta[i].x+=vertices[i].x*.08f*down;
+                    deltaNormals[i]=bend*normals[i]-normals[i];
+                }
+                mesh.boneWeights=weights;mesh.AddBlendShapeFrame("Sitting",100,delta,deltaNormals,null);EditorUtility.SetDirty(mesh);
+            }
             BuildAvatar(root,data,nodes);
             // The prepared source uses a normalized T pose. Capture a relaxed pose for the scene.
             rig.leftArm.localRotation=Quaternion.Euler(0,0,78); rig.rightArm.localRotation=Quaternion.Euler(0,0,-78);
@@ -109,37 +150,6 @@ namespace Homecoming.Editor
             var originalRig=old.GetComponent<CharacterRig>();
             rig.bag=UnityEngine.Object.Instantiate(originalRig.bag);
             rig.bag.name="通勤手提包"; rig.bag.transform.position=Bone("rightHand").position+new Vector3(.015f,-.22f,.015f); rig.bag.transform.rotation=Quaternion.identity; rig.bag.transform.SetParent(Bone("rightHand"),true); rig.bag.SetActive(true);
-            var sockMaterial=Palette("叶奈法黑色短袜",new Color(.025f,.025f,.033f));
-            foreach(var sourceShoe in new[]{rig.leftShoe,rig.rightShoe})
-            {
-                var sourceSkin=sourceShoe.GetComponent<SkinnedMeshRenderer>();
-                var sockMesh=UnityEngine.Object.Instantiate(sourceSkin.sharedMesh); sockMesh.name=sourceShoe.name+"_InnerSock";
-                var v=sockMesh.vertices; var center=sockMesh.bounds.center;
-                var ankle=sourceShoe==rig.leftShoe?Bone("leftFoot"):Bone("rightFoot");
-                var ankleLocal=sourceShoe.transform.InverseTransformPoint(ankle.position);
-                var calf=sourceShoe==rig.leftShoe?Bone("leftLowerLeg"):Bone("rightLowerLeg");
-                var calfLocal=sourceShoe.transform.InverseTransformPoint(calf.position);
-                var weights=sockMesh.boneWeights;
-                int footIndex=Array.IndexOf(sourceSkin.bones,ankle),calfIndex=Array.IndexOf(sourceSkin.bones,calf);
-                for(int i=0;i<v.Length;i++) {
-                    var p=v[i]; float leg=Mathf.Clamp01((p.y-ankleLocal.y)/.13f);
-                    var axis=Vector3.Lerp(ankleLocal,calfLocal,Mathf.Clamp01((p.y-ankleLocal.y)/(calfLocal.y-ankleLocal.y)));
-                    p.x=Mathf.Lerp(center.x+(p.x-center.x)*.82f,axis.x+(p.x-axis.x)*.80f,leg);
-                    p.z=Mathf.Lerp(center.z+(p.z-center.z)*.88f,axis.z+(p.z-axis.z)*.80f,leg);
-                    if(p.y<.065f&&p.z<ankleLocal.z) { p.y=.025f;p.z=Mathf.Max(p.z,ankleLocal.z-.035f); }
-                    p.y=Mathf.Max(.015f,p.y);v[i]=p;
-                    weights[i]=new BoneWeight{boneIndex0=footIndex,weight0=1-leg,boneIndex1=calfIndex,weight1=leg};
-                }
-                sockMesh.boneWeights=weights;
-                sockMesh.vertices=v;
-                var footTriangles=new List<int>();var originalTriangles=sockMesh.triangles;
-                for(int t=0;t<originalTriangles.Length;t+=3)if(Mathf.Max(v[originalTriangles[t]].y,Mathf.Max(v[originalTriangles[t+1]].y,v[originalTriangles[t+2]].y))<.17f){footTriangles.Add(originalTriangles[t]);footTriangles.Add(originalTriangles[t+1]);footTriangles.Add(originalTriangles[t+2]);}
-                sockMesh.triangles=footTriangles.ToArray();sockMesh.RecalculateBounds();
-                string sockPath=Destination+"Meshes/"+sockMesh.name+".asset";var savedSock=AssetDatabase.LoadAssetAtPath<Mesh>(sockPath);
-                if(savedSock){CopyMesh(sockMesh,savedSock);UnityEngine.Object.DestroyImmediate(sockMesh);sockMesh=savedSock;}else AssetDatabase.CreateAsset(sockMesh,sockPath);
-                var sock=new GameObject(sourceShoe==rig.leftShoe?"左脚短袜":"右脚短袜");sock.transform.SetParent(sourceShoe.transform.parent,false);
-                var renderer=sock.AddComponent<SkinnedMeshRenderer>();renderer.sharedMesh=sockMesh;renderer.bones=sourceSkin.bones;renderer.rootBone=sourceSkin.rootBone;renderer.updateWhenOffscreen=true;renderer.sharedMaterial=sockMaterial;
-            }
             rig.leftGroundShoe=GroundShoe(rig.leftShoe,root.transform,"LeftGroundShoe"); rig.rightGroundShoe=GroundShoe(rig.rightShoe,root.transform,"RightGroundShoe");
             rig.leftSlipper.SetActive(false); rig.rightSlipper.SetActive(false);
             // Persist accessory meshes/materials; all author-provided assets remain in ThirdParty.
@@ -216,7 +226,7 @@ namespace Homecoming.Editor
                 mesh.RecalculateBounds(); mesh.RecalculateTangents(); return mesh;
             }
         }
-        static void CopyMesh(Mesh source,Mesh target)
+        internal static void CopyMesh(Mesh source,Mesh target)
         {
             target.Clear(); target.ClearBlendShapes(); target.indexFormat=source.indexFormat; target.vertices=source.vertices; target.normals=source.normals; target.uv=source.uv; target.triangles=source.triangles; target.boneWeights=source.boneWeights; target.bindposes=source.bindposes; target.bounds=source.bounds; target.name=source.name;
             for(int i=0;i<source.blendShapeCount;i++) { var v=new Vector3[source.vertexCount]; var n=new Vector3[source.vertexCount]; var t=new Vector3[source.vertexCount]; source.GetBlendShapeFrameVertices(i,0,v,n,t); target.AddBlendShapeFrame(source.GetBlendShapeName(i),100,v,n,t); }

@@ -215,6 +215,11 @@ namespace Homecoming
             motion.Sample(0); bag.transform.localPosition=bagRestPosition; bag.transform.localRotation=bagRestRotation;
             rig.SetSkirtPose(0);
             leftShoe.SetActive(true); rightShoe.SetActive(true); rig.leftSlipper.SetActive(false); rig.rightSlipper.SetActive(false);
+            if(rig.longBoots)
+            {
+                var coverage=rig.GetComponent<HomecomingBootCoverage>();if(!coverage)coverage=rig.gameObject.AddComponent<HomecomingBootCoverage>();
+                coverage.Apply(rig,motion.Shoes,null,-1);
+            }
             bag.SetActive(true); placedBag.SetActive(false); slippers.SetActive(true);
             rig.Expression(1,false);
             var old=transform.Find("脱下的通勤鞋"); if(old) { old.gameObject.SetActive(false); if(Application.isPlaying) Destroy(old.gameObject); else DestroyImmediate(old.gameObject); }
@@ -255,6 +260,12 @@ namespace Homecoming
                 var shoe=shoes.GetChild(i);
                 shoe.gameObject.SetActive(action>=HomecomingShoeGrip.Detach(i));
                 motion.Shoes.PlaceProxy(shoe,i,action);
+            }
+            if(rig.longBoots)
+            {
+                var coverage=rig.GetComponent<HomecomingBootCoverage>();
+                if(!coverage)coverage=rig.gameObject.AddComponent<HomecomingBootCoverage>();
+                coverage.Apply(rig,motion.Shoes,shoes,action);
             }
         }
         public static float DoorAngle(float t) => -85*(Mathf.SmoothStep(0,1,Mathf.Clamp01(t/1.2f)))*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01((t-3.8f)/1.2f)));

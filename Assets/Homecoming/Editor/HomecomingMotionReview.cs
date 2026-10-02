@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Reflection;
+using System.Linq;
 
 namespace Homecoming.Editor
 {
@@ -22,13 +23,14 @@ namespace Homecoming.Editor
             HomecomingSetup.CreateScene();
             var story=Object.FindAnyObjectByType<HomecomingScene>();
             var rig=story.GetComponentInChildren<CharacterRig>();
-            var motion=new HomecomingMotion(rig);
+            var timelineFlags=BindingFlags.NonPublic|BindingFlags.Instance;
+            var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",timelineFlags).GetValue(story);
             motion.Sample(0);
             if(rig.transform.position.z<3.8f) throw new System.Exception("Initial character must be outside the door");
             if(!Resources.Load<HomecomingWalkCycle>("Homecoming/WalkCycle")) throw new System.Exception("Retargeted walking animation is missing");
             var bones=new[]{rig.hips,rig.leftCalf,rig.rightCalf,rig.leftElbow,rig.rightElbow};
             var door=story.transform.Find("入户门转轴");
-            var skins=rig.GetComponentsInChildren<SkinnedMeshRenderer>();
+            var skins=rig.GetComponentsInChildren<SkinnedMeshRenderer>().Where(s=>s.enabled).ToArray();
             var visible=new System.Collections.Generic.Dictionary<SkinnedMeshRenderer,bool[]>();
             foreach(var skin in skins)
             {
@@ -40,13 +42,17 @@ namespace Homecoming.Editor
                 var uv=skin.sharedMesh.uv;
                 for(int i=0;i<mask.Length;i++) mask[i]=!pixels || pixels.GetPixelBilinear(uv[i].x,uv[i].y).a>=skin.sharedMaterial.GetFloat("_Cutoff");
                 visible.Add(skin,mask);
+                var used=new bool[mask.Length];foreach(int index in skin.sharedMesh.triangles)used[index]=true;
+                for(int i=0;i<mask.Length;i++)mask[i]&=used[i];
                 if(pixels) Object.DestroyImmediate(pixels);
             }
             var baked=new Mesh();
             var previous=new Vector3[bones.Length]; float maximum=0; string worst="";
+            typeof(HomecomingScene).GetField("started",timelineFlags).SetValue(story,true);
             for(int frame=0;frame<=33*60;frame++)
             {
-                motion.Sample(frame/60f);
+                typeof(HomecomingScene).GetField("elapsed",timelineFlags).SetValue(story,frame/60f);
+                typeof(HomecomingScene).GetMethod("Update",timelineFlags).Invoke(story,null);
                 door.localRotation=Quaternion.Euler(0,HomecomingScene.DoorAngle(frame/60f),0);
                 for(int i=0;i<bones.Length;i++)
                 {

@@ -6,13 +6,18 @@ namespace Homecoming
     {
         public const float PalmOffset=.095f;
         readonly Transform[] feet=new Transform[2],hands=new Transform[2];
+        readonly Transform[] calves=new Transform[2];
+        readonly Transform root;
         readonly Vector3[] origins=new Vector3[2],heels=new Vector3[2];
         readonly Quaternion[] rest=new Quaternion[2];
+        readonly Quaternion[] calfRest=new Quaternion[2];
         readonly bool longBoots;
         readonly Vector3[][] bootVertices=new Vector3[2][];
         public HomecomingShoeGrip(CharacterRig rig)
         {
             longBoots=rig.longBoots;
+            root=rig.transform;calves[0]=rig.leftCalf;calves[1]=rig.rightCalf;
+            calfRest[0]=calves[0].rotation;calfRest[1]=calves[1].rotation;
             foreach(var bone in rig.GetComponentsInChildren<Transform>(true))
             {
                 if(bone.name=="J_Bip_L_Foot") feet[0]=bone;
@@ -46,20 +51,22 @@ namespace Homecoming
         public static float Detach(int side)=>Start(side)+2;
         public static float Release(int side)=>Start(side)+4.4f;
         static float Ease(float t,float a,float b) { float u=Mathf.Clamp01((t-a)/(b-a)); return u*u*u*(u*(u*6-15)+10); }
-        public Vector3 HeelOnFoot(int side)=>feet[side].TransformPoint(origins[side])+(feet[side].rotation*Quaternion.Inverse(rest[side]))*heels[side];
+        Quaternion AttachedRotation(int side)=>longBoots?calves[side].rotation*Quaternion.Inverse(calfRest[side]):feet[side].rotation*Quaternion.Inverse(rest[side]);
+        public Vector3 HeelOnFoot(int side)=>feet[side].position+AttachedRotation(side)*(rest[side]*origins[side]+heels[side]);
+        public Matrix4x4 AttachedMatrix(int side)=>Matrix4x4.TRS(HeelOnFoot(side)-AttachedRotation(side)*heels[side],AttachedRotation(side),Vector3.one);
         public Vector3 GroundOrigin(int side)=>new Vector3(side==0?-.64f:-1.86f,.012f,1.23f);
-        public Quaternion Rotation(int side,float action)=>Quaternion.Slerp(longBoots?feet[side].rotation*Quaternion.Inverse(rest[side]):Quaternion.identity,Quaternion.Euler(0,side==0?-90:90,0),Ease(action,Start(side)+(longBoots?3.05f:2.8f),Release(side)));
+        public Quaternion Rotation(int side,float action)=>Quaternion.Slerp(longBoots?AttachedRotation(side):Quaternion.identity,Quaternion.Euler(0,side==0?-90:90,0),Ease(action,Start(side)+(longBoots?3.05f:2.8f),Release(side)));
         public Vector3 GroundHeel(int side)=>GroundOrigin(side)+Quaternion.Euler(0,side==0?-90:90,0)*heels[side];
         public Vector3 WristTarget(int side,float action)
         {
             float start=Start(side);
             if(longBoots)
             {
-                var axis=(feet[side].rotation*Quaternion.Inverse(rest[side]))*Vector3.up;
-                var cuff=HeelOnFoot(side)-axis*.55f*Ease(action,start+2,start+3.05f);
-                cuff=Vector3.Lerp(cuff,GroundHeel(side),Ease(action,start+3.05f,Release(side)));
+                var axis=AttachedRotation(side)*Vector3.up;
+                var cuff=HeelOnFoot(side)-axis*.50f*Ease(action,start+2,start+3.05f);
+                cuff=Vector3.Lerp(cuff,GroundHeel(side),Ease(action,start+3.05f,start+4.05f));
                 // Carry the freed boot along a lifted arc before easing it down.
-                float carry=Ease(action,start+3.05f,Release(side));
+                float carry=Ease(action,start+3.05f,start+4.05f);
                 cuff+=Vector3.up*.14f*Mathf.Sin(Mathf.PI*carry);
                 if(action>=Detach(side))
                 {
