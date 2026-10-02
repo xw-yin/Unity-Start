@@ -20,7 +20,7 @@ powershell -ExecutionPolicy Bypass -File .github/scripts/start_local_runner.ps1
 
 以下 Secrets 仅用于 `ad-hoc`、`app-store` 和 `development`；未签名模式不要求它们。
 
-流程使用 `macos-15`、项目记录的 Unity 6000.6.3f1 和该运行器的 Xcode，只导出 Homecoming 场景。工作流为手动触发，避免每次提交都启动收费的 macOS 构建。第一次会下载 Unity 和 iOS 模块，耗时较长。仓库使用 Git LFS，检出时会下载模型与纹理。
+流程使用 `macos-15-intel`、项目记录的 Unity 6000.6.3f1 和该运行器的 Xcode，只导出 Homecoming 场景。工作流为手动触发，避免每次提交都启动 macOS 构建。未签名模式在本机导出，不需要给云端 Unity 激活；签名模式首次会下载 Unity 和 iOS 模块。仓库使用 Git LFS，检出时会下载模型与纹理。
 
 ## 一次性配置
 
@@ -63,6 +63,6 @@ PowerShell 将文件转为 Base64（只在自己的终端操作）：
 
 ## 排错
 
-缺少 Secrets 时，流程会在 Ubuntu 配置检查阶段停止，不启动 Mac 构建机。Unity 激活失败查看 Unity 步骤；签名失败查看签名步骤；Xcode 错误查看 `iOS-build-logs` Artifact。尚未提供 Apple 证书与 Unity CI 授权时，添加工作流不代表已经生成 IPA。
+签名模式缺少 Secrets 时会在 Ubuntu 检查阶段停止。未签名模式停在等待运行器时，在本机重新启动上述运行器脚本；导出失败查看 `iOS-export-log`，编译失败查看 `iOS-unsigned-build-logs`。两种模式都只有构建成功后才会上传 IPA。
 
 参考：[Unity iOS 构建](https://docs.unity.com/en-us/engine/6000.0/manual/platform-specific/iphone/ios-building-and-delivering/build-process)、[GameCI Builder](https://game.ci/docs/github/builder/)、[GitHub 安装 Apple 签名证书](https://docs.github.com/en/actions/how-tos/deploy/deploy-to-third-party-platforms/install-apple-certificates)。
