@@ -4,7 +4,7 @@
 
 ## 未签名 IPA：使用本机已激活的 Unity
 
-Windows Personal 授权通过本机 Hub 激活，没有将机器授权或 Hub 登录令牌复制到云端。`unsigned` 流程在标记为 `unity-homecoming` 的本地 Windows Actions runner 上导出 Xcode 工程，再交给 GitHub 的 `macos-15` 编译真机应用，关闭签名，包装为 `Payload/Homecoming.app` 的 IPA。不需要 Apple 证书、描述文件或 Unity 密码 Secrets。
+Windows Personal 授权通过本机 Hub 激活，没有将机器授权或 Hub 登录令牌复制到云端。`unsigned` 流程在标记为 `unity-homecoming` 的本地 Windows Actions runner 上导出 Xcode 工程，再交给 GitHub 的 `macos-15-intel` 编译真机应用，关闭签名，包装为 `Payload/Homecoming.app` 的 IPA。不需要 Apple 证书、描述文件或 Unity 密码 Secrets。
 
 Editor 路径作为仓库 Variable `UNITY_EDITOR_WINDOWS_PATH` 保存；版本从项目读取。本地运行器位于 `F:\Unity\Tools\iOSCI\Runner`，每次打包前在项目目录启动：
 
@@ -15,6 +15,8 @@ powershell -ExecutionPolicy Bypass -File .github/scripts/start_local_runner.ps1
 然后在 GitHub 启动 `unsigned` 工作流。导出期间电脑需要开机、联网；运行器在独立 `_work` 目录检出项目，不操作当前编辑器的项目；完成一个导出任务后退出并注销，下次重新启动。
 
 成功后下载 **Homecoming-unsigned-IPA-运行编号** Artifact，解压得到 `Homecoming-unsigned.ipa`，用你的自签工具签名后安装。这是 iPhone 真机应用，不是模拟器包。源 Xcode 工程与构建日志也会保留为 Artifacts。
+
+首次未签名构建已通过：[Actions 运行 #2](https://github.com/xw-yin/Unity-Start/actions/runs/37015936677)。验证产物为 arm64、iOS 15.0 起、包名 `com.xwyin.homecoming`，主程序无代码签名及描述文件。Unity 预编译的 `UnityRuntime.framework` 保留供应商签名；自签工具需同时重新签名应用内的 frameworks。
 
 ## 原有云端签名模式
 
