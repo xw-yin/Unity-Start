@@ -1,6 +1,24 @@
 # GitHub Actions 打包 iOS
 
-仓库 Actions → **Build iOS IPA** → **Run workflow**。选择 `ad-hoc`、`app-store` 或 `development`。成功后从该运行的 Artifacts 下载 `Homecoming-iOS-…`，解压即可得到签名的 `.ipa`。
+仓库 Actions → **Build iOS IPA** → **Run workflow**。默认选择 `unsigned`，供自行签名；也可选择原有的 `ad-hoc`、`app-store` 或 `development` 签名构建。
+
+## 未签名 IPA：使用本机已激活的 Unity
+
+Windows Personal 授权通过本机 Hub 激活，没有将机器授权或 Hub 登录令牌复制到云端。`unsigned` 流程在标记为 `unity-homecoming` 的本地 Windows Actions runner 上导出 Xcode 工程，再交给 GitHub 的 `macos-15` 编译真机应用，关闭签名，包装为 `Payload/Homecoming.app` 的 IPA。不需要 Apple 证书、描述文件或 Unity 密码 Secrets。
+
+Editor 路径作为仓库 Variable `UNITY_EDITOR_WINDOWS_PATH` 保存；版本从项目读取。本地运行器位于 `F:\Unity\Tools\iOSCI\Runner`，每次打包前在项目目录启动：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .github/scripts/start_local_runner.ps1
+```
+
+然后在 GitHub 启动 `unsigned` 工作流。导出期间电脑需要开机、联网；运行器在独立 `_work` 目录检出项目，不操作当前编辑器的项目；完成一个导出任务后退出并注销，下次重新启动。
+
+成功后下载 **Homecoming-unsigned-IPA-运行编号** Artifact，解压得到 `Homecoming-unsigned.ipa`，用你的自签工具签名后安装。这是 iPhone 真机应用，不是模拟器包。源 Xcode 工程与构建日志也会保留为 Artifacts。
+
+## 原有云端签名模式
+
+以下 Secrets 仅用于 `ad-hoc`、`app-store` 和 `development`；未签名模式不要求它们。
 
 流程使用 `macos-15`、项目记录的 Unity 6000.6.3f1 和该运行器的 Xcode，只导出 Homecoming 场景。工作流为手动触发，避免每次提交都启动收费的 macOS 构建。第一次会下载 Unity 和 iOS 模块，耗时较长。仓库使用 Git LFS，检出时会下载模型与纹理。
 

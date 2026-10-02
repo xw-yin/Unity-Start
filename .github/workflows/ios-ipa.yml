@@ -6,8 +6,8 @@ on:
       distribution:
         description: IPA signing method
         type: choice
-        options: [ad-hoc, app-store, development]
-        default: ad-hoc
+        options: [unsigned, ad-hoc, app-store, development]
+        default: unsigned
 
 permissions:
   contents: read
@@ -26,6 +26,7 @@ jobs:
       - name: Verify signing validation rules
         run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
       - name: Check required credentials before starting a Mac runner
+        if: inputs.distribution != 'unsigned'
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
@@ -50,8 +51,9 @@ jobs:
           exit "$missing"
 
   ipa:
+    if: inputs.distribution != 'unsigned'
     needs: configuration
-    runs-on: macos-15
+    runs-on: macos-15-intel
     timeout-minutes: 120
     env:
       IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.xwyin.homecoming' }}
@@ -119,3 +121,84 @@ jobs:
       - name: Remove signing material
         if: always()
         run: python3 .github/scripts/ios_signing.py --cleanup
+
+  export-local:
+    if: inputs.distribution == 'unsigned'
+    needs: configuration
+    runs-on: [self-hosted, Windows, unity-homecoming]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Export using the locally activated Unity Editor
+        shell: pwsh
+        env:
+          UNITY_EDITOR_PATH: ${{ vars.UNITY_EDITOR_WINDOWS_PATH }}
+          IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.xwyin.homecoming' }}
+          IOS_BUILD_NUMBER: ${{ github.run_number }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if (!(Test-Path -LiteralPath $env:UNITY_EDITOR_PATH)) { throw 'UNITY_EDITOR_WINDOWS_PATH does not point to Unity.exe on this runner.' }
+          if ($env:IOS_BUNDLE_ID -notmatch '^[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$') { throw 'Invalid IOS_BUNDLE_ID' }
+          New-Item -ItemType Directory -Path build/logs -Force | Out-Null
+          $log = Join-Path $env:GITHUB_WORKSPACE 'build/logs/unity-export.log'
+          $arguments = @('-batchmode', '-quit', '-buildTarget', 'iOS', '-projectPath', ('"{0}"' -f $env:GITHUB_WORKSPACE), '-executeMethod', 'Homecoming.Editor.HomecomingIOSBuild.Build', '-iosUnsigned', 'true', '-iosBundleID', $env:IOS_BUNDLE_ID, '-iosBuildNumber', $env:IOS_BUILD_NUMBER, '-logFile', ('"{0}"' -f $log))
+          $process = Start-Process -FilePath $env:UNITY_EDITOR_PATH -ArgumentList $arguments -Wait -PassThru -WindowStyle Hidden
+          if ($process.ExitCode -ne 0) { Get-Content -LiteralPath $log -Tail 80; throw "Unity export failed ($($process.ExitCode))" }
+          if (!(Test-Path build/iOS/Unity-iPhone.xcodeproj/project.pbxproj)) { throw 'Unity did not export the Xcode project.' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Homecoming-Xcode-${{ github.run_number }}
+          path: build/iOS/
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: true
+      - name: Upload local export log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-export-log-${{ github.run_number }}
+          path: build/logs/
+          if-no-files-found: ignore
+
+  unsigned-ipa:
+    if: inputs.distribution == 'unsigned'
+    needs: export-local
+    runs-on: macos-15-intel
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: Homecoming-Xcode-${{ github.run_number }}
+          path: build/iOS
+      - name: Compile device app without signing
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/logs build/ipa
+          find build/iOS -type f \( -name '*.sh' -o -name 'il2cpp' -o -name 'bee_backend' -o -name 'UnityLinker' \) -exec chmod +x {} +
+          xcodebuild -project build/iOS/Unity-iPhone.xcodeproj \
+            -scheme Unity-iPhone -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' -derivedDataPath build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY='' \
+            build | tee build/logs/unsigned-build.log
+          python3 .github/scripts/package_unsigned_ipa.py \
+            build/DerivedData/Build/Products/Release-iphoneos/Homecoming.app \
+            build/ipa/Homecoming-unsigned.ipa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Homecoming-unsigned-IPA-${{ github.run_number }}
+          path: build/ipa/*.ipa
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload unsigned build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-unsigned-build-logs-${{ github.run_number }}
+          path: build/logs/
+          if-no-files-found: ignore
