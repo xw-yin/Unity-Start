@@ -20,6 +20,7 @@ namespace Homecoming
         readonly Sole leftSole,rightSole;
         readonly Sole leftStockingSole,rightStockingSole;
         float sampleAction;
+        readonly HomecomingClothDynamics cloth;
         public HomecomingShoeGrip Shoes { get; private set; }
         sealed class Sole
         {
@@ -51,6 +52,11 @@ namespace Homecoming
         public HomecomingMotion(CharacterRig source)
         {
             rig=source;
+            if(rig.longBoots && rig.skirt)
+            {
+                cloth=rig.GetComponent<HomecomingClothDynamics>();
+                if(!cloth) cloth=rig.gameObject.AddComponent<HomecomingClothDynamics>();
+            }
             if(rig.importedSource)
             {
                 leftSole=new Sole(rig.leftShoe.GetComponent<SkinnedMeshRenderer>());
@@ -82,6 +88,11 @@ namespace Homecoming
         static float Ease(float t,float a,float b) { float u=Mathf.Clamp01((t-a)/(b-a)); return u*u*u*(u*(u*6-15)+10); }
         static Vector3 V(float x,float y,float z)=>new Vector3(x,y,z);
         public void Sample(float t)
+        {
+            SamplePose(t);
+            if(cloth) cloth.Sample(rig,t);
+        }
+        void SamplePose(float t)
         {
             sampleAction=t-1;
             rig.Neutral();

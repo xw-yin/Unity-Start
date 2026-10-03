@@ -44,7 +44,10 @@ namespace Homecoming.Editor
                 if(rig.transform.position.z<3.8f) throw new Exception("人物未在门外等待");
                 var walk=Resources.Load<HomecomingWalkCycle>("Homecoming/WalkCycle");
                 if(!walk||walk.frames<30||walk.strideDistance<.3f) throw new Exception("人形走路缓存缺失");
-                if(!AssetDatabase.Contains(rig.skirt.sharedMesh)) throw new Exception("运行时未加载保存的角色模型");
+                var cloth=rig.GetComponent<HomecomingClothDynamics>();
+                var sourceMesh=cloth&&cloth.SourceMesh?cloth.SourceMesh:rig.skirt.sharedMesh;
+                if(!AssetDatabase.Contains(sourceMesh)) throw new Exception("运行时未加载保存的角色模型");
+                if(cloth&&cloth.SourceMesh==rig.skirt.sharedMesh) throw new Exception("布料动态正在直接修改源模型");
                 const BindingFlags flags=BindingFlags.Instance|BindingFlags.NonPublic;
                 var type=typeof(HomecomingScene); type.GetField("started",flags).SetValue(story,true);
                 foreach(float time in new[]{1f,4.8f,7.2f,8.3f,10.6f,13.3f,14f,15.5f,19.3f,20f,21.5f,25.6f,32f})
