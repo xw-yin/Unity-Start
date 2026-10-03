@@ -11,7 +11,7 @@ namespace Homecoming.Editor
         {
             HomecomingSetup.CreateScene();
             var story=UnityEngine.Object.FindAnyObjectByType<HomecomingScene>();
-            foreach(int index in new[]{4,5})
+            foreach(int index in new[]{4,5,6})
             {
                 story.SelectCharacter(index);var rig=story.GetComponentInChildren<CharacterRig>();
                 var solver=rig.GetComponentInChildren<HomecomingGarmentDynamics>();

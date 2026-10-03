@@ -21,7 +21,7 @@ namespace Homecoming.Editor
         [MenuItem("Homecoming/导入巫师可替换人物")]
         public static void ImportAll()
         {
-            foreach(var name in new[]{"Shani","Triss","Ciri","Iris","Syanna"}) Import(name);
+            foreach(var name in new[]{"Shani","Triss","Ciri","Iris","Syanna","AnnaHenrietta"}) Import(name);
         }
         public static void Import(string name)
         {
@@ -77,6 +77,7 @@ namespace Homecoming.Editor
             rig.leftElbow=Bone("leftLowerArm"); rig.rightElbow=Bone("rightLowerArm");
             rig.leftThigh=Bone("leftUpperLeg"); rig.rightThigh=Bone("rightUpperLeg");
             rig.leftCalf=Bone("leftLowerLeg"); rig.rightCalf=Bone("rightLowerLeg");
+            foreach(var node in nodes)if(node.name=="W3_dress_helper")node.SetParent(rig.hips,true);
             var expressions=new List<SkinnedMeshRenderer>();
             var garments=new List<SkinnedMeshRenderer>();var fabricFreedom=new List<float>();
             var leftBoots=new List<SkinnedMeshRenderer>();var rightBoots=new List<SkinnedMeshRenderer>();
@@ -104,19 +105,28 @@ namespace Homecoming.Editor
             if(garments.Count>0)
             {
                 rig.skirt=MergeBoots(garments,rig,"OriginalGarments").GetComponent<SkinnedMeshRenderer>();
-                if(CharacterName=="Iris")
+                if(CharacterName=="Iris" || CharacterName=="AnnaHenrietta")
                 {
                     // The authored lap fold replaces thigh skinning; combining
                     // both would rotate the full skirt into the chest twice.
                     int hip=Array.IndexOf(rig.skirt.bones,rig.hips);
                     var garmentVertices=rig.skirt.sharedMesh.vertices;var garmentWeights=rig.skirt.sharedMesh.boneWeights;
-                    for(int i=0;i<garmentWeights.Length;i++)if(garmentVertices[i].y<.94f)garmentWeights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
+                    for(int i=0;i<garmentWeights.Length;i++)
+                    {
+                        var w=garmentWeights[i];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};var amounts=new[]{w.weight0,w.weight1,w.weight2,w.weight3};
+                        bool detachedRoot=false;
+                        for(int j=0;j<4;j++)if(amounts[j]>0&&(rig.skirt.bones[ids[j]].name.Contains("dress")||rig.skirt.bones[ids[j]].name=="W3_Root"))detachedRoot=true;
+                        // Original dress helper bones sit under the game root;
+                        // this scene's seated pelvis must carry their waist seam.
+                        if(garmentVertices[i].y<.94f||detachedRoot)garmentWeights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
+                    }
                     rig.skirt.sharedMesh.boneWeights=garmentWeights;
                     BuildDressSittingShape(rig.skirt.sharedMesh);
                 }
                 rig.skirt.gameObject.AddComponent<HomecomingGarmentDynamics>().Configure(fabricFreedom.ToArray());
             }
             WitcherCharacterFeet.Build(rig,Destination);
+            rig.longBoots=rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.bounds.size.y>.30f;
             BuildAvatar(root,data,nodes);
             // The prepared source uses a normalized T pose. Capture a relaxed pose for the scene.
             rig.leftArm.localRotation=Quaternion.Euler(0,0,78); rig.rightArm.localRotation=Quaternion.Euler(0,0,-78);
@@ -183,7 +193,9 @@ namespace Homecoming.Editor
                     float lateral=Mathf.Exp(-Mathf.Pow((p.x+(side==0?.09f:-.09f))/.19f,2));
                     float fold=Mathf.Sin(Mathf.PI*Mathf.Clamp01((.94f-p.y)/.94f))*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.94f,.82f,p.y));
                     float hem=Mathf.Pow(Mathf.Clamp01((.94f-p.y)/.94f),2);
-                    knee[i]=new Vector3(0,.12f*fold+.55f*hem,.025f*fold)*front*lateral;
+                    // Gathering raises the hem toward the lap, rather than
+                    // leaving the gripped edge out beyond arm's reach.
+                    knee[i]=new Vector3(0,.12f*fold+.70f*hem,.025f*fold-.36f*hem)*front*lateral;
                 }
                 temporary.vertices=seatedVertices.Select((p,i)=>p+knee[i]).ToArray();temporary.RecalculateNormals();
                 mesh.AddBlendShapeFrame(side==0?"BootLeft":"BootRight",100,knee,temporary.normals.Select((n,i)=>n-seatedNormals[i]).ToArray(),null);
@@ -237,6 +249,12 @@ namespace Homecoming.Editor
             for(int i=0;i<vertices.Length;i++) vertices[i]-=center;
             mesh.vertices=vertices; mesh.normals=normals; mesh.RecalculateBounds();
             var obj=ModelMesh.Object(name,mesh,skin.sharedMaterial,root,Vector3.zero); obj.GetComponent<Renderer>().sharedMaterials=skin.sharedMaterials;obj.SetActive(false); return obj;
+        }
+        internal static Mesh ReadPreparedMesh(string folder,string file,string name)
+        {
+            string previous=Source;Source=folder;
+            try{return ReadMesh(new Part{name=name,file=file,expressions=Array.Empty<string>()});}
+            finally{Source=previous;}
         }
         static Mesh ReadMesh(Part part)
         {

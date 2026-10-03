@@ -4519,9 +4519,9 @@
       "doubleSided": true
     },
     {
-      "name": "he_01_wa__syanna_Material2",
+      "name": "he_01_wa__syanna_Material1",
       "alpha": "OPAQUE",
-      "texture": -1,
+      "texture": 8,
       "normal": -1,
       "color": [
         1,
@@ -4535,8 +4535,8 @@
     {
       "name": "he_01_wa__syanna_Material0",
       "alpha": "OPAQUE",
-      "texture": 8,
-      "normal": 9,
+      "texture": 9,
+      "normal": 10,
       "color": [
         1,
         1,
@@ -4549,7 +4549,7 @@
     {
       "name": "he_01_wa__syanna_Material3",
       "alpha": "OPAQUE",
-      "texture": 10,
+      "texture": 11,
       "normal": 7,
       "color": [
         1,
@@ -4562,9 +4562,9 @@
     },
     {
       "name": "he_01_wa__syanna_Material6",
-      "alpha": "OPAQUE",
-      "texture": 11,
-      "normal": 12,
+      "alpha": "MASK",
+      "texture": 12,
+      "normal": 13,
       "color": [
         1,
         1,
@@ -4577,8 +4577,8 @@
     {
       "name": "s_01__syanna_Material0",
       "alpha": "OPAQUE",
-      "texture": 13,
-      "normal": 14,
+      "texture": 14,
+      "normal": 15,
       "color": [
         1,
         1,
@@ -4661,8 +4661,8 @@
     {
       "name": "t_01__syanna_Material5",
       "alpha": "OPAQUE",
-      "texture": 15,
-      "normal": 16,
+      "texture": 16,
+      "normal": 17,
       "color": [
         1,
         1,

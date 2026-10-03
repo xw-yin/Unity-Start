@@ -12,6 +12,9 @@ namespace Homecoming.Editor
     {
         public static void ImportAndReview() { WitcherCharacterImport.ImportAll();Run();HomecomingGarmentReview.Run(); }
         public static void ImportDLCAndReview() { WitcherCharacterImport.Import("Iris");WitcherCharacterImport.Import("Syanna");Run();HomecomingGarmentReview.Run(); }
+        public static void ImportRevisionAndReview() { YenneferDLCImport.Import();WitcherCharacterImport.ImportAll();Run();HomecomingGarmentReview.Run();HomecomingFootwearReview.Run(); }
+        public static void ImportDressAndFootwear() { WitcherCharacterImport.Import("Iris");WitcherCharacterImport.Import("AnnaHenrietta");HomecomingFootwearReview.Run(); }
+        public static void ReviewExistingRevision() { HomecomingFootwearReview.Run();Run();HomecomingGarmentReview.Run(); }
         public static void Run()
         {
             HomecomingSetup.CreateScene();
@@ -24,7 +27,7 @@ namespace Homecoming.Editor
             Directory.CreateDirectory("Artifacts/Characters");
             float worstReach=0;
             string worst="";
-            foreach(int index in new[]{4,5,0,1,2,3,4,5,0})
+            foreach(int index in new[]{6,4,5,0,1,2,3,6,0})
             {
                 buttons.Single(b=>b.name==HomecomingCharacters.Names[index]).onClick.Invoke();
                 var rig=story.GetComponentInChildren<CharacterRig>();
@@ -45,7 +48,7 @@ namespace Homecoming.Editor
                             if(error>worstReach){worstReach=error;worst="character="+index+" time="+t+" side="+side+" hand="+hand.position+" target="+motion.Shoes.WristTarget(side,action)+" shoulder="+(side==0?rig.leftArm:rig.rightArm).position;}
                         }
                     }
-                    if(frame==195 || frame==345 || frame==435 || frame==810)
+                    if(frame==195 || frame==312 || frame==330 || frame==345 || frame==405 || frame==435 || frame==810)
                     {
                         story.CameraControls.SetView(1);story.CameraControls.SnapForReview();
                         HomecomingSetup.Capture(camera,"Artifacts/Characters/"+HomecomingCharacters.Names[index]+"-"+frame+".png",1000,800);
@@ -56,7 +59,7 @@ namespace Homecoming.Editor
                 if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf || rig.leftSlipper.activeSelf)throw new Exception("Character replay failed: "+index);
             }
             if(worstReach>.04f)throw new Exception("Character boot reach exceeds tolerance: "+worstReach+" "+worst);
-            Debug.Log("CHARACTER REVIEW PASSED: all 6 models, 9 UI switches, 8649 timeline samples, avatars, boot removal, slippers and replay; maximum wrist error="+worstReach);
+            Debug.Log("CHARACTER REVIEW PASSED: all 7 models, 9 UI switches, 8649 timeline samples, avatars, shoe removal, slippers and replay; maximum wrist error="+worstReach);
         }
     }
 }

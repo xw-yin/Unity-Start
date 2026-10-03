@@ -16,7 +16,7 @@ namespace Homecoming
         float elapsed;
         int phase;
         bool started, paused;
-        [SerializeField, Range(0,5)] int characterIndex;
+        [SerializeField, Range(0,6)] int characterIndex;
         HomecomingCameraController cameraControls;
         public bool Started => started;
         public bool Paused => paused;

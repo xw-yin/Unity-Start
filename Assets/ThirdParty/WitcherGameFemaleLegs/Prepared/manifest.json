@@ -1,0 +1,407 @@
+{
+  "nodes": [
+    {
+      "name": "YenneferSkeleton",
+      "parent": -1,
+      "position": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_Foot",
+      "parent": 8,
+      "position": [
+        -0.06183356046676636,
+        -0.831226110458374,
+        -0.04544753208756447
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_l_kneeRoll",
+      "parent": 8,
+      "position": [
+        -0.0672823116183281,
+        -0.4229555130004883,
+        -0.015550991520285606
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_l_legRoll",
+      "parent": 8,
+      "position": [
+        -0.09209594130516052,
+        0.04597121477127075,
+        -0.0013822820037603378
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_l_legRoll2",
+      "parent": 8,
+      "position": [
+        -0.07268000394105911,
+        -0.034040093421936035,
+        -0.0028520021587610245
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_LowerLeg",
+      "parent": 8,
+      "position": [
+        -0.0672822967171669,
+        -0.42295563220977783,
+        -0.015550992451608181
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_UpperLeg",
+      "parent": 8,
+      "position": [
+        -0.07268001139163971,
+        -0.03404003381729126,
+        -0.0028520040214061737
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_L_ToeBase",
+      "parent": 8,
+      "position": [
+        -0.0756225511431694,
+        -0.9140210151672363,
+        0.058021485805511475
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_C_Hips",
+      "parent": 8,
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_Foot",
+      "parent": 8,
+      "position": [
+        0.061833273619413376,
+        -0.8312261700630188,
+        -0.04544750601053238
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_r_kneeRoll",
+      "parent": 8,
+      "position": [
+        0.06728219240903854,
+        -0.42295563220977783,
+        -0.015550981275737286
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_r_legRoll",
+      "parent": 8,
+      "position": [
+        0.09209595620632172,
+        0.0459710955619812,
+        -0.0013822689652442932
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "W3_r_legRoll2",
+      "parent": 8,
+      "position": [
+        0.07267998903989792,
+        -0.034040093421936035,
+        -0.0028519919142127037
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_LowerLeg",
+      "parent": 8,
+      "position": [
+        0.06728218495845795,
+        -0.42295563220977783,
+        -0.015550980344414711
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_UpperLeg",
+      "parent": 8,
+      "position": [
+        0.07267998903989792,
+        -0.034040093421936035,
+        -0.002851990982890129
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "J_Bip_R_ToeBase",
+      "parent": 8,
+      "position": [
+        0.07562224566936493,
+        -0.9140210747718811,
+        0.058021508157253265
+      ],
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "ls_02_wa__body_barefoot_Material0",
+      "alpha": "OPAQUE",
+      "texture": 0,
+      "normal": 1,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "cutoff": 0.25,
+      "doubleSided": true
+    }
+  ],
+  "parts": [
+    {
+      "name": "ls_02_wa__body_barefoot_lod0_0_Body",
+      "file": "Part_00.bin",
+      "role": "Body",
+      "node": 0,
+      "material": 0,
+      "joints": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "expressions": [],
+      "cloth": []
+    }
+  ],
+  "humanBones": [
+    {
+      "bone": "leftFoot",
+      "node": 1
+    },
+    {
+      "bone": "leftLowerLeg",
+      "node": 5
+    },
+    {
+      "bone": "leftUpperLeg",
+      "node": 6
+    },
+    {
+      "bone": "leftToes",
+      "node": 7
+    },
+    {
+      "bone": "hips",
+      "node": 8
+    },
+    {
+      "bone": "rightFoot",
+      "node": 9
+    },
+    {
+      "bone": "rightLowerLeg",
+      "node": 13
+    },
+    {
+      "bone": "rightUpperLeg",
+      "node": 14
+    },
+    {
+      "bone": "rightToes",
+      "node": 15
+    }
+  ]
+}

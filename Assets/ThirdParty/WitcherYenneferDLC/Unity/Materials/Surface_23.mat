@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
   version: 10
 --- !u!21 &2100000
@@ -35,16 +35,16 @@ Material:
     RenderType: Opaque
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: c17d50877c064c94aaebc6040d654ad6, type: 3}
+        m_Texture: {fileID: 2800000, guid: c84fb8020561d1f4f9fb162560e82a21, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: db3a290141bbf4d45b0f71dd65cc8bde, type: 3}
+        m_Texture: {fileID: 2800000, guid: be92d7d883d4b6c4e9c4461d202ae79e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -64,7 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c17d50877c064c94aaebc6040d654ad6, type: 3}
+        m_Texture: {fileID: 2800000, guid: c84fb8020561d1f4f9fb162560e82a21, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

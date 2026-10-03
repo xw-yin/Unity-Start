@@ -17,7 +17,7 @@ namespace Homecoming
         BoneWeight[] weights;
         Transform[] bones;
         int[] particle, representative;
-        float[] limits;
+        float[] limits,stepLimits;
         struct Edge { public int a,b; public float length; }
         Edge[] edges;
         float lastTime=-1;
@@ -41,7 +41,7 @@ namespace Homecoming
                 float distance=maximumDistance!=null&&i<maximumDistance.Length?maximumDistance[i]:0;
                 freedom[id]=Mathf.Min(freedom[id],distance<=.0001f?0:Mathf.Clamp(distance*.5f,.008f,.11f));
             }
-            representative=reps.ToArray();limits=freedom.ToArray();
+            representative=reps.ToArray();limits=freedom.ToArray();stepLimits=new float[limits.Length];
             foreach(float limit in limits)if(limit>0)FreeParticles++;
             goal=new Vector3[groups.Count];previousGoal=new Vector3[groups.Count];position=new Vector3[groups.Count];velocity=new Vector3[groups.Count];stepOrigin=new Vector3[groups.Count];
             bones=skin.bones;inverseSkin=new Matrix4x4[groups.Count];boneMatrices=new Matrix4x4[bones.Length];
@@ -68,6 +68,16 @@ namespace Homecoming
                     matrix[row,col]=boneMatrices[w.boneIndex0][row,col]*w.weight0+boneMatrices[w.boneIndex1][row,col]*w.weight1+boneMatrices[w.boneIndex2][row,col]*w.weight2+boneMatrices[w.boneIndex3][row,col]*w.weight3;
                 goal[i]=matrix.MultiplyPoint3x4(posedRest[vertex]);inverseSkin[i]=matrix.inverse;
             }
+            bool holding=source.GetBlendShapeIndex("BootLeft")>=0&&(rig.LeftDressLift>.01f||rig.RightDressLift>.01f);
+            Vector3 leftHold=holding?rig.DressHoldPoint(0):Vector3.zero,rightHold=holding?rig.DressHoldPoint(1):Vector3.zero;
+            for(int i=0;i<limits.Length;i++)
+            {
+                stepLimits[i]=limits[i];
+                if(!holding)continue;
+                float left=rig.LeftDressLift*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.04f,.16f,Vector3.Distance(goal[i],leftHold))));
+                float right=rig.RightDressLift*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.04f,.16f,Vector3.Distance(goal[i],rightHold))));
+                stepLimits[i]*=1-.95f*Mathf.Max(left,right);
+            }
             float dt=time-lastTime;bool reset=lastTime<0||dt<=0||dt>.25f;
             if(reset)for(int i=0;i<goal.Length;i++){position[i]=goal[i];velocity[i]=Vector3.zero;previousGoal[i]=goal[i];}
             else
@@ -85,7 +95,7 @@ namespace Homecoming
                         // shoulders/waist drag the fabric through its sewn edges.
                         velocity[i]+=(65*(target-position[i])-9*velocity[i]+new Vector3(0,-.5f,0))*h;
                         var before=position[i];position[i]+=velocity[i]*h;
-                        position[i]=target+Vector3.ClampMagnitude(position[i]-target,limits[i]);
+                        position[i]=target+Vector3.ClampMagnitude(position[i]-target,stepLimits[i]);
                         velocity[i]=(position[i]-before)/h;
                     }
                     for(int iteration=0;iteration<4;iteration++)
@@ -106,7 +116,7 @@ namespace Homecoming
                             PreventInward(ref position[i],target,rig.leftThigh.position,rig.leftCalf.position,.08f);
                             PreventInward(ref position[i],target,rig.rightThigh.position,rig.rightCalf.position,.08f);
                             position[i].y=Mathf.Max(.012f,position[i].y);
-                            position[i]=target+Vector3.ClampMagnitude(position[i]-target,limits[i]);
+                            position[i]=target+Vector3.ClampMagnitude(position[i]-target,stepLimits[i]);
                         }
                     }
                     for(int i=0;i<goal.Length;i++)velocity[i]=limits[i]>0?(position[i]-stepOrigin[i])/h:Vector3.zero;

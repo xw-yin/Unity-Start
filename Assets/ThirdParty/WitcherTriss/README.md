@@ -4,7 +4,7 @@
 
 默认外观：triss；实体：characters/npc_entities/main_npc/triss.w2ent。
 
-Prepared 保存原模型的网格、UV、贴图和骨骼清单；Unity 保存 URP 材质、人形 Avatar、可移除的左右靴子及脚部补全。脚部补全使用项目已有的 VRoid Sample 解剖网格，未用靴子网格代替脚。
+Prepared 保存原模型的网格、UV、贴图和骨骼清单；Unity 保存 URP 材质、人形 Avatar、可移除的左右靴子及脚部补全。脚部补全使用游戏自带 ls_02_wa__body_barefoot 原始女性腿脚网格，保留原三角面、UV 和蒙皮权重，未用靴子网格代替脚。
 
 预制体：Assets/Homecoming/Resources/Homecoming/Triss.prefab。场景顶部的角色按钮可切换，并重置到门外等待状态。原游戏的 APEX 物理和表情控制器没有移植。
 

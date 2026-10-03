@@ -12,26 +12,27 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALPHATEST_ON
   - _NORMALMAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 2450
   stringTagMap:
-    RenderType: Opaque
+    RenderType: TransparentCutout
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f252e2a6f576011459df3f46b45e54d3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6297c641ac1831847bd30408ea58509a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 5db7ed685bd3f56479e560b85dd101d3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7bd4dea10a74e7f4e912fcf46f425b81, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -51,7 +52,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f252e2a6f576011459df3f46b45e54d3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6297c641ac1831847bd30408ea58509a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -85,15 +86,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
+    - _AlphaClip: 1
+    - _AlphaToMask: 1
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 0.7
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 0
-    - _Cutoff: 0
+    - _Cutoff: 0.25
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -135,6 +136,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Editor::UnityEditor.Rendering.Universal.AssetVersion
   version: 10

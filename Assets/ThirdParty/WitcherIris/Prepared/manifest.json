@@ -4957,10 +4957,10 @@
       "doubleSided": true
     },
     {
-      "name": "he_01_wa__iris_Material2",
+      "name": "he_01_wa__iris_Material1",
       "alpha": "OPAQUE",
-      "texture": 13,
-      "normal": 11,
+      "texture": -1,
+      "normal": -1,
       "color": [
         1,
         1,
@@ -4972,9 +4972,9 @@
     },
     {
       "name": "he_01_wa__iris_Material3",
-      "alpha": "OPAQUE",
-      "texture": 14,
-      "normal": 15,
+      "alpha": "MASK",
+      "texture": 13,
+      "normal": 14,
       "color": [
         1,
         1,
@@ -4987,8 +4987,8 @@
     {
       "name": "he_01_wa__iris_Material4",
       "alpha": "MASK",
-      "texture": 16,
-      "normal": 17,
+      "texture": 15,
+      "normal": 16,
       "color": [
         1,
         1,
@@ -5029,8 +5029,8 @@
     {
       "name": "l_01_wa__iris_Material0",
       "alpha": "OPAQUE",
-      "texture": 18,
-      "normal": 19,
+      "texture": 17,
+      "normal": 18,
       "color": [
         1,
         1,

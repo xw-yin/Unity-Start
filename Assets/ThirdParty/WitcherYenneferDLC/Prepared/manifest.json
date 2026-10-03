@@ -4515,6 +4515,20 @@
       "doubleSided": true
     },
     {
+      "name": "he_01_wa__yennefer_Material1",
+      "alpha": "OPAQUE",
+      "texture": -1,
+      "normal": -1,
+      "color": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "cutoff": 0.25,
+      "doubleSided": true
+    },
+    {
       "name": "he_01_wa__yennefer_Material3",
       "alpha": "OPAQUE",
       "texture": 19,
@@ -4543,24 +4557,10 @@
       "doubleSided": true
     },
     {
-      "name": "he_01_wa__yennefer_Material2",
+      "name": "l_02_wa__yennefer_Material0",
       "alpha": "OPAQUE",
       "texture": 22,
       "normal": 23,
-      "color": [
-        1,
-        1,
-        1,
-        1
-      ],
-      "cutoff": 0.25,
-      "doubleSided": true
-    },
-    {
-      "name": "l_02_wa__yennefer_Material0",
-      "alpha": "OPAQUE",
-      "texture": 24,
-      "normal": 25,
       "color": [
         1,
         1,
@@ -4587,8 +4587,8 @@
     {
       "name": "scarf_01_wa__yennefer_Material0",
       "alpha": "OPAQUE",
-      "texture": 26,
-      "normal": 27,
+      "texture": 24,
+      "normal": 25,
       "color": [
         1,
         1,

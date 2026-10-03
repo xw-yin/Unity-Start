@@ -10,6 +10,8 @@ namespace Homecoming
         readonly Transform lf,rf,lh,rh;
         readonly Quaternion leftFootRest,rightFootRest;
         readonly Quaternion leftCalfRest,rightCalfRest;
+        readonly Quaternion[] palmBasis=new Quaternion[2];
+        readonly Vector3[] palmNormal=new Vector3[2];
         public const float Duration=27;
         const float BootLegLift=.36f,BootLegBack=.10f,BootLean=28,BootHipForward=.12f;
         readonly HomecomingWalkCycle walk;
@@ -87,6 +89,25 @@ namespace Homecoming
             if(lf) leftFootRest=RestRotation(lf);
             if(rf) rightFootRest=RestRotation(rf);
             leftCalfRest=RestRotation(rig.leftCalf);rightCalfRest=RestRotation(rig.rightCalf);
+            for(int side=0;side<2;side++)
+            {
+                var hand=side==0?lh:rh;string prefix=side==0?"J_Bip_L_":"J_Bip_R_";
+                Transform index=null,middle=null,little=null;
+                foreach(var bone in rig.GetComponentsInChildren<Transform>())
+                {
+                    if(bone.name==prefix+"Index1")index=bone;
+                    if(bone.name==prefix+"Middle1")middle=bone;
+                    if(bone.name==prefix+"Little1")little=bone;
+                }
+                if(hand&&index&&middle&&little)
+                {
+                    var forward=hand.InverseTransformDirection(middle.position-hand.position).normalized;
+                    var normal=hand.InverseTransformDirection(Vector3.Cross(index.position-hand.position,little.position-hand.position)).normalized;
+                    if(normal.z<0)normal=-normal;
+                    palmNormal[side]=normal;palmBasis[side]=Quaternion.LookRotation(normal,forward);
+                }
+                else { palmNormal[side]=Vector3.forward;palmBasis[side]=Quaternion.LookRotation(Vector3.forward,side==0?Vector3.left:Vector3.right); }
+            }
         }
         static float Ease(float t,float a,float b) { float u=Mathf.Clamp01((t-a)/(b-a)); return u*u*u*(u*(u*6-15)+10); }
         static Vector3 V(float x,float y,float z)=>new Vector3(x,y,z);
@@ -125,7 +146,7 @@ namespace Homecoming
                 return;
             }
             t-=1;
-            if(rig.longBoots) { SampleLongBoots(t); return; }
+            if(rig.longBoots || longDress) { SampleLongBoots(t); return; }
             Vector3 root=Vector3.Lerp(V(-1.25f,0,1.02f),V(-1.25f,0,1.47f),Ease(t,7,9));
             root=Vector3.Lerp(root,V(-1.25f,0,1.135f),Ease(t,23,26));
             float seated=Ease(t,7,9)*(1-Ease(t,23,26));
@@ -180,11 +201,11 @@ namespace Homecoming
             rig.transform.localRotation=Quaternion.identity;rig.hips.localPosition=rig.HipPosition(sit);
             float l=Ease(t,10,11.4f)*(1-Ease(t,14.4f,15.2f));
             float r=Ease(t,16,17.4f)*(1-Ease(t,20.4f,21.2f));
-            float lp=Ease(t,13.05f,14.2f)*(1-Ease(t,14.4f,15.2f));
-            float rp=Ease(t,19.05f,20.2f)*(1-Ease(t,20.4f,21.2f));
+            float lp=Ease(t,rig.longBoots?13.05f:12.3f,rig.longBoots?14.2f:13.1f)*(1-Ease(t,14.4f,15.2f));
+            float rp=Ease(t,rig.longBoots?19.05f:18.3f,rig.longBoots?20.2f:19.1f)*(1-Ease(t,20.4f,21.2f));
             rig.hips.position+=Vector3.right*.25f*(lp-rp);
             rig.hips.position+=Vector3.back*BootHipForward*(l+r);
-            float lean=BootLean*(l+r)+8*(lp+rp)+12*Ease(t,7,8)*(1-Ease(t,8,9))+12*Ease(t,22,23)*(1-Ease(t,24,26));
+            float lean=BootLean*(l+r)+(rig.longBoots?8:10)*(lp+rp)+12*Ease(t,7,8)*(1-Ease(t,8,9))+12*Ease(t,22,23)*(1-Ease(t,24,26));
             rig.Pose(rig.spine,V(-lean+.65f*Mathf.Sin(t*1.7f),0,2*(lp-rp)));
             rig.Pose(rig.head,V(8*(l+r),-5*(l-r),0));
             foreach(var pose in rig.restPoses)
@@ -196,16 +217,23 @@ namespace Homecoming
             Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,10,11.4f)*(1-Ease(t,13.35f,14.4f));
             float rl=Ease(t,16,17.4f)*(1-Ease(t,19.35f,20.4f));
-            float lift=longDress?.14f:BootLegLift;
-            rig.SetDressLift(ll,rl);
+            float lift=longDress?(rig.longBoots?.14f:.28f):BootLegLift;
+            // The free hand lifts and holds the hem before the shoe hand reaches.
+            float gatherLeft=Ease(t,9.15f,10)*(1-Ease(t,14.4f,15.15f));
+            float gatherRight=Ease(t,15.15f,16)*(1-Ease(t,20.4f,21.15f));
+            rig.SetDressLift(gatherLeft,gatherRight);
             left+=V(.07f,lift,BootLegBack)*ll;right+=V(-.07f,lift,BootLegBack)*rl;
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+V(.16f,-.02f,-1));
             Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position+V(-.16f,-.02f,-1));
-            AlignBoot(lf,rig.leftCalf,leftFootRest);AlignBoot(rf,rig.rightCalf,rightFootRest);
+            if(rig.longBoots){AlignBoot(lf,rig.leftCalf,leftFootRest);AlignBoot(rf,rig.rightCalf,rightFootRest);}
+            else{lf.rotation=leftFootRest;rf.rotation=rightFootRest;}
             // Point the toes through the shaft as the boot is pulled away; the boot
             // follows the calf, so the ankle can flex independently inside its opening.
-            lf.rotation*=Quaternion.Euler(65*Ease(t,12.20f,12.65f)*(1-Ease(t,13.15f,14.4f)),0,0);
-            rf.rotation*=Quaternion.Euler(65*Ease(t,18.20f,18.65f)*(1-Ease(t,19.15f,20.4f)),0,0);
+            if(rig.longBoots)
+            {
+                lf.rotation*=Quaternion.Euler(65*Ease(t,12.20f,12.65f)*(1-Ease(t,13.15f,14.4f)),0,0);
+                rf.rotation*=Quaternion.Euler(65*Ease(t,18.20f,18.65f)*(1-Ease(t,19.15f,20.4f)),0,0);
+            }
             lf.rotation=Quaternion.Slerp(lf.rotation,leftFootRest,Ease(t,13.35f,14.4f));
             rf.rotation=Quaternion.Slerp(rf.rotation,rightFootRest,Ease(t,19.35f,20.4f));
             KeepAboveFloor();
@@ -216,14 +244,33 @@ namespace Homecoming
             Vector3 rt=Vector3.Lerp(ri,Shoes.WristTarget(1,t),r)+V(-.025f,.045f,-.035f)*Mathf.Sin(Mathf.PI*r);
             float helpLeft=Ease(t,17,17.7f)*(1-Ease(t,18.4f,19.1f));
             float helpRight=Ease(t,11,11.7f)*(1-Ease(t,12.4f,13.1f));
+            if(longDress){helpLeft=helpRight=0;}
             lt=Vector3.Lerp(lt,Shoes.WristTarget(1,t)+V(.06f,0,0),helpLeft);
             rt=Vector3.Lerp(rt,Shoes.WristTarget(0,t)+V(-.06f,0,0),helpRight);
             if(longDress)
             {
                 // The free hand gathers the front hem while the other hand
                 // removes the boot, rather than reaching through the skirt.
-                lt=Vector3.Lerp(lt,rig.rightCalf.position+V(-.02f,.10f,-.20f),r*(1-helpLeft));
-                rt=Vector3.Lerp(rt,rig.leftCalf.position+V(.02f,.10f,-.20f),l*(1-helpRight));
+                lt=Vector3.Lerp(lt,rig.DressHoldPoint(1)+V(0,.055f,-.015f),gatherRight);
+                rt=Vector3.Lerp(rt,rig.DressHoldPoint(0)+V(0,.055f,-.015f),gatherLeft);
+            }
+            if(!rig.longBoots)
+            {
+                // Short shoes sit much lower than a boot cuff. Lean only as far
+                // as the arm actually needs, before solving the grasp contact.
+                float leftLength=Vector3.Distance(rig.leftArm.position,rig.leftElbow.position)+Vector3.Distance(rig.leftElbow.position,lh.position);
+                float rightLength=Vector3.Distance(rig.rightArm.position,rig.rightElbow.position)+Vector3.Distance(rig.rightElbow.position,rh.position);
+                bool Beyond()=>l>.95f&&Vector3.Distance(rig.leftArm.position,lt)>leftLength-.012f||r>.95f&&Vector3.Distance(rig.rightArm.position,rt)>rightLength-.012f;
+                if(Beyond())
+                {
+                    float low=lean,high=95;
+                    for(int attempt=0;attempt<12;attempt++)
+                    {
+                        float middle=(low+high)*.5f;rig.Pose(rig.spine,V(-middle,0,2*(lp-rp)));
+                        if(Beyond())low=middle;else high=middle;
+                    }
+                    rig.Pose(rig.spine,V(-high,0,2*(lp-rp)));
+                }
             }
             Solve(rig.leftArm,rig.leftElbow,lh,lt,rig.leftArm.position+V(.55f,-.30f,-.1f));
             Solve(rig.rightArm,rig.rightElbow,rh,rt,rig.rightArm.position+V(-.55f,-.30f,-.1f));
@@ -231,12 +278,18 @@ namespace Homecoming
             rh.rotation=Quaternion.Slerp(rh.rotation,Quaternion.FromToRotation(rh.TransformDirection(Vector3.right),Vector3.back)*rh.rotation,sit*(1-Mathf.Max(r,helpRight)));
             BootHand(lh,true,Mathf.Max(l,helpLeft),Quaternion.Slerp(Shoes.Rotation(0,t),Shoes.Rotation(1,t),helpLeft),t,0,helpLeft);
             BootHand(rh,false,Mathf.Max(r,helpRight),Quaternion.Slerp(Shoes.Rotation(1,t),Shoes.Rotation(0,t),helpRight),t,1,helpRight);
+            if(longDress)
+            {
+                FabricHand(lh,true,gatherRight);
+                FabricHand(rh,false,gatherLeft);
+            }
         }
         void BootHand(Transform hand,bool left,float reach,Quaternion boot,float t,int side,float help)
         {
-            Vector3 finger=left?Vector3.left:Vector3.right;
-            var desired=Quaternion.FromToRotation(finger,boot*Vector3.down);
-            // Establish an absolute orientation instead of compounding the boot rotation.
+            // Use two palm axes so the wrist has a defined roll as well as a
+            // finger direction. A single FromToRotation left the palm twisted.
+            int handSide=left?0:1;
+            var desired=Quaternion.LookRotation(boot*Vector3.forward,boot*Vector3.down)*Quaternion.Inverse(palmBasis[handSide]);
             hand.rotation=Quaternion.Slerp(hand.rotation,desired,reach);
             float start=HomecomingShoeGrip.Start(side);
             float grip=Ease(t,start+1.35f,start+1.95f)*(1-Ease(t,start+4.4f,start+4.85f));
@@ -245,11 +298,34 @@ namespace Homecoming
             {
                 if(!pose.bone||pose.bone==hand||!pose.bone.IsChildOf(hand)||!pose.bone.name.StartsWith("J_Bip_"))continue;
                 string name=pose.bone.name;
-                float curl=name.Contains("Thumb")?18:name.EndsWith("1")?28:name.EndsWith("2")?52:32;
+                float curl=name.Contains("Thumb")?15:name.EndsWith("1")?24:name.EndsWith("2")?38:24;
                 float delay=name.Contains("Index")?0:name.Contains("Middle")?.06f:name.Contains("Ring")?.12f:.18f;
                 float closed=Mathf.SmoothStep(0,1,Mathf.Clamp01((grip-delay)/(1-delay)));
-                pose.bone.localRotation=pose.rotation*Quaternion.Euler(0,(left?1:-1)*curl*closed,0);
+                CurlFinger(pose,hand,handSide,curl*closed);
             }
+        }
+        void FabricHand(Transform hand,bool left,float amount)
+        {
+            if(amount<=0)return;
+            int side=left?0:1;
+            var orientation=Quaternion.LookRotation(Vector3.down,Vector3.forward)*Quaternion.Inverse(palmBasis[side]);
+            hand.rotation=Quaternion.Slerp(hand.rotation,orientation,amount);
+            foreach(var pose in rig.restPoses)
+            {
+                if(!pose.bone||pose.bone==hand||!pose.bone.IsChildOf(hand)||!pose.bone.name.StartsWith("J_Bip_"))continue;
+                string name=pose.bone.name;float curl=name.Contains("Thumb")?12:name.EndsWith("1")?16:name.EndsWith("2")?28:18;
+                CurlFinger(pose,hand,side,curl*amount);
+            }
+        }
+        void CurlFinger(CharacterRig.RestPose pose,Transform hand,int side,float degrees)
+        {
+            if(pose.bone.childCount==0)return;
+            // Curl each joint toward the actual palm, instead of assuming every
+            // imported finger has the same local Y axis.
+            var direction=(pose.rotation*pose.bone.GetChild(0).localPosition).normalized;
+            var normal=pose.bone.parent.InverseTransformDirection(hand.TransformDirection(palmNormal[side]));
+            var axis=Vector3.Cross(direction,normal).normalized;
+            if(axis.sqrMagnitude>.001f)pose.bone.localRotation=Quaternion.AngleAxis(degrees,axis)*pose.rotation;
         }
         void AlignBoot(Transform foot,Transform calf,Quaternion basis)
         {
