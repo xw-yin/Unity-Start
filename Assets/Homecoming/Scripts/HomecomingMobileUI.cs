@@ -16,7 +16,7 @@ namespace Homecoming
         [SerializeField] Sprite buttonSprite;
         [SerializeField] Text playLabel, hint;
         [SerializeField] Image[] views=new Image[3];
-        [SerializeField] Image[] characters=new Image[4];
+        [SerializeField] Image[] characters=new Image[6];
         float hintUntil;
         static readonly Color Idle=new Color(.07f,.10f,.13f,.76f), Selected=new Color(.24f,.38f,.36f,.94f);
         void OnEnable()
@@ -94,7 +94,7 @@ namespace Homecoming
                 int index=i;
                 characters[i]=Button(HomecomingCharacters.Names[i],Vector2.up,Vector2.up,new Vector2(30+i*142,-26),new Vector2(130,92),()=>story.SelectCharacter(index),out _);
             }
-            var hintRect=Rect("触控提示",safeRoot,new Vector2(.5f,1),new Vector2(.5f,1),new Vector2(0,-24),new Vector2(720,48));
+            var hintRect=Rect("触控提示",safeRoot,Vector2.one,Vector2.one,new Vector2(-30,-24),new Vector2(620,48));
             hint=Label(hintRect,Application.isMobilePlatform?"单指滑动转动视角 · 双指缩放":"拖动转动视角 · 滚轮缩放",24);
             var shadow=hint.gameObject.AddComponent<Shadow>(); shadow.effectColor=new Color(0,0,0,.8f); shadow.effectDistance=new Vector2(1,-2);
             hintUntil=Time.unscaledTime+7;

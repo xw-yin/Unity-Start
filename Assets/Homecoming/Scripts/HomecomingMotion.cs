@@ -21,6 +21,8 @@ namespace Homecoming
         readonly Sole leftStockingSole,rightStockingSole;
         float sampleAction;
         readonly HomecomingClothDynamics cloth;
+        readonly HomecomingGarmentDynamics[] garments;
+        readonly bool longDress;
         public HomecomingShoeGrip Shoes { get; private set; }
         sealed class Sole
         {
@@ -51,8 +53,9 @@ namespace Homecoming
         }
         public HomecomingMotion(CharacterRig source)
         {
-            rig=source;
-            if(rig.longBoots && rig.skirt && rig.skirt.sharedMesh.GetBlendShapeIndex("Sitting")>=0)
+            rig=source;garments=rig.GetComponentsInChildren<HomecomingGarmentDynamics>();
+            longDress=rig.skirt&&rig.skirt.sharedMesh.GetBlendShapeIndex("BootLeft")>=0;
+            if(garments.Length==0 && rig.longBoots && rig.skirt && rig.skirt.sharedMesh.GetBlendShapeIndex("Sitting")>=0)
             {
                 cloth=rig.GetComponent<HomecomingClothDynamics>();
                 if(!cloth) cloth=rig.gameObject.AddComponent<HomecomingClothDynamics>();
@@ -91,11 +94,13 @@ namespace Homecoming
         {
             SamplePose(t);
             if(cloth) cloth.Sample(rig,t);
+            foreach(var garment in garments)garment.Sample(rig,t);
         }
         void SamplePose(float t)
         {
             sampleAction=t-1;
             rig.Neutral();
+            rig.SetDressLift(0,0);
             if(t<8)
             {
                 rig.SetSkirtPose(0);
@@ -191,7 +196,9 @@ namespace Homecoming
             Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,10,11.4f)*(1-Ease(t,13.35f,14.4f));
             float rl=Ease(t,16,17.4f)*(1-Ease(t,19.35f,20.4f));
-            left+=V(.07f,BootLegLift,BootLegBack)*ll;right+=V(-.07f,BootLegLift,BootLegBack)*rl;
+            float lift=longDress?.14f:BootLegLift;
+            rig.SetDressLift(ll,rl);
+            left+=V(.07f,lift,BootLegBack)*ll;right+=V(-.07f,lift,BootLegBack)*rl;
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+V(.16f,-.02f,-1));
             Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position+V(-.16f,-.02f,-1));
             AlignBoot(lf,rig.leftCalf,leftFootRest);AlignBoot(rf,rig.rightCalf,rightFootRest);
@@ -211,6 +218,13 @@ namespace Homecoming
             float helpRight=Ease(t,11,11.7f)*(1-Ease(t,12.4f,13.1f));
             lt=Vector3.Lerp(lt,Shoes.WristTarget(1,t)+V(.06f,0,0),helpLeft);
             rt=Vector3.Lerp(rt,Shoes.WristTarget(0,t)+V(-.06f,0,0),helpRight);
+            if(longDress)
+            {
+                // The free hand gathers the front hem while the other hand
+                // removes the boot, rather than reaching through the skirt.
+                lt=Vector3.Lerp(lt,rig.rightCalf.position+V(-.02f,.10f,-.20f),r*(1-helpLeft));
+                rt=Vector3.Lerp(rt,rig.leftCalf.position+V(.02f,.10f,-.20f),l*(1-helpRight));
+            }
             Solve(rig.leftArm,rig.leftElbow,lh,lt,rig.leftArm.position+V(.55f,-.30f,-.1f));
             Solve(rig.rightArm,rig.rightElbow,rh,rt,rig.rightArm.position+V(-.55f,-.30f,-.1f));
             lh.rotation=Quaternion.Slerp(lh.rotation,Quaternion.FromToRotation(lh.TransformDirection(Vector3.left),Vector3.back)*lh.rotation,sit*(1-Mathf.Max(l,helpLeft)));

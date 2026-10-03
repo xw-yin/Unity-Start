@@ -10,7 +10,8 @@ namespace Homecoming.Editor
 {
     public static class HomecomingCharacterReview
     {
-        public static void ImportAndReview() { WitcherCharacterImport.ImportAll();Run(); }
+        public static void ImportAndReview() { WitcherCharacterImport.ImportAll();Run();HomecomingGarmentReview.Run(); }
+        public static void ImportDLCAndReview() { WitcherCharacterImport.Import("Iris");WitcherCharacterImport.Import("Syanna");Run();HomecomingGarmentReview.Run(); }
         public static void Run()
         {
             HomecomingSetup.CreateScene();
@@ -23,7 +24,7 @@ namespace Homecoming.Editor
             Directory.CreateDirectory("Artifacts/Characters");
             float worstReach=0;
             string worst="";
-            foreach(int index in new[]{1,2,3,0,3,1,2,0})
+            foreach(int index in new[]{4,5,0,1,2,3,4,5,0})
             {
                 buttons.Single(b=>b.name==HomecomingCharacters.Names[index]).onClick.Invoke();
                 var rig=story.GetComponentInChildren<CharacterRig>();
@@ -55,7 +56,7 @@ namespace Homecoming.Editor
                 if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf || rig.leftSlipper.activeSelf)throw new Exception("Character replay failed: "+index);
             }
             if(worstReach>.04f)throw new Exception("Character boot reach exceeds tolerance: "+worstReach+" "+worst);
-            Debug.Log("CHARACTER REVIEW PASSED: all 4 models, 8 UI switches, 7688 timeline samples, avatars, boot removal, slippers and replay; maximum wrist error="+worstReach);
+            Debug.Log("CHARACTER REVIEW PASSED: all 6 models, 9 UI switches, 8649 timeline samples, avatars, boot removal, slippers and replay; maximum wrist error="+worstReach);
         }
     }
 }

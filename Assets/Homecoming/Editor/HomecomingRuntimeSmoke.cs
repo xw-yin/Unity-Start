@@ -75,7 +75,7 @@ namespace Homecoming.Editor
                 if(rig.importedSource && (!rig.GetComponent<Animator>().avatar.isHuman)) throw new Exception("导入人物的表情或人形骨骼无效");
                 CheckMobileInput(story);
                 var characterButtons=story.GetComponentInChildren<HomecomingMobileUI>().GetComponentsInChildren<Button>();
-                foreach(int index in new[]{1,2,3,0})
+                foreach(int index in new[]{1,2,3,4,5,0})
                 {
                     characterButtons.Single(b=>b.name==HomecomingCharacters.Names[index]).onClick.Invoke();
                     rig=story.GetComponentInChildren<CharacterRig>();
@@ -86,7 +86,7 @@ namespace Homecoming.Editor
                     story.Replay();
                     if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf)throw new Exception("Play mode character replay failed: "+index);
                 }
-                Debug.Log("HOMECOMING CHARACTER PLAY MODE PASSED: all four models selected by actual UI callbacks, footwear and replay.");
+                Debug.Log("HOMECOMING CHARACTER PLAY MODE PASSED: all six models selected by actual UI callbacks, footwear and replay.");
                 Debug.Log("HOMECOMING PLAY MODE PASSED: outside waiting, retargeted walk, hand-held shoes, ground release, standing pose, replay.");
                 EditorApplication.ExitPlaymode();
             }

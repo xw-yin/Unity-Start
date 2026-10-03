@@ -15,13 +15,13 @@ namespace Homecoming.Editor
         [Serializable] class Manifest { public Node[] nodes; public Surface[] materials; public Part[] parts; public Human[] humanBones; }
         [Serializable] class Node { public string name; public int parent; public float[] position,rotation,scale; }
         [Serializable] class Surface { public string name,alpha; public int texture,normal; public float[] color; public float cutoff; public bool doubleSided; }
-        [Serializable] class Part { public string name,file,role; public int node,material; public int[] joints; public string[] expressions; }
+        [Serializable] class Part { public string name,file,role; public int node,material; public int[] joints; public string[] expressions; public float[] cloth; }
         [Serializable] class Human { public string bone; public int node; }
 
-        [MenuItem("Homecoming/导入夏妮、特莉丝和希里")]
+        [MenuItem("Homecoming/导入巫师可替换人物")]
         public static void ImportAll()
         {
-            foreach(var name in new[]{"Shani","Triss","Ciri"}) Import(name);
+            foreach(var name in new[]{"Shani","Triss","Ciri","Iris","Syanna"}) Import(name);
         }
         public static void Import(string name)
         {
@@ -44,7 +44,7 @@ namespace Homecoming.Editor
                 var material=new Material(Shader.Find("Universal Render Pipeline/Lit")){name=surface.name};
                 material.color=new Color(surface.color[0],surface.color[1],surface.color[2],surface.color[3]);
                 if(surface.name.StartsWith("c_01_") || surface.name.StartsWith("c_05_"))
-                    material.color=CharacterName=="Ciri"?new Color(.95f,.96f,.94f):CharacterName=="Triss"?new Color(.92f,.25f,.075f):new Color(.85f,.36f,.13f);
+                    material.color=CharacterName=="Ciri"?new Color(.95f,.96f,.94f):CharacterName=="Iris"||CharacterName=="Syanna"?new Color(.12f,.095f,.075f):CharacterName=="Triss"?new Color(.92f,.25f,.075f):new Color(.85f,.36f,.13f);
                 if(surface.texture>=0) material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_"+surface.texture.ToString("D2")+".png"));
                 material.SetFloat("_Cull",surface.doubleSided?0:2); material.SetFloat("_Smoothness",.28f);
                 material.SetFloat("_BumpScale",surface.name.StartsWith("h_01_")?.35f:.7f);
@@ -78,6 +78,7 @@ namespace Homecoming.Editor
             rig.leftThigh=Bone("leftUpperLeg"); rig.rightThigh=Bone("rightUpperLeg");
             rig.leftCalf=Bone("leftLowerLeg"); rig.rightCalf=Bone("rightLowerLeg");
             var expressions=new List<SkinnedMeshRenderer>();
+            var garments=new List<SkinnedMeshRenderer>();var fabricFreedom=new List<float>();
             var leftBoots=new List<SkinnedMeshRenderer>();var rightBoots=new List<SkinnedMeshRenderer>();
             for(int i=0;i<data.parts.Length;i++)
             {
@@ -94,11 +95,27 @@ namespace Homecoming.Editor
                 if(part.expressions.Length>0) expressions.Add(renderer);
                 if(part.role=="ShoeLeft") leftBoots.Add(renderer);
                 if(part.role=="ShoeRight") rightBoots.Add(renderer);
+                if(part.role=="Cloth"){garments.Add(renderer);fabricFreedom.AddRange(part.cloth);}
                 if(part.role=="Body" && !rig.skirt) rig.skirt=renderer;
             }
             rig.expressionRenderers=expressions.ToArray();
             rig.leftShoe=MergeBoots(leftBoots,rig,"LeftBoot");
             rig.rightShoe=MergeBoots(rightBoots,rig,"RightBoot");
+            if(garments.Count>0)
+            {
+                rig.skirt=MergeBoots(garments,rig,"OriginalGarments").GetComponent<SkinnedMeshRenderer>();
+                if(CharacterName=="Iris")
+                {
+                    // The authored lap fold replaces thigh skinning; combining
+                    // both would rotate the full skirt into the chest twice.
+                    int hip=Array.IndexOf(rig.skirt.bones,rig.hips);
+                    var garmentVertices=rig.skirt.sharedMesh.vertices;var garmentWeights=rig.skirt.sharedMesh.boneWeights;
+                    for(int i=0;i<garmentWeights.Length;i++)if(garmentVertices[i].y<.94f)garmentWeights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
+                    rig.skirt.sharedMesh.boneWeights=garmentWeights;
+                    BuildDressSittingShape(rig.skirt.sharedMesh);
+                }
+                rig.skirt.gameObject.AddComponent<HomecomingGarmentDynamics>().Configure(fabricFreedom.ToArray());
+            }
             WitcherCharacterFeet.Build(rig,Destination);
             BuildAvatar(root,data,nodes);
             // The prepared source uses a normalized T pose. Capture a relaxed pose for the scene.
@@ -140,6 +157,39 @@ namespace Homecoming.Editor
             AssetDatabase.SaveAssets(); UnityEngine.Object.DestroyImmediate(root); AssetDatabase.Refresh();
             Debug.Log("CHARACTER IMPORT PASSED: "+CharacterName+"; source meshes, textures, humanoid rig, anatomical feet and removable boots.");
         }
+        static void BuildDressSittingShape(Mesh mesh)
+        {
+            var v=mesh.vertices;var delta=new Vector3[v.Length];
+            for(int i=0;i<v.Length;i++)
+            {
+                var p=v[i];float free=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.94f,.82f,p.y));
+                if(free==0)continue;
+                float front=Mathf.SmoothStep(0,1,Mathf.InverseLerp(-.12f,.16f,p.z));
+                float frontY=p.y>.55f?.93f-(.93f-p.y)*.12f:.8844f-(.55f-p.y)*1.05f;
+                float forward=p.y>.55f?(.93f-p.y)*1.15f:.437f+(.55f-p.y)*.16f;
+                var seated=new Vector3(p.x*1.08f,Mathf.Lerp(p.y+.32f,frontY,front),p.z+Mathf.Lerp(-.10f,forward,front));
+                delta[i]=(seated-p)*free;
+            }
+            var seatedVertices=v.Select((p,i)=>p+delta[i]).ToArray();
+            var temporary=new Mesh{vertices=seatedVertices,triangles=mesh.triangles};temporary.RecalculateNormals();
+            var seatedNormals=temporary.normals;var originalNormals=mesh.normals;
+            mesh.AddBlendShapeFrame("Sitting",100,delta,seatedNormals.Select((n,i)=>n-originalNormals[i]).ToArray(),null);
+            foreach(int side in new[]{0,1})
+            {
+                var knee=new Vector3[v.Length];
+                for(int i=0;i<v.Length;i++)
+                {
+                    var p=v[i];float front=Mathf.SmoothStep(0,1,Mathf.InverseLerp(-.03f,.16f,p.z));
+                    float lateral=Mathf.Exp(-Mathf.Pow((p.x+(side==0?.09f:-.09f))/.19f,2));
+                    float fold=Mathf.Sin(Mathf.PI*Mathf.Clamp01((.94f-p.y)/.94f))*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.94f,.82f,p.y));
+                    float hem=Mathf.Pow(Mathf.Clamp01((.94f-p.y)/.94f),2);
+                    knee[i]=new Vector3(0,.12f*fold+.55f*hem,.025f*fold)*front*lateral;
+                }
+                temporary.vertices=seatedVertices.Select((p,i)=>p+knee[i]).ToArray();temporary.RecalculateNormals();
+                mesh.AddBlendShapeFrame(side==0?"BootLeft":"BootRight",100,knee,temporary.normals.Select((n,i)=>n-seatedNormals[i]).ToArray(),null);
+            }
+            UnityEngine.Object.DestroyImmediate(temporary);EditorUtility.SetDirty(mesh);
+        }
         static GameObject MergeBoots(List<SkinnedMeshRenderer> parts,CharacterRig rig,string name)
         {
             if(parts.Count==0)throw new Exception(CharacterName+" has no removable "+name);
@@ -169,7 +219,7 @@ namespace Homecoming.Editor
             }
             var skeleton=root.GetComponentsInChildren<Transform>().Select(bone=>new SkeletonBone{name=bone.name,position=bone.localPosition,rotation=bone.localRotation,scale=bone.localScale}).ToArray();
             var avatar=AvatarBuilder.BuildHumanAvatar(root,new HumanDescription{human=human.ToArray(),skeleton=skeleton,upperArmTwist=.5f,lowerArmTwist=.5f,upperLegTwist=.5f,lowerLegTwist=.5f,armStretch=.05f,legStretch=.05f,feetSpacing=0,hasTranslationDoF=false});
-            if(!avatar.isValid||!avatar.isHuman) throw new Exception("Yennefer humanoid avatar is invalid");
+            if(!avatar.isValid||!avatar.isHuman) throw new Exception("Character humanoid avatar is invalid");
             avatar.name=CharacterName+" Humanoid"; string path=Destination+"HumanoidAvatar.asset";
             var existing=AssetDatabase.LoadAssetAtPath<Avatar>(path);
             if(existing) { EditorUtility.CopySerialized(avatar,existing); EditorUtility.SetDirty(existing); UnityEngine.Object.DestroyImmediate(avatar); avatar=existing; }

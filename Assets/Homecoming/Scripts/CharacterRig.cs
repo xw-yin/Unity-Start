@@ -32,6 +32,13 @@ namespace Homecoming
             int shape=skirt.sharedMesh.GetBlendShapeIndex("Sitting");
             if(shape>=0) skirt.SetBlendShapeWeight(shape,Mathf.Clamp01(amount)*100);
         }
+        public void SetDressLift(float left,float right)
+        {
+            if(!skirt||!skirt.sharedMesh)return;
+            int a=skirt.sharedMesh.GetBlendShapeIndex("BootLeft"),b=skirt.sharedMesh.GetBlendShapeIndex("BootRight");
+            if(a>=0)skirt.SetBlendShapeWeight(a,Mathf.Clamp01(left)*100);
+            if(b>=0)skirt.SetBlendShapeWeight(b,Mathf.Clamp01(right)*100);
+        }
         public Vector3 HipPosition(float sitting)
         {
             var offset=new Vector3(0,(.61f-hipRestPosition.y)*sitting,.12f*sitting);
