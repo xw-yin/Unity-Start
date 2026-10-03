@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Homecoming
@@ -16,11 +16,24 @@ namespace Homecoming
         float elapsed;
         int phase;
         bool started, paused;
+        [SerializeField, Range(0,3)] int characterIndex;
         HomecomingCameraController cameraControls;
         public bool Started => started;
         public bool Paused => paused;
         public bool Finished => elapsed >= 32;
         public HomecomingCameraController CameraControls => cameraControls;
+        public int CharacterIndex => characterIndex;
+        public void SelectCharacter(int index)
+        {
+            if(index<0 || index>=HomecomingCharacters.ResourcesPaths.Length || index==characterIndex) return;
+            var prefab=Resources.Load<GameObject>(HomecomingCharacters.ResourcesPaths[index]);
+            if(!prefab) { Debug.LogError("角色模型尚未导入："+HomecomingCharacters.Names[index]);return; }
+            characterIndex=index;
+            if(woman) { woman.gameObject.SetActive(false);if(Application.isPlaying) Destroy(woman.gameObject);else DestroyImmediate(woman.gameObject); }
+            int viewIndex=cameraControls?cameraControls.ViewIndex:0;
+            BuildWoman();ResetStory();
+            if(cameraControls) { cameraControls.Initialize(rig,view);cameraControls.SetView(viewIndex); }
+        }
         public void TogglePlayback() { if(Finished) Replay(); else if(!started) started=true; else paused=!paused; }
         public void Replay() { ResetStory(); started=true; }
 
@@ -197,9 +210,11 @@ namespace Homecoming
         void BuildWoman()
         {
             modelBuilder=new XiaModelBuilder(skin,hair,blouse,skirt,leather,pink);
-            var prefab=(Resources.Load<GameObject>("Homecoming/YenneferDLC") ?? Resources.Load<GameObject>("Homecoming/Yennefer") ?? Resources.Load<GameObject>("Homecoming/XiaVRoid"));
+            characterIndex=Mathf.Clamp(characterIndex,0,HomecomingCharacters.ResourcesPaths.Length-1);
+            var prefab=(Resources.Load<GameObject>(HomecomingCharacters.ResourcesPaths[characterIndex]) ?? Resources.Load<GameObject>("Homecoming/Yennefer") ?? Resources.Load<GameObject>("Homecoming/XiaVRoid"));
             if(!prefab&&Application.isPlaying) prefab=Resources.Load<GameObject>("Homecoming/Xia");
             rig=prefab ? Instantiate(prefab,transform).GetComponent<CharacterRig>() : modelBuilder.Build(transform);
+            foreach(var part in rig.GetComponentsInChildren<Transform>(true))part.gameObject.layer=8;
             rig.transform.localPosition=new Vector3(-1.45f,0,4.95f); woman=rig.transform; hips=rig.hips;
             leftArm=rig.leftArm; rightArm=rig.rightArm; leftThigh=rig.leftThigh; rightThigh=rig.rightThigh;
             leftCalf=rig.leftCalf; rightCalf=rig.rightCalf; leftShoe=rig.leftShoe; rightShoe=rig.rightShoe; bag=rig.bag;
@@ -222,7 +237,7 @@ namespace Homecoming
             }
             bag.SetActive(true); placedBag.SetActive(false); slippers.SetActive(true);
             rig.Expression(1,false);
-            var old=transform.Find("脱下的通勤鞋"); if(old) { old.gameObject.SetActive(false); if(Application.isPlaying) Destroy(old.gameObject); else DestroyImmediate(old.gameObject); }
+            var old=transform.Find("脱下的通勤鞋"); if(old) { old.name="待清理的通勤鞋";old.gameObject.SetActive(false); if(Application.isPlaying) Destroy(old.gameObject); else DestroyImmediate(old.gameObject); }
         }
         void Update()
         {

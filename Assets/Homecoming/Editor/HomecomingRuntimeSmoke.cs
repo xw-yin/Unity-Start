@@ -74,6 +74,19 @@ namespace Homecoming.Editor
                 if(!rig.leftShoe.activeSelf||rig.leftSlipper.activeSelf) throw new Exception("重播状态错误");
                 if(rig.importedSource && (!rig.GetComponent<Animator>().avatar.isHuman)) throw new Exception("导入人物的表情或人形骨骼无效");
                 CheckMobileInput(story);
+                var characterButtons=story.GetComponentInChildren<HomecomingMobileUI>().GetComponentsInChildren<Button>();
+                foreach(int index in new[]{1,2,3,0})
+                {
+                    characterButtons.Single(b=>b.name==HomecomingCharacters.Names[index]).onClick.Invoke();
+                    rig=story.GetComponentInChildren<CharacterRig>();
+                    if(story.CharacterIndex!=index || story.Started || rig.transform.position.z<3.8f || !rig.GetComponent<Animator>().avatar.isHuman)throw new Exception("Play mode character switch failed: "+index);
+                    story.TogglePlayback();
+                    type.GetField("elapsed",flags).SetValue(story,27f);type.GetMethod("Update",flags).Invoke(story,null);
+                    if(!rig.leftSlipper.activeSelf || !rig.rightSlipper.activeSelf || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Play mode character footwear failed: "+index);
+                    story.Replay();
+                    if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf)throw new Exception("Play mode character replay failed: "+index);
+                }
+                Debug.Log("HOMECOMING CHARACTER PLAY MODE PASSED: all four models selected by actual UI callbacks, footwear and replay.");
                 Debug.Log("HOMECOMING PLAY MODE PASSED: outside waiting, retargeted walk, hand-held shoes, ground release, standing pose, replay.");
                 EditorApplication.ExitPlaymode();
             }

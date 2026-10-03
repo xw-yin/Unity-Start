@@ -16,16 +16,26 @@ namespace Homecoming
         [SerializeField] Sprite buttonSprite;
         [SerializeField] Text playLabel, hint;
         [SerializeField] Image[] views=new Image[3];
+        [SerializeField] Image[] characters=new Image[4];
         float hintUntil;
         static readonly Color Idle=new Color(.07f,.10f,.13f,.76f), Selected=new Color(.24f,.38f,.36f,.94f);
         void OnEnable()
         {
             if(!story || !safeRoot) return;
             var buttons=GetComponentsInChildren<Button>();
-            if(buttons.Length!=5) return;
             foreach(var button in buttons) button.onClick.RemoveAllListeners();
-            buttons[0].onClick.AddListener(story.TogglePlayback); buttons[1].onClick.AddListener(story.Replay);
-            for(int i=0;i<3;i++) { int index=i; buttons[i+2].onClick.AddListener(()=>story.CameraControls.SetView(index)); }
+            foreach(var button in buttons)
+            {
+                if(button.name=="开始")button.onClick.AddListener(story.TogglePlayback);
+                else if(button.name=="重播")button.onClick.AddListener(story.Replay);
+                else
+                {
+                    int viewIndex=System.Array.IndexOf(new[]{"全景","人物","换鞋"},button.name);
+                    if(viewIndex>=0)button.onClick.AddListener(()=>story.CameraControls.SetView(viewIndex));
+                    int character=System.Array.IndexOf(HomecomingCharacters.Names,button.name);
+                    if(character>=0)button.onClick.AddListener(()=>story.SelectCharacter(character));
+                }
+            }
         }
         public static HomecomingMobileUI Create(HomecomingScene scene)
         {
@@ -79,6 +89,11 @@ namespace Homecoming
                 int index=i;
                 views[i]=Button(names[i],Vector2.right,Vector2.right,new Vector2(-30-(2-i)*138,30),new Vector2(124,128),()=>story.CameraControls.SetView(index),out _);
             }
+            for(int i=0;i<HomecomingCharacters.Names.Length;i++)
+            {
+                int index=i;
+                characters[i]=Button(HomecomingCharacters.Names[i],Vector2.up,Vector2.up,new Vector2(30+i*142,-26),new Vector2(130,92),()=>story.SelectCharacter(index),out _);
+            }
             var hintRect=Rect("触控提示",safeRoot,new Vector2(.5f,1),new Vector2(.5f,1),new Vector2(0,-24),new Vector2(720,48));
             hint=Label(hintRect,Application.isMobilePlatform?"单指滑动转动视角 · 双指缩放":"拖动转动视角 · 滚轮缩放",24);
             var shadow=hint.gameObject.AddComponent<Shadow>(); shadow.effectColor=new Color(0,0,0,.8f); shadow.effectDistance=new Vector2(1,-2);
@@ -112,6 +127,7 @@ namespace Homecoming
             if(Screen.safeArea!=previousSafeArea || screen!=previousScreen) UpdateSafeArea(Screen.safeArea,screen);
             playLabel.text=story.Finished?"再播放":!story.Started?"开始":story.Paused?"继续":"暂停";
             for(int i=0;i<3;i++) if(views[i]) views[i].color=story.CameraControls.ViewIndex==i?Selected:Idle;
+            for(int i=0;i<characters.Length;i++) if(characters[i])characters[i].color=story.CharacterIndex==i?Selected:Idle;
             hint.gameObject.SetActive(Time.unscaledTime<hintUntil);
         }
     }

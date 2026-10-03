@@ -52,7 +52,7 @@ namespace Homecoming
         public HomecomingMotion(CharacterRig source)
         {
             rig=source;
-            if(rig.longBoots && rig.skirt)
+            if(rig.longBoots && rig.skirt && rig.skirt.sharedMesh.GetBlendShapeIndex("Sitting")>=0)
             {
                 cloth=rig.GetComponent<HomecomingClothDynamics>();
                 if(!cloth) cloth=rig.gameObject.AddComponent<HomecomingClothDynamics>();

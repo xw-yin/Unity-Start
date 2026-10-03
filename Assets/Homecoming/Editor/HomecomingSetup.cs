@@ -170,6 +170,7 @@ namespace Homecoming.Editor
                 if(!skin.enabled) continue;
                 var mesh=new Mesh(); skin.BakeMesh(mesh);
                 var preview=ModelMesh.Object("临时姿态检查",mesh,skin.sharedMaterial,skin.transform,Vector3.zero);
+                preview.GetComponent<Renderer>().sharedMaterials=skin.sharedMaterials;
                 var properties=new MaterialPropertyBlock();skin.GetPropertyBlock(properties);preview.GetComponent<Renderer>().SetPropertyBlock(properties);
                 frozen.Add((skin,preview,mesh)); skin.enabled=false;
             }

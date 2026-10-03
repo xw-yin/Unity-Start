@@ -23,7 +23,7 @@ namespace Homecoming.Editor
             if(!pipeline || pipeline.renderScale!=1 || pipeline.msaaSampleCount!=4 || !pipeline.supportsSoftShadows) throw new Exception("Mobile quality not applied.");
             var ui=HomecomingMobileUI.Create(story);
             var buttons=ui.GetComponentsInChildren<Button>();
-            if(buttons.Length!=5) throw new Exception("Unexpected mobile controls.");
+            if(buttons.Length!=5+HomecomingCharacters.Names.Length) throw new Exception("Unexpected mobile controls.");
             foreach(var button in buttons)
                 if(button.GetComponent<RectTransform>().sizeDelta.y<88) throw new Exception("Touch targets too small.");
             buttons[0].onClick.Invoke(); if(!story.Started) throw new Exception("Play button did not start.");
