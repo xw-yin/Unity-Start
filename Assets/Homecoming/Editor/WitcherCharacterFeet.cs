@@ -68,7 +68,8 @@ namespace Homecoming.Editor
                 {
                     // Select whole source triangles under the garment overlap.
                     var face=new[]{sourceTriangles[i],sourceTriangles[i+1],sourceTriangles[i+2]};
-                    if(face.Any(v=>!Own(v)||positions[v].y>.68f))continue;
+                    float garmentOverlap=folder.Contains("WitcherIris/")?.90f:.68f;
+                    if(face.Any(v=>!Own(v)||positions[v].y>garmentOverlap))continue;
                     foreach(int v in face){if(!lookup.ContainsKey(v)){lookup[v]=used.Count;used.Add(v);}triangles.Add(lookup[v]);}
                 }
                 if(triangles.Count<300)throw new Exception("Original game leg geometry is missing");

@@ -190,13 +190,17 @@ namespace Homecoming.Editor
                 var knee=new Vector3[v.Length];
                 for(int i=0;i<v.Length;i++)
                 {
-                    var p=v[i];float front=Mathf.SmoothStep(0,1,Mathf.InverseLerp(-.03f,.16f,p.z));
-                    float lateral=Mathf.Exp(-Mathf.Pow((p.x+(side==0?.09f:-.09f))/.19f,2));
+                    var p=v[i];float front=Mathf.SmoothStep(0,1,Mathf.InverseLerp(-.22f,.02f,p.z));
+                    // Gather the whole front half on the working leg, including
+                    // its side panel. A narrow Gaussian left a curtain over the cuff.
+                    float lateral=Mathf.SmoothStep(0,1,Mathf.InverseLerp(side==0?.20f:-.20f,side==0?-.12f:.12f,p.x));
                     float fold=Mathf.Sin(Mathf.PI*Mathf.Clamp01((.94f-p.y)/.94f))*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.94f,.82f,p.y));
                     float hem=Mathf.Pow(Mathf.Clamp01((.94f-p.y)/.94f),2);
                     // Gathering raises the hem toward the lap, rather than
                     // leaving the gripped edge out beyond arm's reach.
-                    knee[i]=new Vector3(0,.12f*fold+.70f*hem,.025f*fold-.36f*hem)*front*lateral;
+                    float gripX=side==0?-.06f:.06f;
+                    float crease=.018f*Mathf.Sin((p.x-gripX)*55)*hem;
+                    knee[i]=new Vector3((gripX-p.x)*.65f*hem,.12f*fold+.70f*hem+crease,.025f*fold-.36f*hem)*front*lateral;
                 }
                 temporary.vertices=seatedVertices.Select((p,i)=>p+knee[i]).ToArray();temporary.RecalculateNormals();
                 mesh.AddBlendShapeFrame(side==0?"BootLeft":"BootRight",100,knee,temporary.normals.Select((n,i)=>n-seatedNormals[i]).ToArray(),null);

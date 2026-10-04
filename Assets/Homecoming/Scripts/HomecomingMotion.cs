@@ -217,10 +217,13 @@ namespace Homecoming
             Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,10,11.4f)*(1-Ease(t,13.35f,14.4f));
             float rl=Ease(t,16,17.4f)*(1-Ease(t,19.35f,20.4f));
-            float lift=longDress?(rig.longBoots?.14f:.28f):rig.longBoots?BootLegLift:.40f;
+            float lift=longDress?(rig.longBoots?.14f:.32f):rig.longBoots?BootLegLift:.40f;
             // The free hand lifts and holds the hem before the shoe hand reaches.
-            float gatherLeft=Ease(t,9.15f,10)*(1-Ease(t,14.4f,15.15f));
-            float gatherRight=Ease(t,15.15f,16)*(1-Ease(t,20.4f,21.15f));
+            // Release the fabric once the shaft clears the foot, before leaning
+            // to place the shoe. Holding it at lap height through that lean
+            // drove a lifted panel into the chest and face.
+            float gatherLeft=Ease(t,9.15f,10)*(1-Ease(t,13.1f,14));
+            float gatherRight=Ease(t,15.15f,16)*(1-Ease(t,19.1f,20));
             rig.SetDressLift(gatherLeft,gatherRight);
             left+=V(.07f,lift,BootLegBack)*ll;right+=V(-.07f,lift,BootLegBack)*rl;
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+V(.16f,-.02f,-1));
@@ -260,7 +263,10 @@ namespace Homecoming
                 // as the arm actually needs, before solving the grasp contact.
                 float leftLength=Vector3.Distance(rig.leftArm.position,rig.leftElbow.position)+Vector3.Distance(rig.leftElbow.position,lh.position);
                 float rightLength=Vector3.Distance(rig.rightArm.position,rig.rightElbow.position)+Vector3.Distance(rig.rightElbow.position,rh.position);
-                bool Beyond()=>l>.95f&&Vector3.Distance(rig.leftArm.position,lt)>leftLength-.012f||r>.95f&&Vector3.Distance(rig.rightArm.position,rt)>rightLength-.012f;
+                // Evaluate the blended reach throughout entry and recovery.
+                // A .95 gate snapped the torso upright during release and made
+                // the duchess' elbow rotate almost 95 degrees in one frame.
+                bool Beyond()=>l>.001f&&Vector3.Distance(rig.leftArm.position,lt)>leftLength-.012f||r>.001f&&Vector3.Distance(rig.rightArm.position,rt)>rightLength-.012f;
                 if(Beyond())
                 {
                     float low=lean,high=95;
@@ -269,11 +275,14 @@ namespace Homecoming
                         float middle=(low+high)*.5f;rig.Pose(rig.spine,V(-middle,0,2*(lp-rp)));
                         if(Beyond())low=middle;else high=middle;
                     }
-                    rig.Pose(rig.spine,V(-high,0,2*(lp-rp)));
+                    float compensation=Mathf.SmoothStep(0,1,Mathf.Max(l,r));
+                    rig.Pose(rig.spine,V(-Mathf.Lerp(lean,high,compensation),0,2*(lp-rp)));
                 }
             }
-            Solve(rig.leftArm,rig.leftElbow,lh,lt,rig.leftArm.position+V(.55f,-.30f,-.1f));
-            Solve(rig.rightArm,rig.rightElbow,rh,rt,rig.rightArm.position+V(-.55f,-.30f,-.1f));
+            // Keep the elbow pole lateral. The former downward pole became
+            // parallel to the recovering wrist target and flipped the IK plane.
+            Solve(rig.leftArm,rig.leftElbow,lh,lt,rig.leftArm.position+Vector3.right*.65f);
+            Solve(rig.rightArm,rig.rightElbow,rh,rt,rig.rightArm.position-Vector3.right*.65f);
             lh.rotation=Quaternion.Slerp(lh.rotation,Quaternion.FromToRotation(lh.TransformDirection(Vector3.left),Vector3.back)*lh.rotation,sit*(1-Mathf.Max(l,helpLeft)));
             rh.rotation=Quaternion.Slerp(rh.rotation,Quaternion.FromToRotation(rh.TransformDirection(Vector3.right),Vector3.back)*rh.rotation,sit*(1-Mathf.Max(r,helpRight)));
             BootHand(lh,true,Mathf.Max(l,helpLeft),Quaternion.Slerp(Shoes.Rotation(0,t),Shoes.Rotation(1,t),helpLeft),t,0,helpLeft);
