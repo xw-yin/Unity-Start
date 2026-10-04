@@ -7,7 +7,7 @@ Avatar:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Triss Humanoid
-  m_AvatarSize: 35924
+  m_AvatarSize: 36156
   m_Avatar:
     serializedVersion: 3
     m_AvatarSkeleton:
@@ -469,7 +469,11 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 2
           m_AxesId: -1
-        m_ID: 000000001f7aab3724932a7af90260bad491a3cc2b046558d33b07553858db6c41702a47cf40eabb24233682a72e800064ff00cdc124b0832646769ec7994e58083edd94a35bb007b60401625d67dd5b093331bb78f4f45561d7c53c900ac432063ac345a5afa7db339fa0ac89cea935982740af22764936b4464e4117d32adf81e32da83bb22431bea46b3404f562ad92c565da31500144a7600633fc11e1d9d070ef376a21e6aeaf4d82ae151c8b37832c8c4020b9e8deb689efa90cd8e630620c62335566a0323b74e997e71468dec864d063c4cb4c2d273d6afbd4c70e3730993347038220aa01424a1d8e6bda609878be40ee5c19545d456147cb75663035fe5dadac8deda061a9943e825fb2e877da31c6e8aa42c37e9a45b4205ab9a73e515de29dc4397cc01696327a479fabf910e0184fe2fc42199f5343c2705aea0bf43e0bd571eef676e48a68a3ce5ada4341e981ec7798dc5a6c888fe03d811675ac1c54b1a537922f3fd2062ea43f5794f536ce02c531b9956edb9f035edce8e73ea99c0b5c64159d6c6362aeb5c5b80d20a12650f20e68eaa307f110bdaf23df0664184ee5ee2a9b10a6513cdca1cd9f49c553aaeca6ba7c930086b3c1c7b40990ce2dbd85557f2141afc80c96e5aa014bb3ddbb1aba442d2abd33b6c7ec3320f7eb440c1ad8420aaa2cdd3b094a3619666ca1815843af8e28aa7f37a23e410e6ff548fc802e4e3eecb1232e290904eede416379ae261e633798d24d08ffaf3404ed3c8615e90c0cd7ed42b13db7dbcb7da4cdde5b1e9ddc5d470c4fdbab70bdfdd813c77cecef801fe7c3749063eabd1b51fb5ce503305b06649170a87e24dd10be2c40ebe2615fa23fbe947dc8bdda24d7bb7132453e3688aacd519905676a18b952a73149777d7d793a936011a47db705aa30c41d1f8dc8d65939d6115f6112ae6407dc35d64d98f6a2abe7f0cd809d6cd26997b1c35d949bd672630009b2246ffe591fb517c68af6c77ecfc5247fd26954516e94ce65d8a37431e765c4c7caf93a0b0b2a7e176f2f3e21787b46a90e5d5770b40f4db249d9d4a34b5b3af046dcec1f37da4e0e3c1029c50671c5078312a018d1c287c37a15824486bd774dadd8302f3141cb7426895381bc95c94bda29a6b61db3f95584b19d31d1d17594028dbe3a7019389fa345f3279340ee82401c2500f0d248a41bc0dd71a9962c90bab44073f14c19119c1eb5bfee8a331a3dd6f8a20dd3e5dcdf89c6773dbbac5ab1ffb654a9a33a5ce883f1cdef1fb2u
+        - m_ParentId: 2
+          m_AxesId: -1
+        - m_ParentId: 2
+          m_AxesId: -1
+        m_ID: 000000001f7aab3724932a7af90260bad491a3cc2b046558d33b07553858db6c41702a47cf40eabb24233682a72e800064ff00cdc124b0832646769ec7994e58083edd94a35bb007b60401625d67dd5b093331bb78f4f45561d7c53c900ac432063ac345a5afa7db339fa0ac89cea935982740af22764936b4464e4117d32adf81e32da83bb22431bea46b3404f562ad92c565da31500144a7600633fc11e1d9d070ef376a21e6aeaf4d82ae151c8b37832c8c4020b9e8deb689efa90cd8e630620c62335566a0323b74e997e71468dec864d063c4cb4c2d273d6afbd4c70e3730993347038220aa01424a1d8e6bda609878be40ee5c19545d456147cb75663035fe5dadac8deda061a9943e825fb2e877da31c6e8aa42c37e9a45b4205ab9a73e515de29dc4397cc01696327a479fabf910e0184fe2fc42199f5343c2705aea0bf43e0bd571eef676e48a68a3ce5ada4341e981ec7798dc5a6c888fe03d811675ac1c54b1a537922f3fd2062ea43f5794f536ce02c531b9956edb9f035edce8e73ea99c0b5c64159d6c6362aeb5c5b80d20a12650f20e68eaa307f110bdaf23df0664184ee5ee2a9b10a6513cdca1cd9f49c553aaeca6ba7c930086b3c1c7b40990ce2dbd85557f2141afc80c96e5aa014bb3ddbb1aba442d2abd33b6c7ec3320f7eb440c1ad8420aaa2cdd3b094a3619666ca1815843af8e28aa7f37a23e410e6ff548fc802e4e3eecb1232e290904eede416379ae261e633798d24d08ffaf3404ed3c8615e90c0cd7ed42b13db7dbcb7da4cdde5b1e9ddc5d470c4fdbab70bdfdd813c77cecef801fe7c3749063eabd1b51fb5ce503305b06649170a87e24dd10be2c40ebe2615fa23fbe947dc8bdda24d7bb7132453e3688aacd519905676a18b952a73149777d7d793a936011a47db705aa30c41d1f8dc8d65939d6115f6112ae6407dc35d64d98f6a2abe7f0cd809d6cd26997b1c35d949bd672630009b2246ffe591fb517c68af6c77ecfc5247fd26954516e94ce65d8a37431e765c4c7caf93a0b0b2a7e176f2f3e21787b46a90e5d5770b40f4db249d9d4a34b5b3af046dcec1f37da4e0e3c1029c50671c5078312a018d1c287c37a15824486bd774dadd8302f3141cb7426895381bc95c94bda29a6b61db3f95584b19d31d1d17594028dbe3a7019389fa345f3279340ee82401c2500f0d248a41bc0dd71a9962c90bab44073f14c19119c1eb5bfee8a331a3dd6f8a20dd3e5dcdf89c6773dbbac5ab1ffb654a9a33afceb70ce5ce883f16decec8dcdef1fb2u
         m_AxesArray: []
     m_AvatarSkeletonPose:
       data:
@@ -1093,6 +1097,12 @@ Avatar:
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: 0.092095956, y: 0.045971155, z: -0.0013822429}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: 0, y: 0, z: 0}
@@ -1845,7 +1855,13 @@ Avatar:
         - t: {x: 0, y: 0, z: 0}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-    m_SkeletonNameIDArray: 000000001f7aab37d10df49b27ac31d41c3efcbb2a5afa00d265980d39064434402eb51fce1e75e3257da9daa6701f5865a19f95493a2d043167a66d679237d619de6dcbd6fe8f4c63a6ed7888c53141ecdd2e6e9d1aeb808439dae9b20b6b4d243b6c3a87ae08a4119e0fd3abcf064aba26efd00077e6499647e13e35d285a0a3e282d719b38b4e9ca5c44b26f4cdd2b0c4caa51351ae3b8561a94cde104ea6f2714048482049d18d4c2dd1371d2448a12d233f02b847a1948840d62ed9494f400dcd4c77670f4d91960be25fe6ca6831e31fdde6cae352c2d3752e2d40c1899a7bd132c1b461223ec795d997626fb07d96a195f755ac84e5b7c3f17387c4860a7b8269659056c443a83b4167b1ad3dcf289370caabedbc5c9beacb8ab85bd286a3ff5425369bca78e43484c2b53d1d300d5b7cf7105ef4261a8c87eac660c1b3069cbd1c6c5592bff9310c9c4b851e8a5c52e554853a6a937133eb29203a72393e8261095795249c94733b4bc0012ef19108b767a10fc026c57aa2b0f57dd5aba7a559eeb27bc078827cb7e22cc97d41b9ade31c6b02ada63a0b34197c73c1939f68dd0277701fd789aa94351d7d2f968819b1a32d7a58300a0c43ba001b56005112cf94160a006dd8a30d91d5b0f8b2e012e008b11b799e811c0e2b84b961bdb4be167ef34f86f32de363c2c3e9c0d07bd7c57892e05987e9769d05f121f82e82e7577b8278105d538d16c2a5eaf910f8483dbfc047bb05914e2293a1495533e4418238e4059e2b7a3629912b3fb0071b38c79540677c62acab9e160bc92dac5ac0b43a6ac7c353547b8624439f5a9e1296c3082291b476fbb9ee5705a54fed54acd67b64aba199cc5e1b536afae5517163e2eb206a7bf0d10c4a40208d173714378620331f2906e2ea2f99148dc0fb9b94045c5945dfe6084c4670384b3171047f7b21c734f73259074088080ed91e3809ae096d58fb7b8f9af7f592cb494fc3c2d0d9f3c5a7cf794401b7a47e6d0df577f49bc57083e7b537d94e269426f4779dbf62479ac87bf277fe9e857a19bd184a4f074943d6ab606b735903bc7edb7d1e2b86ad03fb195b64140c83a5d38490275f897f6c652105b3bfdd1c64c242ea032de7e079ea6709253bd2ce0b5c7ab4d48627470e6cc4de0c08ec8d2bab495e7760e72ce3e642ffbf2dfacfba305f1ce6fb5fdc853d9e0294b34bb0c242aaa3e02e16e41a4efc84dcf452f64872f72514b94f1511a47752eb0090928c62271ffad77ba176143ff673bbaef1eff8u
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+    m_SkeletonNameIDArray: 000000001f7aab37d10df49b27ac31d41c3efcbb2a5afa00d265980d39064434402eb51fce1e75e3257da9daa6701f5865a19f95493a2d043167a66d679237d619de6dcbd6fe8f4c63a6ed7888c53141ecdd2e6e9d1aeb808439dae9b20b6b4d243b6c3a87ae08a4119e0fd3abcf064aba26efd00077e6499647e13e35d285a0a3e282d719b38b4e9ca5c44b26f4cdd2b0c4caa51351ae3b8561a94cde104ea6f2714048482049d18d4c2dd1371d2448a12d233f02b847a1948840d62ed9494f400dcd4c77670f4d91960be25fe6ca6831e31fdde6cae352c2d3752e2d40c1899a7bd132c1b461223ec795d997626fb07d96a195f755ac84e5b7c3f17387c4860a7b8269659056c443a83b4167b1ad3dcf289370caabedbc5c9beacb8ab85bd286a3ff5425369bca78e43484c2b53d1d300d5b7cf7105ef4261a8c87eac660c1b3069cbd1c6c5592bff9310c9c4b851e8a5c52e554853a6a937133eb29203a72393e8261095795249c94733b4bc0012ef19108b767a10fc026c57aa2b0f57dd5aba7a559eeb27bc078827cb7e22cc97d41b9ade31c6b02ada63a0b34197c73c1939f68dd0277701fd789aa94351d7d2f968819b1a32d7a58300a0c43ba001b56005112cf94160a006dd8a30d91d5b0f8b2e012e008b11b799e811c0e2b84b961bdb4be167ef34f86f32de363c2c3e9c0d07bd7c57892e05987e9769d05f121f82e82e7577b8278105d538d16c2a5eaf910f8483dbfc047bb05914e2293a1495533e4418238e4059e2b7a3629912b3fb0071b38c79540677c62acab9e160bc92dac5ac0b43a6ac7c353547b8624439f5a9e1296c3082291b476fbb9ee5705a54fed54acd67b64aba199cc5e1b536afae5517163e2eb206a7bf0d10c4a40208d173714378620331f2906e2ea2f99148dc0fb9b94045c5945dfe6084c4670384b3171047f7b21c734f73259074088080ed91e3809ae096d58fb7b8f9af7f592cb494fc3c2d0d9f3c5a7cf794401b7a47e6d0df577f49bc57083e7b537d94e269426f4779dbf62479ac87bf277fe9e857a19bd184a4f074943d6ab606b735903bc7edb7d1e2b86ad03fb195b64140c83a5d38490275f897f6c652105b3bfdd1c64c242ea032de7e079ea6709253bd2ce0b5c7ab4d48627470e6cc4de0c08ec8d2bab495e7760e72ce3e642ffbf2dfacfba305f1ce6fb5fdc853d9e0294b34bb0c242aaa3e02e16e41a4efc84dcf452f64872f72514b94f1511a47752eb0090928c62271ffad77ba176149ff580843ff673bb0ef21cc7aef1eff8u
     m_Human:
       data:
         serializedVersion: 2
@@ -2597,7 +2613,7 @@ Avatar:
         m_HasRightHand: 1
         m_HasTDoF: 0
     m_HumanSkeletonIndexArray: 030000000c0000000d0000000e0000000f0000001000000011000000810000008200000083000000840000008500000086000000870000008a0000008b0000008c0000008e0000008f0000009000000091000000930000009400000095000000970000009800000099000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000aa000000ab000000ac000000ae000000af000000b0000000b1000000b3000000b4000000b5000000b7000000b8000000b9000000c1000000c2000000c3000000c4000000c7000000c8000000c9000000ca000000i
-    m_HumanSkeletonReverseIndexArray: ffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff010000000200000003000000040000000500000006000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0700000008000000090000000a0000000b0000000c0000000d000000ffffffffffffffff0e0000000f00000010000000ffffffff11000000120000001300000014000000ffffffff150000001600000017000000ffffffff18000000190000001a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff1b0000001c0000001d0000001e0000001f0000002000000021000000ffffffffffffffff220000002300000024000000ffffffff25000000260000002700000028000000ffffffff290000002a0000002b000000ffffffff2c0000002d0000002e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff2f000000300000003100000032000000ffffffffffffffff33000000340000003500000036000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffi
+    m_HumanSkeletonReverseIndexArray: ffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff010000000200000003000000040000000500000006000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0700000008000000090000000a0000000b0000000c0000000d000000ffffffffffffffff0e0000000f00000010000000ffffffff11000000120000001300000014000000ffffffff150000001600000017000000ffffffff18000000190000001a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff1b0000001c0000001d0000001e0000001f0000002000000021000000ffffffffffffffff220000002300000024000000ffffffff25000000260000002700000028000000ffffffff290000002a0000002b000000ffffffff2c0000002d0000002e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff2f000000300000003100000032000000ffffffffffffffff33000000340000003500000036000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffi
     m_RootMotionBoneIndex: -1
     m_RootMotionBoneX:
       t: {x: 0, y: 0, z: 0}
@@ -2679,6 +2695,7 @@ Avatar:
     2182445763: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/W3_l_legRoll2"
     3439394660: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips"
     2952726605: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Middle1/J_Bip_L_Middle2/J_Bip_L_Middle3"
+    3463506940: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u5DE6\u817F\u539F\u59CB\u817F\u811A"
     3275926248: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_eyebrow3"
     1085586064: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/h_01_wa__triss_lod0_9_Body"
     3739793696: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e03"
@@ -2802,6 +2819,7 @@ Avatar:
     1416221311: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Ring1/J_Bip_R_Ring2"
     910821691: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_tongue2"
     868035117: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_eyelid3"
+    2381114477: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u53F3\u817F\u539F\u59CB\u817F\u811A"
     900320905: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b01"
     1411165301: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_left_eyelid_fold"
     3410047279: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/J_Bip_R_LowerLeg/J_Bip_R_Foot"
@@ -4391,7 +4409,17 @@ Avatar:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: "\u5DE6\u817F\u539F\u59CB\u817F\u811A"
+      m_ParentName:
+      m_Position: {x: 0, y: 0, z: 0}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
     - m_Name: "\u5DE6\u817F\u8FDE\u7EED\u4E1D\u889C"
+      m_ParentName:
+      m_Position: {x: 0, y: 0, z: 0}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: "\u53F3\u817F\u539F\u59CB\u817F\u811A"
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}

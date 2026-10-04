@@ -42,11 +42,16 @@ namespace Homecoming.Editor
             }
             var material=AssetDatabase.LoadAssetAtPath<Material>(folder+"Materials/InnerLegs.mat");
             if(!material){material=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(material,folder+"Materials/InnerLegs.mat");}
-            material.shader=Shader.Find("Universal Render Pipeline/Lit");
-            material.color=new Color(.065f,.052f,.045f);material.SetFloat("_Smoothness",.22f);
-            // Keep the game UVs and surface detail under the retained hosiery.
-            material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_00.png"));
+            material.shader=Shader.Find("Homecoming/Stocking Coverage");
+            material.color=new Color(.018f,.018f,.018f);material.SetFloat("_Smoothness",.18f);
+            // Hosiery is a separate opaque surface; never tint a skin texture black.
+            material.SetTexture("_BaseMap",null);
+            if(material.HasProperty("_BumpMap"))material.SetTexture("_BumpMap",null);material.DisableKeyword("_NORMALMAP");
             material.SetFloat("_Cull",2);EditorUtility.SetDirty(material);
+            var skinMaterial=AssetDatabase.LoadAssetAtPath<Material>(folder+"Materials/OriginalLegSkin.mat");
+            if(!skinMaterial){skinMaterial=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(skinMaterial,folder+"Materials/OriginalLegSkin.mat");}
+            skinMaterial.color=Color.white;skinMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_00.png"));EditorUtility.SetDirty(skinMaterial);
+            rig.anatomicalLegs=new SkinnedMeshRenderer[2];rig.hosiery=new SkinnedMeshRenderer[2];
             for(int side=0;side<2;side++)
             {
                 string prefix=side==0?"J_Bip_L_":"J_Bip_R_";
@@ -71,8 +76,16 @@ namespace Homecoming.Editor
                 mesh.RecalculateBounds();mesh.RecalculateTangents();
                 string path=folder+"Meshes/"+mesh.name+".asset";var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);
                 if(existing){WitcherCharacterImport.CopyMesh(mesh,existing);UnityEngine.Object.DestroyImmediate(mesh);mesh=existing;}else AssetDatabase.CreateAsset(mesh,path);
+                var leg=new GameObject(side==0?"左腿原始腿脚":"右腿原始腿脚");leg.transform.SetParent(boot.transform.parent,false);
+                var skin=leg.AddComponent<SkinnedMeshRenderer>();skin.sharedMesh=mesh;skin.bones=boot.bones;skin.rootBone=rig.hips;skin.sharedMaterial=skinMaterial;skin.updateWhenOffscreen=true;skin.localBounds=boot.localBounds;
+                // The opaque fitted sock replaces only the visible surface. Retain
+                // the original anatomical mesh independently without coplanar rendering.
+                skin.enabled=false;rig.anatomicalLegs[side]=skin;
+                var sockMesh=UnityEngine.Object.Instantiate(mesh);sockMesh.name=side==0?"ContinuousLeftHosiery":"ContinuousRightHosiery";
+                string sockPath=folder+"Meshes/"+sockMesh.name+".asset";var oldSock=AssetDatabase.LoadAssetAtPath<Mesh>(sockPath);
+                if(oldSock){WitcherCharacterImport.CopyMesh(sockMesh,oldSock);UnityEngine.Object.DestroyImmediate(sockMesh);sockMesh=oldSock;}else AssetDatabase.CreateAsset(sockMesh,sockPath);
                 var obj=new GameObject(side==0?"左腿连续丝袜":"右腿连续丝袜");obj.transform.SetParent(boot.transform.parent,false);
-                var skin=obj.AddComponent<SkinnedMeshRenderer>();skin.sharedMesh=mesh;skin.bones=boot.bones;skin.rootBone=rig.hips;skin.sharedMaterial=material;skin.updateWhenOffscreen=true;skin.localBounds=boot.localBounds;
+                var sock=obj.AddComponent<SkinnedMeshRenderer>();sock.sharedMesh=sockMesh;sock.bones=boot.bones;sock.rootBone=rig.hips;sock.sharedMaterial=material;sock.updateWhenOffscreen=true;sock.localBounds=boot.localBounds;rig.hosiery[side]=sock;
             }
             UnityEngine.Object.DestroyImmediate(source);
             Debug.Log("ORIGINAL GAME LEGS: ls_02_wa__body_barefoot; source triangles, weights and UVs retained; stockings remain attached.");

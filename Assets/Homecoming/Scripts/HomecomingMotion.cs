@@ -146,7 +146,7 @@ namespace Homecoming
                 return;
             }
             t-=1;
-            if(rig.longBoots || longDress) { SampleLongBoots(t); return; }
+            if(rig.longBoots || longDress || rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot) { SampleLongBoots(t); return; }
             Vector3 root=Vector3.Lerp(V(-1.25f,0,1.02f),V(-1.25f,0,1.47f),Ease(t,7,9));
             root=Vector3.Lerp(root,V(-1.25f,0,1.135f),Ease(t,23,26));
             float seated=Ease(t,7,9)*(1-Ease(t,23,26));
@@ -217,7 +217,7 @@ namespace Homecoming
             Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,10,11.4f)*(1-Ease(t,13.35f,14.4f));
             float rl=Ease(t,16,17.4f)*(1-Ease(t,19.35f,20.4f));
-            float lift=longDress?(rig.longBoots?.14f:.28f):BootLegLift;
+            float lift=longDress?(rig.longBoots?.14f:.28f):rig.longBoots?BootLegLift:.40f;
             // The free hand lifts and holds the hem before the shoe hand reaches.
             float gatherLeft=Ease(t,9.15f,10)*(1-Ease(t,14.4f,15.15f));
             float gatherRight=Ease(t,15.15f,16)*(1-Ease(t,20.4f,21.15f));

@@ -127,6 +127,7 @@ namespace Homecoming.Editor
             }
             WitcherCharacterFeet.Build(rig,Destination);
             rig.longBoots=rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.bounds.size.y>.30f;
+            rig.footwearKind=rig.longBoots?CharacterRig.FootwearKind.TallBoot:rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.bounds.size.y>.16f?CharacterRig.FootwearKind.AnkleBoot:CharacterRig.FootwearKind.Shoe;
             BuildAvatar(root,data,nodes);
             // The prepared source uses a normalized T pose. Capture a relaxed pose for the scene.
             rig.leftArm.localRotation=Quaternion.Euler(0,0,78); rig.rightArm.localRotation=Quaternion.Euler(0,0,-78);

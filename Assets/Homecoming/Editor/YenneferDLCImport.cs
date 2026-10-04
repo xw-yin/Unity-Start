@@ -48,6 +48,11 @@ namespace Homecoming.Editor
                 material.SetFloat("_Cutoff",surface.alpha=="MASK"?surface.cutoff:surface.alpha=="BLEND"?.005f:0);
                 if(surface.alpha=="BLEND") { material.SetFloat("_SrcBlend",5); material.SetFloat("_DstBlend",10); material.SetFloat("_ZWrite",0); material.renderQueue=3000; }
                 else material.renderQueue=surface.alpha=="MASK"?2450:2000;
+                if(surface.name=="DLC_UnderBootStockings"||surface.name=="body_05_wa__yennefer_Material6")
+                {
+                    material.SetTexture("_BaseMap",null);material.SetTexture("_BumpMap",null);
+                    material.DisableKeyword("_NORMALMAP");material.color=new Color(.018f,.018f,.018f);material.SetFloat("_Smoothness",.18f);
+                }
                 var existing=AssetDatabase.LoadAssetAtPath<Material>(path);
                 if(existing) { existing.shader=material.shader; existing.CopyPropertiesFromMaterial(material); EditorUtility.SetDirty(existing); materials[i]=existing; UnityEngine.Object.DestroyImmediate(material); }
                 else { AssetDatabase.CreateAsset(material,path); materials[i]=material; }
@@ -75,7 +80,11 @@ namespace Homecoming.Editor
             var expressions=new List<SkinnedMeshRenderer>();
             for(int i=0;i<data.parts.Length;i++)
             {
-                var part=data.parts[i]; var mesh=ReadMesh(part);
+                var part=data.parts[i];
+                // Legacy exports contained cylindrical replacement stockings.
+                // Use the original game leg/foot surface built below instead.
+                if(part.name.StartsWith("DLC_Stocking_"))continue;
+                var mesh=ReadMesh(part);
                 string meshPath=Destination+"Meshes/Part_"+i.ToString("D2")+".asset";
                 var existing=AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
                 if(existing) { CopyMesh(mesh,existing); UnityEngine.Object.DestroyImmediate(mesh); mesh=existing; }
@@ -117,6 +126,7 @@ namespace Homecoming.Editor
                 mesh.vertices=v;mesh.boneWeights=w;mesh.RecalculateBounds();mesh.RecalculateTangents();EditorUtility.SetDirty(mesh);
             }
             YenneferLowerBody.Build(rig);
+            rig.footwearKind=CharacterRig.FootwearKind.TallBoot;
             if(rig.skirt)
             {
                 var mesh=rig.skirt.sharedMesh;var vertices=mesh.vertices;var normals=mesh.normals;var weights=new BoneWeight[vertices.Length];var delta=new Vector3[vertices.Length];var deltaNormals=new Vector3[vertices.Length];

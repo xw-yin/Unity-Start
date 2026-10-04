@@ -230,7 +230,7 @@ namespace Homecoming
             motion.Sample(0); bag.transform.localPosition=bagRestPosition; bag.transform.localRotation=bagRestRotation;
             rig.SetSkirtPose(0);
             leftShoe.SetActive(true); rightShoe.SetActive(true); rig.leftSlipper.SetActive(false); rig.rightSlipper.SetActive(false);
-            if(rig.longBoots)
+            if(rig.longBoots||rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot)
             {
                 var coverage=rig.GetComponent<HomecomingBootCoverage>();if(!coverage)coverage=rig.gameObject.AddComponent<HomecomingBootCoverage>();
                 coverage.Apply(rig,motion.Shoes,null,-1);
@@ -276,7 +276,7 @@ namespace Homecoming
                 shoe.gameObject.SetActive(action>=HomecomingShoeGrip.Detach(i));
                 motion.Shoes.PlaceProxy(shoe,i,action);
             }
-            if(rig.longBoots)
+            if(rig.longBoots||rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot)
             {
                 var coverage=rig.GetComponent<HomecomingBootCoverage>();
                 if(!coverage)coverage=rig.gameObject.AddComponent<HomecomingBootCoverage>();

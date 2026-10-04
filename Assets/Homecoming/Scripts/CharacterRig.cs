@@ -9,6 +9,9 @@ namespace Homecoming
         public SkinnedMeshRenderer skirt;
         public bool importedSource;
         public bool longBoots;
+        public enum FootwearKind { Shoe, AnkleBoot, TallBoot }
+        public FootwearKind footwearKind;
+        public SkinnedMeshRenderer[] anatomicalLegs, hosiery;
         public GameObject leftGroundShoe, rightGroundShoe;
         public SkinnedMeshRenderer[] expressionRenderers;
         public Vector3 hipRestPosition=new Vector3(0,.91f,0);

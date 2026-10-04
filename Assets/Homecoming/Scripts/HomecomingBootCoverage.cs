@@ -29,10 +29,15 @@ namespace Homecoming
                 Matrix4x4 matrix;
                 if(action>=HomecomingShoeGrip.Detach(i)&&proxies)matrix=proxies.GetChild(i).worldToLocalMatrix;
                 else matrix=grip.AttachedMatrix(i).inverse;
-                var padding=new Vector3(.015f,.004f,.015f);
+                // The original barefoot mesh includes toes outside the narrower
+                // dressed shoe shell. Hide the enclosed sock, without changing
+                // the source leg topology; keep the cuff height exact.
+                var padding=new Vector3(.04f,.004f,.09f);
                 stockings[i].GetPropertyBlock(block);block.SetMatrix("_BootWorldToLocal",matrix);
                 block.SetVector("_BootBoundsMin",bounds[i].min-padding);block.SetVector("_BootBoundsMax",bounds[i].max+padding);
-                block.SetFloat("_BootMask",1);stockings[i].SetPropertyBlock(block);
+                // Once the shoe becomes a held prop, show the complete sock.
+                // Its broad rotated bounds must never clip the exposed foot.
+                block.SetFloat("_BootMask",action>=HomecomingShoeGrip.Detach(i)?0:1);stockings[i].SetPropertyBlock(block);
             }
         }
     }

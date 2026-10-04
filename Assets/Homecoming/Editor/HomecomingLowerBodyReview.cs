@@ -22,7 +22,7 @@ namespace Homecoming.Editor
                 if(skin.name.EndsWith("脚短袜"))throw new Exception("Boot-derived fake foot is still present");
                 if(skin.name.EndsWith("腿连续丝袜"))
                 {
-                    if(skin.sharedMesh.bounds.min.y<.005f||skin.sharedMesh.vertexCount<1000)throw new Exception("Incomplete anatomical foot/stocking");
+                    if(skin.sharedMesh.bounds.min.y<-.005f||skin.sharedMesh.bounds.max.y<.65f||skin.sharedMesh.vertexCount<600)throw new Exception("Incomplete original game foot/stocking");
                     foreach(var w in skin.sharedMesh.boneWeights)if(Mathf.Abs(w.weight0+w.weight1+w.weight2+w.weight3-1)>.001f)throw new Exception("Invalid lower-body skin weights");
                 }
             }

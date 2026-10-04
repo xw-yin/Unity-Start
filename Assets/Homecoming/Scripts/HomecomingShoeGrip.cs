@@ -12,10 +12,12 @@ namespace Homecoming
         readonly Quaternion[] rest=new Quaternion[2];
         readonly Quaternion[] calfRest=new Quaternion[2];
         readonly bool longBoots;
+        readonly bool ankleBoots;
         readonly Vector3[][] bootVertices=new Vector3[2][];
         public HomecomingShoeGrip(CharacterRig rig)
         {
             longBoots=rig.longBoots;
+            ankleBoots=rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot;
             root=rig.transform;calves[0]=rig.leftCalf;calves[1]=rig.rightCalf;
             calfRest[0]=calves[0].rotation;calfRest[1]=calves[1].rotation;
             foreach(var bone in rig.GetComponentsInChildren<Transform>(true))
@@ -37,7 +39,7 @@ namespace Homecoming
                 origins[side]=feet[side].InverseTransformPoint(origin); rest[side]=feet[side].rotation;
                 var ground=(side==0?rig.leftGroundShoe:rig.rightGroundShoe).GetComponent<MeshFilter>().sharedMesh;
                 bootVertices[side]=ground.vertices;
-                var wanted=longBoots?new Vector3(0,ground.bounds.max.y-.025f,ground.bounds.min.z+.055f):new Vector3(0,ground.bounds.max.y*.75f,ground.bounds.max.z-.018f);
+                var wanted=longBoots||ankleBoots?new Vector3(0,ground.bounds.max.y-.025f,ground.bounds.min.z+.055f):new Vector3(0,ground.bounds.max.y*.75f,ground.bounds.max.z-.018f);
                 float distance=float.MaxValue;
                 foreach(var v in ground.vertices)
                 {
@@ -60,11 +62,13 @@ namespace Homecoming
         public Vector3 WristTarget(int side,float action)
         {
             float start=Start(side);
-            if(longBoots)
+            if(longBoots||ankleBoots)
             {
                 var axis=AttachedRotation(side)*Vector3.up;
-                var cuff=HeelOnFoot(side)-axis*.50f*Ease(action,start+2,start+3.05f);
-                cuff=Vector3.Lerp(cuff,GroundHeel(side),Ease(action,start+3.05f,start+4.05f));
+                float clearance=longBoots?.50f:.22f;
+                float clearTime=longBoots?3.05f:2.8f;
+                var cuff=HeelOnFoot(side)-axis*clearance*Ease(action,start+2,start+clearTime);
+                cuff=Vector3.Lerp(cuff,GroundHeel(side),Ease(action,start+clearTime,start+4.05f));
                 // Carry the freed boot along a lifted arc before easing it down.
                 float carry=Ease(action,start+3.05f,start+4.05f);
                 cuff+=Vector3.up*.14f*Mathf.Sin(Mathf.PI*carry);

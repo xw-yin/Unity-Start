@@ -81,6 +81,17 @@ namespace Homecoming.Editor
                     rig=story.GetComponentInChildren<CharacterRig>();
                     if(story.CharacterIndex!=index || story.Started || rig.transform.position.z<3.8f || !rig.GetComponent<Animator>().avatar.isHuman)throw new Exception("Play mode character switch failed: "+index);
                     story.TogglePlayback();
+                    foreach(float time in new[]{13.01f,14.4f,19.01f,20.4f,27f})
+                    {
+                        type.GetField("elapsed",flags).SetValue(story,time);type.GetMethod("Update",flags).Invoke(story,null);
+                        for(int side=0;side<2;side++)
+                        {
+                            var sock=rig.hosiery[side];
+                            if(!sock||!sock.enabled||!sock.gameObject.activeInHierarchy)throw new Exception("Stocking disappeared during runtime extraction: "+index);
+                            var properties=new MaterialPropertyBlock();sock.GetPropertyBlock(properties);
+                            if(time-1>=HomecomingShoeGrip.Detach(side)&&properties.GetFloat("_BootMask")!=0)throw new Exception("Removed boot still clips stocking / foot: "+index);
+                        }
+                    }
                     type.GetField("elapsed",flags).SetValue(story,27f);type.GetMethod("Update",flags).Invoke(story,null);
                     if(!rig.leftSlipper.activeSelf || !rig.rightSlipper.activeSelf || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Play mode character footwear failed: "+index);
                     story.Replay();
