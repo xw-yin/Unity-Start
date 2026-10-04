@@ -50,7 +50,6 @@ namespace Homecoming.Editor
                     HomecomingSetup.Capture(camera,"Artifacts/FootwearAudit/"+index+"-"+time+".png",1100,1000);
                 }
                 type.GetField("elapsed",flags).SetValue(story,22.4f);type.GetMethod("Update",flags).Invoke(story,null);
-                rig.leftSlipper.SetActive(false);rig.rightSlipper.SetActive(false);
                 camera.transform.position=new Vector3(-.55f,.50f,-.05f);camera.transform.LookAt(new Vector3(-1.25f,.23f,1.25f));camera.fieldOfView=32;
                 HomecomingSetup.Capture(camera,"Artifacts/FootwearAudit/"+index+"-stockings.png",1100,1000);
             }
@@ -72,7 +71,12 @@ namespace Homecoming.Editor
                 {
                     var leg=rig.anatomicalLegs[side];var sock=rig.hosiery[side];var shoe=(side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>();
                     if(leg==sock||leg.sharedMesh==sock.sharedMesh||sock.sharedMesh==shoe.sharedMesh||leg.sharedMesh==shoe.sharedMesh)throw new Exception("Leg, sock and shoe do not have independent meshes");
-                    if(!leg.sharedMesh.vertices.SequenceEqual(sock.sharedMesh.vertices)||!leg.sharedMesh.triangles.SequenceEqual(sock.sharedMesh.triangles)||!leg.sharedMesh.boneWeights.SequenceEqual(sock.sharedMesh.boneWeights))throw new Exception("Sock does not retain complete source leg and foot surface");
+                    if(index==1)
+                    {
+                        if(!sock.name.StartsWith("夏妮原版")||!AssetDatabase.GetAssetPath(sock.sharedMaterial.GetTexture("_BaseMap")).Contains("WitcherShaniOriginalSocks/"))throw new Exception("Shani is missing her original game sock model/material");
+                        if(sock.sharedMesh.bounds.min.y>.02f||sock.sharedMesh.bounds.max.y<.45f)throw new Exception("Original Shani sock foot is incomplete");
+                    }
+                    else if(!leg.sharedMesh.vertices.SequenceEqual(sock.sharedMesh.vertices)||!leg.sharedMesh.triangles.SequenceEqual(sock.sharedMesh.triangles)||!leg.sharedMesh.boneWeights.SequenceEqual(sock.sharedMesh.boneWeights))throw new Exception("Sock does not retain complete source leg and foot surface");
                     if(!leg.bones.SequenceEqual(sock.bones)||leg.transform.localToWorldMatrix!=sock.transform.localToWorldMatrix)throw new Exception("Sock does not follow the anatomical leg");
                     if(sock.transform.IsChildOf(rig.leftShoe.transform)||sock.transform.IsChildOf(rig.rightShoe.transform))throw new Exception("Sock moves with removable footwear");
                     report.AppendLine(HomecomingCharacters.Names[index]+","+rig.footwearKind+","+side+","+leg.sharedMesh.vertexCount+","+sock.sharedMesh.vertexCount+","+shoe.sharedMesh.vertexCount+","+leg.sharedMesh.bounds.min.y+","+leg.sharedMesh.bounds.max.y+","+shoe.sharedMesh.bounds.size.y);

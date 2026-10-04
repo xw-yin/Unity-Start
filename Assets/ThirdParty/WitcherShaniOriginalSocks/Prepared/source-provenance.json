@@ -1,0 +1,18 @@
+{
+  "sourceMesh": "dlc/ep1/data/characters/models/secondary_npc/shani/model/l_03_wa__shani.w2mesh",
+  "appearance": "shani_wedding_noshoes",
+  "description": "Original Shani white stockings with closed sock feet and red knee ties. No generic-foot substitution. Full converted mesh retained here; Unity selects whole source triangles beneath the current trousers.",
+  "detailTile": [
+    100,
+    99
+  ],
+  "detailPower": 0.3,
+  "rendering": "Original texture inputs ported to Unity URP; game material graph is not reproduced pixel-for-pixel.",
+  "sha256": {
+    "l_03_wa__shani.w2mesh": "196b6368e02294ab310e27496cde882bc9b48b346ae8ea00680e1749a29a9b30",
+    "l_03_wa__shani.w2mesh.1.buffer": "41ecd543aeef5bcf11fd23c4944829af85d7d1025a7e33377b61b17fa8b12dd0",
+    "l_02_wa__shani_d01.dds": "7de74804c508d89f3ff1b9d9e4576524b72076e6a0c1b59fb08aa58dfc7a35d8",
+    "l_02_wa__shani_n01.dds": "d18216a5321752cad4cbf511056b2273aca416feb6ed8e901d2687aa0de8becf",
+    "detailmap_shani_socks.dds": "7106f06b4cb4475759fc8e51db08e510309ac83e536a9fed274b5ed9fb86d3ae"
+  }
+}

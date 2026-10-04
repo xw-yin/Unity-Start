@@ -6,12 +6,11 @@ namespace Homecoming
     public class HomecomingScene : MonoBehaviour
     {
         Transform woman, hips, leftThigh, rightThigh, leftCalf, rightCalf, leftArm, rightArm, door;
-        GameObject leftShoe, rightShoe, slippers, bag, placedBag;
+        GameObject leftShoe, rightShoe;
         Camera view;
         Material skin, hair, blouse, skirt, leather, pink;
         CharacterRig rig;
         HomecomingMotion motion;
-        Vector3 bagRestPosition; Quaternion bagRestRotation;
         XiaModelBuilder modelBuilder;
         float elapsed;
         int phase;
@@ -173,10 +172,6 @@ namespace Homecoming
             RenderSettings.ambientEquatorColor=new Color(.30f,.29f,.27f);
             RenderSettings.ambientGroundColor=new Color(.16f,.13f,.11f); RenderSettings.skybox = null;
             BuildWoman();
-            placedBag=Instantiate(bag,transform); placedBag.name="放在鞋柜上的手提包";
-            placedBag.transform.localPosition=new Vector3(-1.86f,.17f,1.05f); placedBag.transform.localRotation=Quaternion.identity; placedBag.SetActive(false);
-            slippers = new GameObject("待换的拖鞋"); slippers.transform.SetParent(transform,false);
-            foreach(float x in new[]{-.915f,-1.585f}) Shoe("粉色家居拖鞋",new Vector3(x,.035f,1.10f),pink,slippers.transform);
             var cameraObject = new GameObject("Homecoming Camera"); cameraObject.tag = "MainCamera"; cameraObject.transform.SetParent(transform);
             view = cameraObject.AddComponent<Camera>(); view.fieldOfView = 44; view.nearClipPlane = .05f; view.backgroundColor = new Color(.12f,.14f,.18f); view.clearFlags = CameraClearFlags.SolidColor;
             cameraObject.AddComponent<AudioListener>();
@@ -201,7 +196,7 @@ namespace Homecoming
         {
             if(Application.isPlaying && rig)
             {
-                var source=m==pink?rig.leftSlipper:rig.importedSource?(name.Contains("右")?rig.rightGroundShoe:rig.leftGroundShoe):rig.leftShoe;
+                var source=rig.importedSource?(name.Contains("右")?rig.rightGroundShoe:rig.leftGroundShoe):rig.leftShoe;
                 var shoe=Instantiate(source,parent);
                 shoe.name=name; shoe.transform.localPosition=p; shoe.transform.localRotation=Quaternion.identity; shoe.SetActive(true); return shoe;
             }
@@ -217,8 +212,9 @@ namespace Homecoming
             foreach(var part in rig.GetComponentsInChildren<Transform>(true))part.gameObject.layer=8;
             rig.transform.localPosition=new Vector3(-1.45f,0,4.95f); woman=rig.transform; hips=rig.hips;
             leftArm=rig.leftArm; rightArm=rig.rightArm; leftThigh=rig.leftThigh; rightThigh=rig.rightThigh;
-            leftCalf=rig.leftCalf; rightCalf=rig.rightCalf; leftShoe=rig.leftShoe; rightShoe=rig.rightShoe; bag=rig.bag;
-            motion=new HomecomingMotion(rig); bagRestPosition=bag.transform.localPosition; bagRestRotation=bag.transform.localRotation;
+            leftCalf=rig.leftCalf; rightCalf=rig.rightCalf; leftShoe=rig.leftShoe; rightShoe=rig.rightShoe;
+            rig.RemoveHomeAccessories();
+            motion=new HomecomingMotion(rig);
         }
         void ResetStory()
         {
@@ -227,15 +223,14 @@ namespace Homecoming
             door.localRotation=Quaternion.identity; hips.localPosition=rig.hipRestPosition;
             rig.Neutral();
             motion=new HomecomingMotion(rig);
-            motion.Sample(0); bag.transform.localPosition=bagRestPosition; bag.transform.localRotation=bagRestRotation;
+            motion.Sample(0);
             rig.SetSkirtPose(0);
-            leftShoe.SetActive(true); rightShoe.SetActive(true); rig.leftSlipper.SetActive(false); rig.rightSlipper.SetActive(false);
+            leftShoe.SetActive(true); rightShoe.SetActive(true);
             if(rig.longBoots||rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot)
             {
                 var coverage=rig.GetComponent<HomecomingBootCoverage>();if(!coverage)coverage=rig.gameObject.AddComponent<HomecomingBootCoverage>();
                 coverage.Apply(rig,motion.Shoes,null,-1);
             }
-            bag.SetActive(true); placedBag.SetActive(false); slippers.SetActive(true);
             rig.Expression(1,false);
             var old=transform.Find("脱下的通勤鞋"); if(old) { old.name="待清理的通勤鞋";old.gameObject.SetActive(false); if(Application.isPlaying) Destroy(old.gameObject); else DestroyImmediate(old.gameObject); }
         }
@@ -252,15 +247,7 @@ namespace Homecoming
             float action=t-1;
             rig.Expression(t,phase==4);
             door.localRotation=Quaternion.Euler(0,DoorAngle(t),0);
-            bag.transform.localPosition=bagRestPosition; bag.transform.localRotation=bagRestRotation;
-            float putBag=Mathf.SmoothStep(0,1,Mathf.Clamp01((action-7)/2));
-            bag.transform.position=Vector3.Lerp(bag.transform.position,placedBag.transform.position,putBag);
-            bag.transform.rotation=Quaternion.Slerp(bag.transform.rotation,placedBag.transform.rotation,putBag);
-            bag.SetActive(action<9); placedBag.SetActive(action>=9);
             leftShoe.SetActive(action<12); rightShoe.SetActive(action<18);
-            rig.leftSlipper.SetActive(action>=14.5f); rig.rightSlipper.SetActive(action>=20.5f);
-            slippers.SetActive(action<20.5f);
-            for(int i=0;i<slippers.transform.childCount;i++) slippers.transform.GetChild(i).gameObject.SetActive(action<(i==0?14.5f:20.5f));
             var shoes=transform.Find("脱下的通勤鞋");
             if(!shoes)
             {

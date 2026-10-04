@@ -1,0 +1,15 @@
+{
+  "entity": "dlc/dlc6/data/characters/npc_entities/main_npc/triss_dlc.w2ent",
+  "appearance": "triss_dlc",
+  "description": "Official alternative outfit replaces the default Triss character slot.",
+  "conversion": "Original outfit, boots and painted cloth freedom. Cloth rebased from the imported pose into the normalized skeleton. The unsupported opaque eye-shadow overlay is omitted; teeth and original eye surfaces remain.",
+  "lowerBody": "The generic game female lower-leg/foot surface is skin-coloured for this bare-legged outfit; hidden overlapping native lower surfaces are excluded. This is not a claim that original DLC boots contain complete unique calves.",
+  "accessories": "No commute bag or home slippers; shoes are removed by hand and the character stands without footwear.",
+  "sha256": {
+    "body_01_wa__triss_dlc.w2mesh": "2387dcc9f3c7f98bab0f387cbd97d974c4878557103dd82c1855000fab859a32",
+    "body_01_wa__triss_dlc.w2mesh.1.buffer": "a5022389091ba5cbbca12c6357595c8f0419f65cc03a9009d200225370f888fb",
+    "a_01_wa__triss_dlc_px.redcloth": "0bb5ddf6b3297d8a4741351185233065c05f1e92f86d4951743ca25108282f48",
+    "d_01_wa__triss_dlc_px.redcloth": "c9b2bcc5715d493d7dec9b966d83b10b893cc62ee1557236bf8f6246da3e7c48",
+    "i_02_wa__triss_dlc_px.redcloth": "7f7c3f6415f3057175b1b3a49280aff2c85a351c1706898e5e541394fee519c4"
+  }
+}

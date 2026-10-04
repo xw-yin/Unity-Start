@@ -54,12 +54,12 @@ namespace Homecoming.Editor
                         HomecomingSetup.Capture(camera,"Artifacts/Characters/"+HomecomingCharacters.Names[index]+"-"+frame+".png",1000,800);
                     }
                 }
-                if(!rig.leftSlipper.activeSelf || !rig.rightSlipper.activeSelf || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Character footwear did not finish: "+index);
+                if(rig.bag || rig.leftSlipper || rig.rightSlipper || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Character footwear did not finish: "+index);
                 story.Replay();
-                if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf || rig.leftSlipper.activeSelf)throw new Exception("Character replay failed: "+index);
+                if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf || rig.bag || rig.leftSlipper || rig.rightSlipper)throw new Exception("Character replay failed: "+index);
             }
             if(worstReach>.04f)throw new Exception("Character boot reach exceeds tolerance: "+worstReach+" "+worst);
-            Debug.Log("CHARACTER REVIEW PASSED: all 7 models, 9 UI switches, 8649 timeline samples, avatars, shoe removal, slippers and replay; maximum wrist error="+worstReach);
+            Debug.Log("CHARACTER REVIEW PASSED: all 7 models, 9 UI switches, 8649 timeline samples, avatars, shoe removal, accessory removal and replay; maximum wrist error="+worstReach);
         }
     }
 }

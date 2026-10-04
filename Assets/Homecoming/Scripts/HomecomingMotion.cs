@@ -66,10 +66,10 @@ namespace Homecoming
             {
                 leftSole=new Sole(rig.leftShoe.GetComponent<SkinnedMeshRenderer>());
                 rightSole=new Sole(rig.rightShoe.GetComponent<SkinnedMeshRenderer>());
-                foreach(var skin in rig.GetComponentsInChildren<SkinnedMeshRenderer>())
+                if(rig.hosiery!=null&&rig.hosiery.Length==2)
                 {
-                    if(skin.name=="左腿连续丝袜")leftStockingSole=new Sole(skin);
-                    if(skin.name=="右腿连续丝袜")rightStockingSole=new Sole(skin);
+                    if(rig.hosiery[0])leftStockingSole=new Sole(rig.hosiery[0]);
+                    if(rig.hosiery[1])rightStockingSole=new Sole(rig.hosiery[1]);
                 }
             }
             walk=Resources.Load<HomecomingWalkCycle>("Homecoming/WalkCycle");
@@ -138,8 +138,7 @@ namespace Homecoming
                     float phase=distance/walk.strideDistance;
                     for(int i=0;i<walkBones.Length;i++) if(walkBones[i]) walkBones[i].localRotation=Quaternion.Slerp(walkBones[i].localRotation,walk.Rotation(i,phase),weight);
                     rig.hips.localPosition=Vector3.Lerp(rig.hipRestPosition,walk.Hip(phase),weight);
-                    // Carry the handbag without the full free-arm swing from the source.
-                    foreach(var rest in rig.restPoses) if(rest.bone==rig.rightArm) rig.rightArm.localRotation=Quaternion.Slerp(rest.rotation,rig.rightArm.localRotation,1-.55f*weight);
+
                 }
                 if(rig.longBoots) { AlignBoot(lf,rig.leftCalf,leftFootRest); AlignBoot(rf,rig.rightCalf,rightFootRest); }
                 KeepAboveFloor();

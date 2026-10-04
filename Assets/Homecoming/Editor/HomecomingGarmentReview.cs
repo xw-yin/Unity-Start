@@ -11,10 +11,10 @@ namespace Homecoming.Editor
         {
             HomecomingSetup.CreateScene();
             var story=UnityEngine.Object.FindAnyObjectByType<HomecomingScene>();
-            foreach(int index in new[]{4,5,6})
+            foreach(int index in new[]{2,4,5,6})
             {
                 story.SelectCharacter(index);var rig=story.GetComponentInChildren<CharacterRig>();
-                var solver=rig.GetComponentInChildren<HomecomingGarmentDynamics>();
+                var solver=index==2?rig.skirt.GetComponent<HomecomingGarmentDynamics>():rig.GetComponentInChildren<HomecomingGarmentDynamics>();
                 if(!solver||solver.FreeParticles<20||!AssetDatabase.Contains(solver.SourceMesh))throw new Exception("Missing imported fabric mask: "+index);
                 var source=solver.SourceMesh;var original=source.vertices;var skin=solver.GetComponent<SkinnedMeshRenderer>();
                 var mask=new SerializedObject(solver).FindProperty("maximumDistance");

@@ -47,6 +47,13 @@ namespace Homecoming.Editor
             // Hosiery is a separate opaque surface; never tint a skin texture black.
             material.SetTexture("_BaseMap",null);
             if(material.HasProperty("_BumpMap"))material.SetTexture("_BumpMap",null);material.DisableKeyword("_NORMALMAP");
+            material.DisableKeyword("_DETAIL_NORMALMAP");
+            if(folder.Contains("WitcherTriss/"))
+            {
+                // DLC Triss has bare legs, not the default character's hosiery.
+                material.color=Color.white;
+                material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_00.png"));
+            }
             material.SetFloat("_Cull",2);EditorUtility.SetDirty(material);
             var skinMaterial=AssetDatabase.LoadAssetAtPath<Material>(folder+"Materials/OriginalLegSkin.mat");
             if(!skinMaterial){skinMaterial=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(skinMaterial,folder+"Materials/OriginalLegSkin.mat");}
@@ -89,7 +96,73 @@ namespace Homecoming.Editor
                 var sock=obj.AddComponent<SkinnedMeshRenderer>();sock.sharedMesh=sockMesh;sock.bones=boot.bones;sock.rootBone=rig.hips;sock.sharedMaterial=material;sock.updateWhenOffscreen=true;sock.localBounds=boot.localBounds;rig.hosiery[side]=sock;
             }
             UnityEngine.Object.DestroyImmediate(source);
+            if(folder.Contains("WitcherShani/"))BuildOriginalShaniSocks(rig,folder,material);
             Debug.Log("ORIGINAL GAME LEGS: ls_02_wa__body_barefoot; source triangles, weights and UVs retained; stockings remain attached.");
+        }
+
+        // The game's wedding/no-shoes variant includes actual closed sock feet.
+        // Keep its UVs, normals, triangles and deformation weights, rather than
+        // colouring the generic anatomical feet white.
+        static void BuildOriginalShaniSocks(CharacterRig rig,string folder,Material material)
+        {
+            const string path="Assets/ThirdParty/WitcherShaniOriginalSocks/Prepared/";
+            var data=JsonUtility.FromJson<Manifest>(File.ReadAllText(path+"manifest.json"));
+            var part=data.parts.Single();
+            var source=WitcherCharacterImport.ReadPreparedMesh(path,part.file,part.name);
+            var boot=rig.leftShoe.GetComponent<SkinnedMeshRenderer>();
+            var names=part.joints.Select(i=>data.nodes[i].name).ToArray();
+            var map=names.Select(n=>Array.FindIndex(boot.bones,b=>b.name==n)).ToArray();
+            var weights=source.boneWeights;
+            var mapped=new BoneWeight[weights.Length];
+            for(int i=0;i<weights.Length;i++)
+            {
+                var w=weights[i];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};
+                var amounts=new[]{w.weight0,w.weight1,w.weight2,w.weight3};
+                for(int j=0;j<4;j++)if(amounts[j]>0&&map[ids[j]]<0)throw new Exception("Missing Shani sock bone: "+names[ids[j]]);
+                mapped[i]=new BoneWeight{boneIndex0=Mathf.Max(0,map[w.boneIndex0]),boneIndex1=Mathf.Max(0,map[w.boneIndex1]),boneIndex2=Mathf.Max(0,map[w.boneIndex2]),boneIndex3=Mathf.Max(0,map[w.boneIndex3]),weight0=w.weight0,weight1=w.weight1,weight2=w.weight2,weight3=w.weight3};
+            }
+            foreach(string textureName in new[]{"Texture_00.png","Texture_01.png","OriginalSockWeave.png"})
+            {
+                var importer=(TextureImporter)AssetImporter.GetAtPath(path+textureName);
+                bool normal=textureName!="Texture_00.png";
+                importer.textureType=normal?TextureImporterType.NormalMap:TextureImporterType.Default;
+                importer.sRGBTexture=!normal;importer.SaveAndReimport();
+            }
+            material.color=Color.white;material.SetFloat("_Smoothness",.10f);
+            material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(path+"Texture_00.png"));
+            material.SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>(path+"Texture_01.png"));
+            material.SetFloat("_BumpScale",.7f);material.EnableKeyword("_NORMALMAP");
+            material.SetTexture("_DetailNormalMap",AssetDatabase.LoadAssetAtPath<Texture2D>(path+"OriginalSockWeave.png"));
+            material.SetFloat("_DetailNormalMapScale",.30f);material.SetTextureScale("_DetailNormalMap",new Vector2(100,99));
+            material.EnableKeyword("_DETAIL_NORMALMAP");EditorUtility.SetDirty(material);
+            for(int side=0;side<2;side++)
+            {
+                string prefix=side==0?"J_Bip_L_":"J_Bip_R_";
+                bool Own(int v)
+                {
+                    var w=weights[v];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};
+                    var amounts=new[]{w.weight0,w.weight1,w.weight2,w.weight3};float own=0,other=0;
+                    for(int j=0;j<4;j++)if(names[ids[j]].StartsWith(prefix))own+=amounts[j];else if(names[ids[j]].StartsWith("J_Bip_"))other+=amounts[j];
+                    return own>other;
+                }
+                var used=new List<int>();var lookup=new Dictionary<int,int>();var triangles=new List<int>();
+                var vertices=source.vertices;var normals=source.normals;var uv=source.uv;var faces=source.triangles;
+                for(int i=0;i<faces.Length;i+=3)
+                {
+                    var face=new[]{faces[i],faces[i+1],faces[i+2]};
+                    // Retain whole original triangles beneath the existing trousers.
+                    if(face.Any(v=>!Own(v)||vertices[v].y>.50f))continue;
+                    foreach(int v in face){if(!lookup.ContainsKey(v)){lookup[v]=used.Count;used.Add(v);}triangles.Add(lookup[v]);}
+                }
+                if(triangles.Count<300)throw new Exception("Original Shani sock foot is missing");
+                var mesh=new Mesh{name=side==0?"ContinuousLeftHosiery":"ContinuousRightHosiery",vertices=used.Select(v=>vertices[v]).ToArray(),normals=used.Select(v=>normals[v]).ToArray(),uv=used.Select(v=>uv[v]).ToArray(),boneWeights=used.Select(v=>mapped[v]).ToArray(),bindposes=boot.sharedMesh.bindposes,triangles=triangles.ToArray()};
+                mesh.RecalculateBounds();mesh.RecalculateTangents();
+                var existing=rig.hosiery[side].sharedMesh;WitcherCharacterImport.CopyMesh(mesh,existing);UnityEngine.Object.DestroyImmediate(mesh);
+                rig.hosiery[side].sharedMaterial=material;
+                rig.hosiery[side].name=side==0?"夏妮原版左白袜":"夏妮原版右白袜";
+            }
+            UnityEngine.Object.DestroyImmediate(source);
+            Debug.Log("ORIGINAL SHANI SOCKS: l_03_wa__shani.w2mesh; closed sock feet, original UVs, normals, weights and textures retained.");
         }
     }
 }

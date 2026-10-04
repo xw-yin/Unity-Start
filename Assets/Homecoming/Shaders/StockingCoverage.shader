@@ -4,6 +4,10 @@ Shader "Homecoming/Stocking Coverage"
     {
         [MainTexture] _BaseMap("Lace",2D)="white" {}
         [MainColor] _BaseColor("Tint",Color)=(1,1,1,1)
+        [Normal] _BumpMap("Normal",2D)="bump" {}
+        _BumpScale("Normal strength",Float)=1
+        [Normal] _DetailNormalMap("Sock weave",2D)="bump" {}
+        _DetailNormalMapScale("Weave strength",Float)=.35
         _Smoothness("Smoothness",Range(0,1))=.18
         [HideInInspector] _BootMask("Boot mask",Float)=0
         [HideInInspector] _BootBoundsMin("Boot minimum",Vector)=(0,0,0,0)
@@ -15,17 +19,35 @@ Shader "Homecoming/Stocking Coverage"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
         TEXTURE2D(_BaseMap);SAMPLER(sampler_BaseMap);
+        TEXTURE2D(_BumpMap);SAMPLER(sampler_BumpMap);
+        TEXTURE2D(_DetailNormalMap);SAMPLER(sampler_DetailNormalMap);
         CBUFFER_START(UnityPerMaterial)
-        float4 _BaseMap_ST;half4 _BaseColor;half _Smoothness;float _BootMask;float4 _BootBoundsMin,_BootBoundsMax;float4x4 _BootWorldToLocal;
+        float4 _BaseMap_ST,_DetailNormalMap_ST;half4 _BaseColor;half _Smoothness,_BumpScale,_DetailNormalMapScale;float _BootMask;float4 _BootBoundsMin,_BootBoundsMax;float4x4 _BootWorldToLocal;
         CBUFFER_END
-        struct Attributes { float4 positionOS:POSITION;float3 normalOS:NORMAL;float2 uv:TEXCOORD0;UNITY_VERTEX_INPUT_INSTANCE_ID };
-        struct Varyings { float4 positionCS:SV_POSITION;float3 positionWS:TEXCOORD0;half3 normalWS:TEXCOORD1;float2 uv:TEXCOORD2;UNITY_VERTEX_OUTPUT_STEREO };
+        struct Attributes { float4 positionOS:POSITION;float3 normalOS:NORMAL;float4 tangentOS:TANGENT;float2 uv:TEXCOORD0;UNITY_VERTEX_INPUT_INSTANCE_ID };
+        struct Varyings { float4 positionCS:SV_POSITION;float3 positionWS:TEXCOORD0;half3 normalWS:TEXCOORD1;float2 uv:TEXCOORD2;half4 tangentWS:TEXCOORD3;UNITY_VERTEX_OUTPUT_STEREO };
         Varyings Vert(Attributes input)
         {
             Varyings output=(Varyings)0;UNITY_SETUP_INSTANCE_ID(input);UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
             output.positionWS=TransformObjectToWorld(input.positionOS.xyz);output.positionCS=TransformWorldToHClip(output.positionWS);
-            output.normalWS=TransformObjectToWorldNormal(input.normalOS);output.uv=TRANSFORM_TEX(input.uv,_BaseMap);return output;
+            output.normalWS=TransformObjectToWorldNormal(input.normalOS);output.uv=TRANSFORM_TEX(input.uv,_BaseMap);
+            output.tangentWS=half4(TransformObjectToWorldDir(input.tangentOS.xyz),input.tangentOS.w*GetOddNegativeScale());return output;
+        }
+        half3 SockNormal(Varyings input)
+        {
+            half3 n=normalize(input.normalWS);
+            #if defined(_NORMALMAP)
+            half3 normalTS=UnpackNormalScale(SAMPLE_TEXTURE2D(_BumpMap,sampler_BumpMap,input.uv),_BumpScale);
+            #if defined(_DETAIL_NORMALMAP)
+            half3 detail=UnpackNormalScale(SAMPLE_TEXTURE2D(_DetailNormalMap,sampler_DetailNormalMap,input.uv*_DetailNormalMap_ST.xy+_DetailNormalMap_ST.zw),_DetailNormalMapScale);
+            normalTS=normalize(half3(normalTS.xy+detail.xy,normalTS.z*detail.z));
+            #endif
+            half3 tangent=normalize(input.tangentWS.xyz);half3 bitangent=cross(n,tangent)*input.tangentWS.w;
+            n=normalize(tangent*normalTS.x+bitangent*normalTS.y+n*normalTS.z);
+            #endif
+            return n;
         }
         void Coverage(float3 world)
         {
@@ -35,7 +57,7 @@ Shader "Homecoming/Stocking Coverage"
         half4 Frag(Varyings input):SV_Target
         {
             Coverage(input.positionWS);
-            InputData data=(InputData)0;data.positionWS=input.positionWS;data.positionCS=input.positionCS;data.normalWS=normalize(input.normalWS);
+            InputData data=(InputData)0;data.positionWS=input.positionWS;data.positionCS=input.positionCS;data.normalWS=SockNormal(input);
             data.viewDirectionWS=GetWorldSpaceNormalizeViewDir(input.positionWS);data.shadowCoord=TransformWorldToShadowCoord(input.positionWS);
             data.bakedGI=SampleSH(data.normalWS);data.normalizedScreenSpaceUV=GetNormalizedScreenSpaceUV(input.positionCS);data.shadowMask=half4(1,1,1,1);
             SurfaceData surface=(SurfaceData)0;surface.albedo=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,input.uv).rgb*_BaseColor.rgb;
@@ -59,7 +81,7 @@ Shader "Homecoming/Stocking Coverage"
             #endif
             return output;
         }
-        half4 NormalsFrag(Varyings input):SV_Target { Coverage(input.positionWS);return half4(normalize(input.normalWS),0); }
+        half4 NormalsFrag(Varyings input):SV_Target { Coverage(input.positionWS);return half4(SockNormal(input),0); }
         ENDHLSL
         Pass
         {
@@ -67,6 +89,8 @@ Shader "Homecoming/Stocking Coverage"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment NormalsFrag
+            #pragma shader_feature_local_fragment _NORMALMAP
+            #pragma shader_feature_local_fragment _DETAIL_NORMALMAP
             ENDHLSL
         }
         Pass
@@ -75,6 +99,8 @@ Shader "Homecoming/Stocking Coverage"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
+            #pragma shader_feature_local_fragment _NORMALMAP
+            #pragma shader_feature_local_fragment _DETAIL_NORMALMAP
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile_fragment _ _SHADOWS_SOFT
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS

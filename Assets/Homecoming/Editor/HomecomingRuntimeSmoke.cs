@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using System.Linq;
 using UnityEditor;
@@ -68,10 +68,10 @@ namespace Homecoming.Editor
                         else if(Vector3.Distance(proxy.position,motion.Shoes.GroundOrigin(side))>.003f) throw new Exception("放下的鞋未保持在地面");
                     }
                 }
-                if(!rig.leftSlipper.activeSelf||rig.leftShoe.activeSelf) throw new Exception("换鞋后站立状态错误");
+                if(rig.bag||rig.leftSlipper||rig.rightSlipper||rig.leftShoe.activeSelf) throw new Exception("换鞋后站立状态错误");
                 type.GetMethod("ResetStory",flags).Invoke(story,null);
                 if(rig.transform.position.z<3.8f) throw new Exception("重播未恢复门外等待位置");
-                if(!rig.leftShoe.activeSelf||rig.leftSlipper.activeSelf) throw new Exception("重播状态错误");
+                if(!rig.leftShoe.activeSelf||rig.leftSlipper||rig.rightSlipper) throw new Exception("重播状态错误");
                 if(rig.importedSource && (!rig.GetComponent<Animator>().avatar.isHuman)) throw new Exception("导入人物的表情或人形骨骼无效");
                 CheckMobileInput(story);
                 var characterButtons=story.GetComponentInChildren<HomecomingMobileUI>().GetComponentsInChildren<Button>();
@@ -93,7 +93,7 @@ namespace Homecoming.Editor
                         }
                     }
                     type.GetField("elapsed",flags).SetValue(story,27f);type.GetMethod("Update",flags).Invoke(story,null);
-                    if(!rig.leftSlipper.activeSelf || !rig.rightSlipper.activeSelf || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Play mode character footwear failed: "+index);
+                    if(rig.bag || rig.leftSlipper || rig.rightSlipper || rig.leftShoe.activeSelf || rig.rightShoe.activeSelf)throw new Exception("Play mode character footwear failed: "+index);
                     story.Replay();
                     if(rig.transform.position.z<3.8f || !rig.leftShoe.activeSelf)throw new Exception("Play mode character replay failed: "+index);
                 }

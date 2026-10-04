@@ -125,11 +125,8 @@ namespace Homecoming.Editor
                 type.GetField("elapsed",flags).SetValue(story,time);
                 type.GetMethod("Update",flags).Invoke(story,null);
             }
-            var slippers=(GameObject)type.GetField("slippers",flags).GetValue(story);
-            if(slippers.activeSelf || story.transform.Find("脱下的通勤鞋")==null)
-                throw new System.Exception("换鞋流程未完成");
+            if(story.transform.Find("脱下的通勤鞋")==null)throw new System.Exception("脱鞋流程未完成");
             type.GetMethod("ResetStory",flags).Invoke(story,null);
-            if(!slippers.activeSelf) throw new System.Exception("重播未恢复拖鞋");
             var rig=story.GetComponentInChildren<CharacterRig>();
             if(!rig || rig.skirt.sharedMesh.boneWeights.Length!=rig.skirt.sharedMesh.vertexCount)
                 throw new System.Exception("角色蒙皮数据缺失");

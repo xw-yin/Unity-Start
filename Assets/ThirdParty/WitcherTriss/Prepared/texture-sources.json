@@ -1,6 +1,8 @@
 [
-  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\main_npc\\triss\\model\\body_01_wa__triss_d01.dds",
-  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\main_npc\\triss\\model\\body_01_wa__triss_n01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\dlc\\dlc6\\data\\characters\\models\\main_npc\\triss\\model\\body_01_wa__triss_dlc_d01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\dlc\\dlc6\\data\\characters\\models\\main_npc\\triss\\model\\body_01_wa__triss_dlc_n01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\dlc\\dlc6\\data\\characters\\models\\main_npc\\triss\\model\\skirt_01_wa__triss_dlc_d01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\dlc\\dlc6\\data\\characters\\models\\main_npc\\triss\\model\\skirt_01_wa__triss_dlc_n01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\hair\\hair_long_03_d01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\hair\\hair_long_03_n01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\main_npc\\triss\\h_01_wa__triss\\h_01_wa__triss_d01.dds",
@@ -11,6 +13,10 @@
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\eyes\\eye_meat_d01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\eyes\\eyelashes__d01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\eyes\\eyelashes__n01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\teeth\\teeth_woman_01_d01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\textures\\teeth\\teeth_woman_01_n01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\crowd_npc\\lingerie\\torso\\model\\lingerie_d01.dds",
+  "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\crowd_npc\\lingerie\\torso\\model\\lingerie_n01.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\woman_average\\body\\model\\woman_average__body_d.dds",
   "F:\\Unity\\ExtractedModels\\Characters\\characters\\models\\common\\woman_average\\body\\model\\woman_average__body_n.dds"
 ]

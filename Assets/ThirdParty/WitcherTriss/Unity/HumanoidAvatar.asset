@@ -7,7 +7,7 @@ Avatar:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Triss Humanoid
-  m_AvatarSize: 36156
+  m_AvatarSize: 36520
   m_Avatar:
     serializedVersion: 3
     m_AvatarSkeleton:
@@ -263,15 +263,15 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 17
           m_AxesId: -1
-        - m_ParentId: 17
-          m_AxesId: -1
-        - m_ParentId: 17
-          m_AxesId: -1
         - m_ParentId: 16
           m_AxesId: -1
         - m_ParentId: 16
           m_AxesId: -1
         - m_ParentId: 15
+          m_AxesId: -1
+        - m_ParentId: 127
+          m_AxesId: -1
+        - m_ParentId: 128
           m_AxesId: -1
         - m_ParentId: 129
           m_AxesId: -1
@@ -281,61 +281,61 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 132
           m_AxesId: -1
-        - m_ParentId: 133
+        - m_ParentId: 131
           m_AxesId: -1
-        - m_ParentId: 134
+        - m_ParentId: 130
           m_AxesId: -1
-        - m_ParentId: 133
+        - m_ParentId: 130
           m_AxesId: -1
-        - m_ParentId: 132
+        - m_ParentId: 136
           m_AxesId: -1
-        - m_ParentId: 132
+        - m_ParentId: 137
           m_AxesId: -1
-        - m_ParentId: 138
+        - m_ParentId: 136
           m_AxesId: -1
-        - m_ParentId: 139
+        - m_ParentId: 130
           m_AxesId: -1
-        - m_ParentId: 138
+        - m_ParentId: 140
           m_AxesId: -1
-        - m_ParentId: 132
+        - m_ParentId: 141
           m_AxesId: -1
         - m_ParentId: 142
           m_AxesId: -1
-        - m_ParentId: 143
+        - m_ParentId: 141
           m_AxesId: -1
-        - m_ParentId: 144
+        - m_ParentId: 130
           m_AxesId: -1
-        - m_ParentId: 143
+        - m_ParentId: 145
           m_AxesId: -1
-        - m_ParentId: 132
+        - m_ParentId: 146
           m_AxesId: -1
-        - m_ParentId: 147
+        - m_ParentId: 145
           m_AxesId: -1
-        - m_ParentId: 148
+        - m_ParentId: 130
           m_AxesId: -1
-        - m_ParentId: 147
+        - m_ParentId: 149
           m_AxesId: -1
-        - m_ParentId: 132
-          m_AxesId: -1
-        - m_ParentId: 151
-          m_AxesId: -1
-        - m_ParentId: 152
-          m_AxesId: -1
-        - m_ParentId: 132
-          m_AxesId: -1
-        - m_ParentId: 131
-          m_AxesId: -1
-        - m_ParentId: 131
-          m_AxesId: -1
-        - m_ParentId: 156
-          m_AxesId: -1
-        - m_ParentId: 157
+        - m_ParentId: 150
           m_AxesId: -1
         - m_ParentId: 130
           m_AxesId: -1
         - m_ParentId: 129
           m_AxesId: -1
+        - m_ParentId: 129
+          m_AxesId: -1
+        - m_ParentId: 154
+          m_AxesId: -1
+        - m_ParentId: 155
+          m_AxesId: -1
+        - m_ParentId: 128
+          m_AxesId: -1
+        - m_ParentId: 127
+          m_AxesId: -1
         - m_ParentId: 15
+          m_AxesId: -1
+        - m_ParentId: 159
+          m_AxesId: -1
+        - m_ParentId: 160
           m_AxesId: -1
         - m_ParentId: 161
           m_AxesId: -1
@@ -345,59 +345,59 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 164
           m_AxesId: -1
-        - m_ParentId: 165
+        - m_ParentId: 163
           m_AxesId: -1
-        - m_ParentId: 166
+        - m_ParentId: 162
           m_AxesId: -1
-        - m_ParentId: 165
+        - m_ParentId: 162
           m_AxesId: -1
-        - m_ParentId: 164
+        - m_ParentId: 168
           m_AxesId: -1
-        - m_ParentId: 164
+        - m_ParentId: 169
           m_AxesId: -1
-        - m_ParentId: 170
+        - m_ParentId: 168
           m_AxesId: -1
-        - m_ParentId: 171
+        - m_ParentId: 162
           m_AxesId: -1
-        - m_ParentId: 170
+        - m_ParentId: 172
           m_AxesId: -1
-        - m_ParentId: 164
+        - m_ParentId: 173
           m_AxesId: -1
         - m_ParentId: 174
           m_AxesId: -1
-        - m_ParentId: 175
+        - m_ParentId: 173
           m_AxesId: -1
-        - m_ParentId: 176
+        - m_ParentId: 162
           m_AxesId: -1
-        - m_ParentId: 175
+        - m_ParentId: 177
           m_AxesId: -1
-        - m_ParentId: 164
+        - m_ParentId: 178
           m_AxesId: -1
-        - m_ParentId: 179
+        - m_ParentId: 177
           m_AxesId: -1
-        - m_ParentId: 180
+        - m_ParentId: 162
           m_AxesId: -1
-        - m_ParentId: 179
+        - m_ParentId: 181
           m_AxesId: -1
-        - m_ParentId: 164
-          m_AxesId: -1
-        - m_ParentId: 183
-          m_AxesId: -1
-        - m_ParentId: 184
-          m_AxesId: -1
-        - m_ParentId: 164
-          m_AxesId: -1
-        - m_ParentId: 163
-          m_AxesId: -1
-        - m_ParentId: 163
-          m_AxesId: -1
-        - m_ParentId: 188
-          m_AxesId: -1
-        - m_ParentId: 189
+        - m_ParentId: 182
           m_AxesId: -1
         - m_ParentId: 162
           m_AxesId: -1
         - m_ParentId: 161
+          m_AxesId: -1
+        - m_ParentId: 161
+          m_AxesId: -1
+        - m_ParentId: 186
+          m_AxesId: -1
+        - m_ParentId: 187
+          m_AxesId: -1
+        - m_ParentId: 160
+          m_AxesId: -1
+        - m_ParentId: 159
+          m_AxesId: -1
+        - m_ParentId: 15
+          m_AxesId: -1
+        - m_ParentId: 15
           m_AxesId: -1
         - m_ParentId: 12
           m_AxesId: -1
@@ -427,7 +427,7 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 12
           m_AxesId: -1
-        - m_ParentId: 2
+        - m_ParentId: 12
           m_AxesId: -1
         - m_ParentId: 2
           m_AxesId: -1
@@ -473,7 +473,13 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 2
           m_AxesId: -1
-        m_ID: 000000001f7aab3724932a7af90260bad491a3cc2b046558d33b07553858db6c41702a47cf40eabb24233682a72e800064ff00cdc124b0832646769ec7994e58083edd94a35bb007b60401625d67dd5b093331bb78f4f45561d7c53c900ac432063ac345a5afa7db339fa0ac89cea935982740af22764936b4464e4117d32adf81e32da83bb22431bea46b3404f562ad92c565da31500144a7600633fc11e1d9d070ef376a21e6aeaf4d82ae151c8b37832c8c4020b9e8deb689efa90cd8e630620c62335566a0323b74e997e71468dec864d063c4cb4c2d273d6afbd4c70e3730993347038220aa01424a1d8e6bda609878be40ee5c19545d456147cb75663035fe5dadac8deda061a9943e825fb2e877da31c6e8aa42c37e9a45b4205ab9a73e515de29dc4397cc01696327a479fabf910e0184fe2fc42199f5343c2705aea0bf43e0bd571eef676e48a68a3ce5ada4341e981ec7798dc5a6c888fe03d811675ac1c54b1a537922f3fd2062ea43f5794f536ce02c531b9956edb9f035edce8e73ea99c0b5c64159d6c6362aeb5c5b80d20a12650f20e68eaa307f110bdaf23df0664184ee5ee2a9b10a6513cdca1cd9f49c553aaeca6ba7c930086b3c1c7b40990ce2dbd85557f2141afc80c96e5aa014bb3ddbb1aba442d2abd33b6c7ec3320f7eb440c1ad8420aaa2cdd3b094a3619666ca1815843af8e28aa7f37a23e410e6ff548fc802e4e3eecb1232e290904eede416379ae261e633798d24d08ffaf3404ed3c8615e90c0cd7ed42b13db7dbcb7da4cdde5b1e9ddc5d470c4fdbab70bdfdd813c77cecef801fe7c3749063eabd1b51fb5ce503305b06649170a87e24dd10be2c40ebe2615fa23fbe947dc8bdda24d7bb7132453e3688aacd519905676a18b952a73149777d7d793a936011a47db705aa30c41d1f8dc8d65939d6115f6112ae6407dc35d64d98f6a2abe7f0cd809d6cd26997b1c35d949bd672630009b2246ffe591fb517c68af6c77ecfc5247fd26954516e94ce65d8a37431e765c4c7caf93a0b0b2a7e176f2f3e21787b46a90e5d5770b40f4db249d9d4a34b5b3af046dcec1f37da4e0e3c1029c50671c5078312a018d1c287c37a15824486bd774dadd8302f3141cb7426895381bc95c94bda29a6b61db3f95584b19d31d1d17594028dbe3a7019389fa345f3279340ee82401c2500f0d248a41bc0dd71a9962c90bab44073f14c19119c1eb5bfee8a331a3dd6f8a20dd3e5dcdf89c6773dbbac5ab1ffb654a9a33afceb70ce5ce883f16decec8dcdef1fb2u
+        - m_ParentId: 2
+          m_AxesId: -1
+        - m_ParentId: 2
+          m_AxesId: -1
+        - m_ParentId: 2
+          m_AxesId: -1
+        m_ID: 000000001f7aab3724932a7af90260bad491a3cc2b046558d33b07553858db6c41702a47cf40eabb24233682a72e800064ff00cdc124b0832646769ec7994e58083edd94a35bb007f96d8f29433c86b0d50c81c7ce074d28745644b1e26643c641f32758d7c3202f6d9229b64b11022df1400bb467700cc3c4e5685d52d56f2ae88466b37c7bc02cc62ac9b5501acec225c5862e9f948fb709a488c02fe8182495b911bd038916caa01c72541882da25a2d3d3bc34e3d4cb9776b055413c9c273b74e997e71468dec864d063c4cb4c2d273d6afbd4c70e3730993347038220aa01424a1d8e6bda609878be40ee5c19545d456147cb75663035fe5dadac8deda061a9943e825fb2e877da31c6e8aa42c37e9a45b4205ab9a73e515de29dc4397cc01696327a479fabf910e0184fe2fc42199f5343c2705aea0bf43e0bd571eef676e48a68a3ce5ada4341e981ec7798dc5a6c888fe03d811675ac1c54b1a537922f3fd2062ea43f5794f536ce02c531b9956edb9f035edce8e73ea99c0b5c64159d6c6362aeb5c5b80d20a12650f20e68eaa307f110bdaf23df0664184ee5ee2a9b10a6513cdca1cd9f49c553aaeca6ba7c930086b3c1c7b40990ce2dbd85557f2141afc80c96e5aa014bb3ddbb1aba442d2abd33b6c7ec3320f7eb440c1ad8420aaa2cdd3b094a3619666ca1815843af8e28aa7f37a23e410e6ff548fc802e4e3eecb1232e290904eede416379ae261e633798d24d08ffaf3404ed3c8615e90c0cd7ed42b13db7dbcb7da4cdde5b1e9ddc5d470c4fdbab70bdfdd813c77cecef801fe7c3749063eabd1b51fb5ce503305b06649170a87e24dd10be2c40ebe2615fa23fbe947dc8bdda24d7bb7132453e3688aacd519905676a18b952a73149777d7d793a936011a47db705aa30c41d1f8dc8d65939d6115f6112ae6407dc35d64d98f6a2abe7f0cd809d6cd26997b1c35d949bd672630009b2246ffe591fb517c68af6c77ecfc5247fd26954516e94ce65d8a37431e765c4c7caf93a0b0b2a7e176f2f3e21787b46a90e5d5770b40f4db249d9d4a34b5b3af046dcec54144013bf779c2a1f37da4e0e3c1029c50671c5078312a018d1c287c37a15824486bd774dadd8302f3141cb7426895381bc95c94bda29a6b61db3f95584b19d7b127107d946dc9f6d4dab39f2042c59f9a5e4145c76b8dfe446bdc2f2844f765cf6dbf0e0dbbe7a7e2cd40140f47c19b44f427e119c1eb5bfee8a3394218670ef0828cfb95afb58c1378c695ab1ffb654a9a33a5ee6b4b1fceb70ce5ce883f16decec8dcdef1fb2u
         m_AxesArray: []
     m_AvatarSkeletonPose:
       data:
@@ -532,100 +538,94 @@ Avatar:
         - t: {x: 0.0000111927475, y: 0.12569416, z: 0.028090794}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.04233013, y: -0.29786932, z: 0.038838103}
+        - t: {x: -0.058697503, y: 0.054235697, z: 0.07921577}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.042251546, y: -0.2978716, z: 0.038841724}
+        - t: {x: -0.05878902, y: 0.02415061, z: 0.079197995}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.0009291634, y: -0.16093338, z: 0.041362822}
+        - t: {x: -0.058685515, y: -0.005947113, z: 0.079564966}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.07405088, y: -0.100349545, z: 0.05221292}
+        - t: {x: -0.048514433, y: 0.09747553, z: 0.08283471}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.081162676, y: -0.09619653, z: 0.052212927}
+        - t: {x: -0.049009137, y: 0.066645265, z: 0.0828643}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.06527506, y: -0.07247126, z: 0.06491893}
+        - t: {x: -0.049455892, y: 0.032209992, z: 0.082996815}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.0684262, y: -0.03989756, z: 0.06777592}
+        - t: {x: -0.050058793, y: -0.0021588802, z: 0.082988724}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.069487005, y: -0.004545808, z: 0.06985269}
+        - t: {x: -0.050313156, y: -0.036034822, z: 0.083286695}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.068642765, y: 0.034289956, z: 0.07303623}
+        - t: {x: -0.050639685, y: -0.07306349, z: 0.08359833}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.061232924, y: 0.06446254, z: 0.0756536}
+        - t: {x: -0.033370614, y: 0.09266424, z: 0.09382733}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.063972265, y: -0.06727731, z: 0.075058885}
+        - t: {x: -0.033765208, y: 0.06674945, z: 0.09384963}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06282155, y: -0.036858678, z: 0.07860606}
+        - t: {x: -0.033979695, y: 0.03974247, z: 0.09393725}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.062208902, y: -0.010059714, z: 0.08267553}
+        - t: {x: -0.034490902, y: 0.010824084, z: 0.093938924}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.060723133, y: 0.016132593, z: 0.087019116}
+        - t: {x: -0.035130482, y: -0.017873883, z: 0.09389728}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06131782, y: 0.038255453, z: 0.09155688}
+        - t: {x: -0.035551056, y: -0.04620087, z: 0.09392516}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.056378953, y: 0.0643338, z: 0.09180339}
+        - t: {x: 0.049839377, y: 0.048163056, z: 0.08371934}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.063432336, y: 0.02377081, z: 0.06593653}
+        - t: {x: 0.049210373, y: 0.01925528, z: 0.08376705}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06491598, y: -0.0067881346, z: 0.06254489}
+        - t: {x: 0.04867531, y: -0.012916207, z: 0.08373658}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06626175, y: -0.04067242, z: 0.05606952}
+        - t: {x: 0.06504123, y: 0.03331995, z: 0.06658949}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.068831325, y: -0.045331955, z: 0.03212828}
+        - t: {x: 0.06453212, y: 0.0015919209, z: 0.06661985}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.078605354, y: -0.035041213, z: 0.006052514}
+        - t: {x: 0.06341397, y: -0.02899623, z: 0.06761028}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.03303311, y: 0.026197791, z: 0.09934491}
+        - t: {x: -0.060441002, y: 0.0053834915, z: 0.039171793}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.023104442, y: 0.06667304, z: 0.11199068}
+        - t: {x: -0.06084485, y: -0.025116682, z: 0.03902564}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.028742336, y: 0.048770428, z: 0.10851914}
+        - t: {x: -0.061254166, y: -0.058305502, z: 0.038864784}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.052475356, y: -0.044568658, z: 0.082318515}
+        - t: {x: -0.06173665, y: -0.08969867, z: 0.038796417}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.05242265, y: -0.019708276, z: 0.08822037}
+        - t: {x: 0.06547296, y: 0.003886819, z: 0.0235776}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.051834296, y: 0.005695939, z: 0.095511794}
+        - t: {x: 0.06471041, y: -0.028164625, z: 0.02335937}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.051471878, y: 0.030618668, z: 0.10073723}
+        - t: {x: 0.06432318, y: -0.059072375, z: 0.023205368}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.049775586, y: 0.060113907, z: 0.100110896}
+        - t: {x: 0.06348255, y: -0.08957088, z: 0.023025705}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.0382501, y: 0.08750272, z: 0.09027912}
-          q: {x: 0, y: 0, z: 0, w: 1}
-          s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.043484557, y: -0.026830196, z: -0.076169685}
-          q: {x: 0, y: 0, z: 0, w: 1}
-          s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.04919751, y: -0.03154242, z: -0.07616971}
+        - t: {x: 0.028694235, y: -0.026124835, z: -0.05487638}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: -0.00018438883, y: -0.012789965, z: 0.086342745}
@@ -1057,6 +1057,12 @@ Avatar:
         - t: {x: 0.12919722, y: -0.04046786, z: -0.026035784}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
+        - t: {x: -0.04230851, y: 0.017216206, z: 0.028756965}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0.042273127, y: 0.01721394, z: 0.028760556}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
         - t: {x: -0.072680034, y: -0.034039915, z: -0.0028520226}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
@@ -1097,6 +1103,15 @@ Avatar:
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: 0.092095956, y: 0.045971155, z: -0.0013822429}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: -0.000000003802024, y: -0.000000059604645, z: -0.00000015087426}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: 0, y: 0, z: 0}
@@ -1225,100 +1240,94 @@ Avatar:
         - t: {x: 0.0000111927475, y: 0.12569416, z: 0.028090794}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.04233013, y: -0.29786932, z: 0.038838103}
+        - t: {x: -0.058697503, y: 0.054235697, z: 0.07921577}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.042251546, y: -0.2978716, z: 0.038841724}
+        - t: {x: -0.05878902, y: 0.02415061, z: 0.079197995}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.0009291634, y: -0.16093338, z: 0.041362822}
+        - t: {x: -0.058685515, y: -0.005947113, z: 0.079564966}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.07405088, y: -0.100349545, z: 0.05221292}
+        - t: {x: -0.048514433, y: 0.09747553, z: 0.08283471}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.081162676, y: -0.09619653, z: 0.052212927}
+        - t: {x: -0.049009137, y: 0.066645265, z: 0.0828643}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.06527506, y: -0.07247126, z: 0.06491893}
+        - t: {x: -0.049455892, y: 0.032209992, z: 0.082996815}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.0684262, y: -0.03989756, z: 0.06777592}
+        - t: {x: -0.050058793, y: -0.0021588802, z: 0.082988724}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.069487005, y: -0.004545808, z: 0.06985269}
+        - t: {x: -0.050313156, y: -0.036034822, z: 0.083286695}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.068642765, y: 0.034289956, z: 0.07303623}
+        - t: {x: -0.050639685, y: -0.07306349, z: 0.08359833}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.061232924, y: 0.06446254, z: 0.0756536}
+        - t: {x: -0.033370614, y: 0.09266424, z: 0.09382733}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.063972265, y: -0.06727731, z: 0.075058885}
+        - t: {x: -0.033765208, y: 0.06674945, z: 0.09384963}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06282155, y: -0.036858678, z: 0.07860606}
+        - t: {x: -0.033979695, y: 0.03974247, z: 0.09393725}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.062208902, y: -0.010059714, z: 0.08267553}
+        - t: {x: -0.034490902, y: 0.010824084, z: 0.093938924}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.060723133, y: 0.016132593, z: 0.087019116}
+        - t: {x: -0.035130482, y: -0.017873883, z: 0.09389728}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06131782, y: 0.038255453, z: 0.09155688}
+        - t: {x: -0.035551056, y: -0.04620087, z: 0.09392516}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.056378953, y: 0.0643338, z: 0.09180339}
+        - t: {x: 0.049839377, y: 0.048163056, z: 0.08371934}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.063432336, y: 0.02377081, z: 0.06593653}
+        - t: {x: 0.049210373, y: 0.01925528, z: 0.08376705}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06491598, y: -0.0067881346, z: 0.06254489}
+        - t: {x: 0.04867531, y: -0.012916207, z: 0.08373658}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.06626175, y: -0.04067242, z: 0.05606952}
+        - t: {x: 0.06504123, y: 0.03331995, z: 0.06658949}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.068831325, y: -0.045331955, z: 0.03212828}
+        - t: {x: 0.06453212, y: 0.0015919209, z: 0.06661985}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.078605354, y: -0.035041213, z: 0.006052514}
+        - t: {x: 0.06341397, y: -0.02899623, z: 0.06761028}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.03303311, y: 0.026197791, z: 0.09934491}
+        - t: {x: -0.060441002, y: 0.0053834915, z: 0.039171793}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.023104442, y: 0.06667304, z: 0.11199068}
+        - t: {x: -0.06084485, y: -0.025116682, z: 0.03902564}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.028742336, y: 0.048770428, z: 0.10851914}
+        - t: {x: -0.061254166, y: -0.058305502, z: 0.038864784}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.052475356, y: -0.044568658, z: 0.082318515}
+        - t: {x: -0.06173665, y: -0.08969867, z: 0.038796417}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.05242265, y: -0.019708276, z: 0.08822037}
+        - t: {x: 0.06547296, y: 0.003886819, z: 0.0235776}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.051834296, y: 0.005695939, z: 0.095511794}
+        - t: {x: 0.06471041, y: -0.028164625, z: 0.02335937}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.051471878, y: 0.030618668, z: 0.10073723}
+        - t: {x: 0.06432318, y: -0.059072375, z: 0.023205368}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.049775586, y: 0.060113907, z: 0.100110896}
+        - t: {x: 0.06348255, y: -0.08957088, z: 0.023025705}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.0382501, y: 0.08750272, z: 0.09027912}
-          q: {x: 0, y: 0, z: 0, w: 1}
-          s: {x: 1, y: 1, z: 1}
-        - t: {x: -0.043484557, y: -0.026830196, z: -0.076169685}
-          q: {x: 0, y: 0, z: 0, w: 1}
-          s: {x: 1, y: 1, z: 1}
-        - t: {x: 0.04919751, y: -0.03154242, z: -0.07616971}
+        - t: {x: 0.028694235, y: -0.026124835, z: -0.05487638}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: -0.00018438883, y: -0.012789965, z: 0.086342745}
@@ -1750,6 +1759,12 @@ Avatar:
         - t: {x: 0.12919722, y: -0.04046786, z: -0.026035784}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
+        - t: {x: -0.04230851, y: 0.017216206, z: 0.028756965}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0.042273127, y: 0.01721394, z: 0.028760556}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
         - t: {x: -0.072680034, y: -0.034039915, z: -0.0028520226}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
@@ -1792,7 +1807,7 @@ Avatar:
         - t: {x: 0.092095956, y: 0.045971155, z: -0.0013822429}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-        - t: {x: 0, y: 0, z: 0}
+        - t: {x: -0.000000003802024, y: -0.000000059604645, z: -0.00000015087426}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
         - t: {x: 0, y: 0, z: 0}
@@ -1861,7 +1876,16 @@ Avatar:
         - t: {x: 0, y: 0, z: 0}
           q: {x: 0, y: 0, z: 0, w: 1}
           s: {x: 1, y: 1, z: 1}
-    m_SkeletonNameIDArray: 000000001f7aab37d10df49b27ac31d41c3efcbb2a5afa00d265980d39064434402eb51fce1e75e3257da9daa6701f5865a19f95493a2d043167a66d679237d619de6dcbd6fe8f4c63a6ed7888c53141ecdd2e6e9d1aeb808439dae9b20b6b4d243b6c3a87ae08a4119e0fd3abcf064aba26efd00077e6499647e13e35d285a0a3e282d719b38b4e9ca5c44b26f4cdd2b0c4caa51351ae3b8561a94cde104ea6f2714048482049d18d4c2dd1371d2448a12d233f02b847a1948840d62ed9494f400dcd4c77670f4d91960be25fe6ca6831e31fdde6cae352c2d3752e2d40c1899a7bd132c1b461223ec795d997626fb07d96a195f755ac84e5b7c3f17387c4860a7b8269659056c443a83b4167b1ad3dcf289370caabedbc5c9beacb8ab85bd286a3ff5425369bca78e43484c2b53d1d300d5b7cf7105ef4261a8c87eac660c1b3069cbd1c6c5592bff9310c9c4b851e8a5c52e554853a6a937133eb29203a72393e8261095795249c94733b4bc0012ef19108b767a10fc026c57aa2b0f57dd5aba7a559eeb27bc078827cb7e22cc97d41b9ade31c6b02ada63a0b34197c73c1939f68dd0277701fd789aa94351d7d2f968819b1a32d7a58300a0c43ba001b56005112cf94160a006dd8a30d91d5b0f8b2e012e008b11b799e811c0e2b84b961bdb4be167ef34f86f32de363c2c3e9c0d07bd7c57892e05987e9769d05f121f82e82e7577b8278105d538d16c2a5eaf910f8483dbfc047bb05914e2293a1495533e4418238e4059e2b7a3629912b3fb0071b38c79540677c62acab9e160bc92dac5ac0b43a6ac7c353547b8624439f5a9e1296c3082291b476fbb9ee5705a54fed54acd67b64aba199cc5e1b536afae5517163e2eb206a7bf0d10c4a40208d173714378620331f2906e2ea2f99148dc0fb9b94045c5945dfe6084c4670384b3171047f7b21c734f73259074088080ed91e3809ae096d58fb7b8f9af7f592cb494fc3c2d0d9f3c5a7cf794401b7a47e6d0df577f49bc57083e7b537d94e269426f4779dbf62479ac87bf277fe9e857a19bd184a4f074943d6ab606b735903bc7edb7d1e2b86ad03fb195b64140c83a5d38490275f897f6c652105b3bfdd1c64c242ea032de7e079ea6709253bd2ce0b5c7ab4d48627470e6cc4de0c08ec8d2bab495e7760e72ce3e642ffbf2dfacfba305f1ce6fb5fdc853d9e0294b34bb0c242aaa3e02e16e41a4efc84dcf452f64872f72514b94f1511a47752eb0090928c62271ffad77ba176149ff580843ff673bb0ef21cc7aef1eff8u
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+        - t: {x: 0, y: 0, z: 0}
+          q: {x: 0, y: 0, z: 0, w: 1}
+          s: {x: 1, y: 1, z: 1}
+    m_SkeletonNameIDArray: 000000001f7aab37d10df49b27ac31d41c3efcbb2a5afa00d265980d39064434402eb51fce1e75e3257da9daa6701f5865a19f95493a2d043167a66d679237d619de6dcbd6fe8f4cdb6c2056613d29cff70d2eb8ec06e2575657ebcec067ecb963f28827f5c28f504f9386c96910ad52d341a4cb4571a3bce6e4c72270d4c055ca85c9cc5e7a6f53e42b66ca721b61bd07c42951bd9520c82ba527bf0de9b75bb7b8bec22188b9b5821ddd2b3a83755a80d27cc316e27bb4b5771f2a633d335891960be25fe6ca6831e31fdde6cae352c2d3752e2d40c1899a7bd132c1b461223ec795d997626fb07d96a195f755ac84e5b7c3f17387c4860a7b8269659056c443a83b4167b1ad3dcf289370caabedbc5c9beacb8ab85bd286a3ff5425369bca78e43484c2b53d1d300d5b7cf7105ef4261a8c87eac660c1b3069cbd1c6c5592bff9310c9c4b851e8a5c52e554853a6a937133eb29203a72393e8261095795249c94733b4bc0012ef19108b767a10fc026c57aa2b0f57dd5aba7a559eeb27bc078827cb7e22cc97d41b9ade31c6b02ada63a0b34197c73c1939f68dd0277701fd789aa94351d7d2f968819b1a32d7a58300a0c43ba001b56005112cf94160a006dd8a30d91d5b0f8b2e012e008b11b799e811c0e2b84b961bdb4be167ef34f86f32de363c2c3e9c0d07bd7c57892e05987e9769d05f121f82e82e7577b8278105d538d16c2a5eaf910f8483dbfc047bb05914e2293a1495533e4418238e4059e2b7a3629912b3fb0071b38c79540677c62acab9e160bc92dac5ac0b43a6ac7c353547b8624439f5a9e1296c3082291b476fbb9ee5705a54fed54acd67b64aba199cc5e1b536afae5517163e2eb206a7bf0d10c4a40208d173714378620331f2906e2ea2f99148dc0fb9b94045c5945dfe6084c4670384b3171047f7b21c734f73259074088080ed91e3809ae096d58fb7b8f9af7f592cb494fc3c2d0d9f3c5a7cf794401b7a47e6d0df577f49bc57083e7b537d94e269426f4779dbf62479ac87bf277fe9e857a19bd184a4f074943d6ab606b735903bc7edb7d1e2b63a6ed7888c5314186ad03fb195b64140c83a5d38490275f897f6c652105b3bfdd1c64c242ea032de7e079ea6709253bd2ce0b5c7ab4d48627470e6cc4de0c08b3016105aba37e3b1fa8099d86448c678de5442a283618e190061dfcc7d0f38e69a26708dac2ea140a6c743feb791edf5957803ffc84dcf452f64872e359cd269ded8a6bce22b00e9e1bdb1c271ffad77ba176146205ea659ff580843ff673bb0ef21cc7aef1eff8u
     m_Human:
       data:
         serializedVersion: 2
@@ -2612,8 +2636,8 @@ Avatar:
         m_HasLeftHand: 1
         m_HasRightHand: 1
         m_HasTDoF: 0
-    m_HumanSkeletonIndexArray: 030000000c0000000d0000000e0000000f0000001000000011000000810000008200000083000000840000008500000086000000870000008a0000008b0000008c0000008e0000008f0000009000000091000000930000009400000095000000970000009800000099000000a1000000a2000000a3000000a4000000a5000000a6000000a7000000aa000000ab000000ac000000ae000000af000000b0000000b1000000b3000000b4000000b5000000b7000000b8000000b9000000c1000000c2000000c3000000c4000000c7000000c8000000c9000000ca000000i
-    m_HumanSkeletonReverseIndexArray: ffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff010000000200000003000000040000000500000006000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0700000008000000090000000a0000000b0000000c0000000d000000ffffffffffffffff0e0000000f00000010000000ffffffff11000000120000001300000014000000ffffffff150000001600000017000000ffffffff18000000190000001a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff1b0000001c0000001d0000001e0000001f0000002000000021000000ffffffffffffffff220000002300000024000000ffffffff25000000260000002700000028000000ffffffff290000002a0000002b000000ffffffff2c0000002d0000002e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff2f000000300000003100000032000000ffffffffffffffff33000000340000003500000036000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffi
+    m_HumanSkeletonIndexArray: 030000000c0000000d0000000e0000000f00000010000000110000007f00000080000000810000008200000083000000840000008500000088000000890000008a0000008c0000008d0000008e0000008f0000009100000092000000930000009500000096000000970000009f000000a0000000a1000000a2000000a3000000a4000000a5000000a8000000a9000000aa000000ac000000ad000000ae000000af000000b1000000b2000000b3000000b5000000b6000000b7000000c1000000c2000000c3000000c4000000c7000000c8000000c9000000ca000000i
+    m_HumanSkeletonReverseIndexArray: ffffffffffffffffffffffff00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff010000000200000003000000040000000500000006000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0700000008000000090000000a0000000b0000000c0000000d000000ffffffffffffffff0e0000000f00000010000000ffffffff11000000120000001300000014000000ffffffff150000001600000017000000ffffffff18000000190000001a000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffff1b0000001c0000001d0000001e0000001f0000002000000021000000ffffffffffffffff220000002300000024000000ffffffff25000000260000002700000028000000ffffffff290000002a0000002b000000ffffffff2c0000002d0000002e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2f000000300000003100000032000000ffffffffffffffff33000000340000003500000036000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffi
     m_RootMotionBoneIndex: -1
     m_RootMotionBoneX:
       t: {x: 0, y: 0, z: 0}
@@ -2629,6 +2653,7 @@ Avatar:
         m_X: []
     m_RootMotionSkeletonIndexArray:
   m_TOS:
+    3167998882: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_y02"
     2908618293: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_nose3"
     2734069837: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Index1"
     3070210394: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/LeftBoot"
@@ -2636,20 +2661,21 @@ Avatar:
     1369837723: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_chick2"
     1049930081: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_forehead"
     1123869263: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth4"
-    820434956: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e01"
+    1094623799: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/W3_hroll"
     923715540: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_nose_base"
-    3855814050: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_14_Body"
     2439251547: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Ring1/W3_l_ring_knuckleRoll"
     1674601672: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_lip"
+    697265657: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_r01"
     332987837: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_pinky0/J_Bip_L_Little1/J_Bip_L_Little2"
     3459708308: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_eyelid2"
     397746009: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_pinky0/J_Bip_R_Little1/J_Bip_R_Little2/J_Bip_R_Little3"
     819506509: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/J_Bip_R_LowerLeg"
-    851708560: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b05"
     3126854393: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root"
+    605612079: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_x01"
     864743103: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_12_Body"
-    824488507: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d01"
+    1416764576: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_x04"
     1507248269: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Middle1/J_Bip_R_Middle2"
+    711972178: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t05"
     1728420177: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/W3_l_bicep2"
     2752602259: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm"
     1410948334: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_lip"
@@ -2657,6 +2683,7 @@ Avatar:
     3797766462: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_chick4"
     1481546183: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest"
     2854257155: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_jaw"
+    714897343: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/W3_r_boob"
     2001285543: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder"
     114442031: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_left_eyelid1"
     188675083: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_chick2"
@@ -2664,97 +2691,95 @@ Avatar:
     3184033172: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/W3_l_elbowRoll"
     616943486: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Ring1"
     3283195753: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Index1/W3_r_index_knuckleRoll"
-    622608514: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_5_Body"
-    1650683037: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_eyebrow2"
     2248184700: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth3"
+    1650683037: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_eyebrow2"
     2787760715: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/W3_r_legRoll2"
     2658551334: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest"
     933984799: "VRM\u5750\u6807\u7CFB"
     67709230: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm"
     2685567751: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/J_Bip_L_LowerLeg/J_Bip_L_Foot/J_Bip_L_ToeBase"
+    1567155652: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t04"
     1405438367: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth_fold4"
     3131501738: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth_fold2"
     2497527304: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck"
-    3744125719: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d03"
     4268696754: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_pinky0/J_Bip_R_Little1/J_Bip_R_Little2"
-    1082928259: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e04"
-    128998307: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head"
     981040509: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm"
+    128998307: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head"
+    635077144: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_y01"
     768512009: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_corner_lip2"
-    1426537427: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_r_foot"
     4142821845: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth_fold3"
+    1426537427: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_r_foot"
+    3009840360: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t06"
     1890310991: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_pinky0/J_Bip_L_Little1"
+    2059328480: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/h_01_wa__triss_lod0_7_Body"
     3354823366: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_pinky0/J_Bip_R_Little1/W3_r_pinky_knuckleRoll"
     2408082522: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_corner_lip1"
     2681958037: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_left_eyelid2"
     2988437453: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u53F3\u817F\u8FDE\u7EED\u4E1D\u889C"
-    938438864: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_a01"
     2813942304: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_ears"
     1745810000: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth1"
-    4081427359: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_3_Body"
+    3463506940: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u5DE6\u817F\u539F\u59CB\u817F\u811A"
     2182445763: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/W3_l_legRoll2"
     3439394660: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips"
     2952726605: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Middle1/J_Bip_L_Middle2/J_Bip_L_Middle3"
-    3463506940: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u5DE6\u817F\u539F\u59CB\u817F\u811A"
     3275926248: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_eyebrow3"
-    1085586064: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/h_01_wa__triss_lod0_9_Body"
-    3739793696: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e03"
+    2961587267: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_r02"
     1311670524: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder"
+    3272372327: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t03"
     3904003970: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_forehead"
-    3720354724: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/c_01_wa__triss_lod0_7_Body"
     805561692: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Ring1/J_Bip_L_Ring2/J_Bip_L_Ring3"
     3663384227: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_nose2"
     2179547459: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth_fold2"
+    3390474499: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_x03"
     358898699: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_eyebrow3"
     1463788590: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_eyelid1"
-    3330924508: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/i_01_wa__triss_lod0_15_Body"
-    1976684849: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_0_Body"
+    3268287056: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_u03"
+    322966612: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/W3_l_boob"
     216601990: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_weapon"
-    910784034: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d05"
-    2116684555: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Thumb1/J_Bip_R_Thumb2/J_Bip_R_Thumb3"
     1753932918: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth_fold4"
+    2116684555: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Thumb1/J_Bip_R_Thumb2/J_Bip_R_Thumb3"
     206003676: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_pinky0"
+    3419726644: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_y03"
     1595004473: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Middle1/J_Bip_R_Middle2/J_Bip_R_Middle3"
     3600520285: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_pinky0"
     3286704000: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_pinky0/J_Bip_L_Little1/W3_l_pinky_knuckleRoll"
     3099964846: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_chick4"
-    748071281: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/c_01_wa__triss_lod0_8_Body"
     3325155959: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_temple"
     720299342: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_eyelid_fold"
     3312518853: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/J_Bip_L_LowerLeg/J_Bip_L_Foot"
-    862063714: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_g01"
-    424472947: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/h_wa__neck_transition_lod0_10_Body"
-    3997209383: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_4_Body"
     1224044302: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/W3_thyroid"
-    856055975: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_c05"
     1129553689: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_nose1"
     1182496801: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/W3_r_elbowRoll"
+    1496057074: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_dlc_lod0_0_Body"
     1156314912: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_right_eyelid3"
-    1140936753: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_c04"
+    3172055445: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_x02"
     2277691672: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/J_Bip_L_LowerLeg/W3_l_kneeRoll"
     3686219185: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Index1/J_Bip_L_Index2"
-    2908943620: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_c02"
     2453120433: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_chick1"
+    3079640223: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_v02"
+    1984922866: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/c_01_wa__triss_dlc_lod0_5_Body"
     2699922860: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_right_lip"
-    1442116728: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_hinge_l_collar"
+    2974045812: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s02"
     522044464: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Middle1"
+    3753408092: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_dlc_lod0_3_Body"
     3533191011: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Middle1/J_Bip_L_Middle2"
     4051953756: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u5DE6\u817F\u8FDE\u7EED\u4E1D\u889C"
-    1644233910: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_l_boob"
+    967527789: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/a_01_wa__triss_dlc_px:GMesh_lod0.002_1_Cloth"
     4218043687: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_eyebrow1"
+    124850811: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/W3_Hips_AUX"
     1401497204: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/J_Bip_R_LowerLeg/J_Bip_R_Foot/J_Bip_R_ToeBase"
-    2897952119: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/t_01_wa__body_triss_lod0_16_Body"
-    2927775151: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e06"
+    3230180361: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_v03"
     2184586020: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_l_hand"
     4189265334: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/W3_l_legRoll"
     3107046658: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_eyelid3"
+    3347123413: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_r03"
     1121458700: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_eye"
     3931795650: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_eyelid_fold"
     4043809770: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth2"
-    1541236573: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_r_boob"
     1483015211: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_Reference"
-    1019598689: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_hinge_r_collar"
     612280432: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Thumb1"
+    3326306018: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s03"
+    2981422686: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/OriginalGarments"
     3571009970: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/W3_r_forearmRoll1/W3_r_forearmRoll2/W3_r_handRoll"
     1322923807: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg"
     0:
@@ -2765,68 +2790,71 @@ Avatar:
     648093709: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_chick3"
     8400551: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_torso3"
     1122883340: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Index1"
-    3449936956: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth_fold3"
+    1770796993: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/twals_01_wa__body_triss_lod0_15_Body"
     1956894821: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Ring1/W3_r_ring_knuckleRoll"
+    3449936956: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth_fold3"
     3382033537: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/J_Bip_R_LowerLeg/W3_r_kneeRoll"
     2708235801: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_tongue_left_side"
     2636012510: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Index1/W3_l_index_knuckleRoll"
-    879469758: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_c01"
+    4040947292: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/c_01_wa__triss_dlc_lod0_6_Body"
+    1492867769: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/l_01_wa__triss_dlc_lod0_14_Body"
     3295012657: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Thumb1"
-    1221783552: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_sleeve_lod0_6_Body"
+    2682013401: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/a_01_wa__triss_dlc_px:GMesh_lod0.002_0_Cloth"
     2548659259: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_nose"
     2940426369: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_tongue1"
     1193963585: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_pelvis"
+    3049859782: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_u02"
+    1887838612: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/i_01_wa__triss_dlc_lod0_13_Body"
     3433271764: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_Trajectory"
     3973859056: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/W3_r_shoulderRoll"
+    755110219: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t01"
+    664550465: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_z01"
     2141857934: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_tongue_right_side"
-    941191226: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_2_Body"
     4025253063: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_pinky0/J_Bip_L_Little1/J_Bip_L_Little2/J_Bip_L_Little3"
     979061667: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/W3_r_bicep2"
     3710691850: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_eye"
-    2896207667: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b02"
+    2118274996: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_10_Body"
     2867172876: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_right_eyelid1"
     3024460414: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_eyebrow2"
     3593853959: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_weapon"
     409208543: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth4"
-    2821579649: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d02"
     598719760: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_mouth_fold1"
     3719514881: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_eyelid1"
+    790676439: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s05"
     1194563888: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_chin"
     417337593: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth_fold1"
     3366928673: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_chick1"
     3038682129: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_11_Body"
     871155638: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_right_eyelid2"
     2645656661: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/W3_r_legRoll"
+    750812028: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_u01"
     1022166068: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Middle1/W3_l_middle_knuckleRoll"
-    2934317418: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_a02"
     1197557085: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_nose2"
-    3196912276: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_lod0_1_Body"
+    350529017: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_dlc_lod0_2_Body"
+    1479013185: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s04"
     3530333568: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Index1/J_Bip_R_Index2/J_Bip_R_Index3"
     2084160669: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_chick3"
-    3664102802: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_c03"
     505851513: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Middle1"
     3731363047: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_nose1"
+    1437628055: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_y04"
     1292874864: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/W3_r_forearmRoll1/W3_r_forearmRoll2"
-    2851047862: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e02"
+    3475507439: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/i_02_wa__triss_dlc_px:GMesh_lod0.001_0_Cloth"
     2209359041: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine"
     2852501373: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand"
     3906756099: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_left_eyelid3"
     1387862122: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/W3_l_shoulderRoll"
-    1095648948: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d04"
+    868035117: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_eyelid3"
+    676136910: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s01"
     2136311229: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_right_eyelid_fold"
-    1086224536: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_lip"
     3152691407: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_r_hand"
     1416221311: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Ring1/J_Bip_R_Ring2"
+    1086224536: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_left_lip"
     910821691: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_tongue2"
-    868035117: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_upper_right_eyelid3"
     2381114477: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/\u53F3\u817F\u539F\u59CB\u817F\u811A"
-    900320905: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b01"
+    3267184356: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/body_01_wa__triss_dlc_lod0_4_Body"
     1411165301: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_left_eyelid_fold"
     3410047279: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg/J_Bip_R_LowerLeg/J_Bip_R_Foot"
-    2940217240: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_d06"
     989448903: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Thumb1/J_Bip_R_Thumb2"
-    3655406076: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_a03"
-    4174789914: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_13_Body"
     491405825: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_lowwer_lip"
     1043296023: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_thumb_roll"
     1044722289: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/W3_l_forearmRoll1/W3_l_forearmRoll2"
@@ -2834,30 +2862,29 @@ Avatar:
     750653661: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Thumb1/J_Bip_L_Thumb2"
     3450505270: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/W3_l_forearmRoll1/W3_l_forearmRoll2/W3_l_handRoll"
     151020402: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/W3_r_pinky0/J_Bip_R_Little1"
-    1170422278: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b04"
     760007620: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_eyebrow1"
+    427619392: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/he_01_wa__triss_lod0_9_Body"
     3450109387: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Index1/J_Bip_L_Index2/J_Bip_L_Index3"
     983804244: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/RightBoot"
-    849372757: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_f01"
     3932393588: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Ring1"
     1642261312: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Thumb1/J_Bip_L_Thumb2/J_Bip_L_Thumb3"
     2628337383: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_temple"
     598862910: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm"
-    931863573: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_e05"
+    780584229: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_v01"
     688929806: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_L_UpperLeg/J_Bip_L_LowerLeg"
-    3140563721: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_hinge_medalion"
     3455117227: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Index1/J_Bip_R_Index2"
+    3020636401: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_t02"
     1689129569: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/J_Bip_R_Hand/J_Bip_R_Middle1/W3_r_middle_knuckleRoll"
+    3056177773: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_s06"
     3700979692: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth3"
-    1094623799: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/W3_hroll"
+    812021195: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_nose3"
     2008909380: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_R_UpperLeg"
     4216396733: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/J_Bip_L_Ring1/J_Bip_L_Ring2"
-    3685199781: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_dyng_hair_b03"
     848697024: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_left_mouth1"
     3191841375: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/J_Bip_L_Hand/W3_l_thumb_roll"
     1826314296: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/W3_IK_l_foot"
     3151439066: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_L_Shoulder/J_Bip_L_UpperArm/J_Bip_L_LowerArm/W3_l_forearmRoll1"
-    812021195: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_C_Neck/J_Bip_C_Head/W3_right_nose3"
+    30682238: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/h_wa__neck_transition_lod0_8_Body"
     1465716393: "VRM\u5750\u6807\u7CFB/YenneferSkeleton/W3_Root/J_Bip_C_Hips/J_Bip_C_Spine/J_Bip_C_Chest/J_Bip_C_UpperChest/J_Bip_R_Shoulder/J_Bip_R_UpperArm/J_Bip_R_LowerArm/W3_r_forearmRoll1"
   m_HumanDescription:
     serializedVersion: 3
@@ -3369,164 +3396,154 @@ Avatar:
       m_Position: {x: 0.0000111927475, y: 0.12569416, z: 0.028090794}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_l_boob
+    - m_Name: W3_dyng_hair_r01
       m_ParentName:
-      m_Position: {x: -0.04233013, y: -0.29786932, z: 0.038838103}
+      m_Position: {x: -0.058697503, y: 0.054235697, z: 0.07921577}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_r_boob
+    - m_Name: W3_dyng_hair_r02
       m_ParentName:
-      m_Position: {x: 0.042251546, y: -0.2978716, z: 0.038841724}
+      m_Position: {x: -0.05878902, y: 0.02415061, z: 0.079197995}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_hinge_medalion
+    - m_Name: W3_dyng_hair_r03
       m_ParentName:
-      m_Position: {x: -0.0009291634, y: -0.16093338, z: 0.041362822}
+      m_Position: {x: -0.058685515, y: -0.005947113, z: 0.079564966}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_hinge_l_collar
+    - m_Name: W3_dyng_hair_s01
       m_ParentName:
-      m_Position: {x: -0.07405088, y: -0.100349545, z: 0.05221292}
+      m_Position: {x: -0.048514433, y: 0.09747553, z: 0.08283471}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_hinge_r_collar
+    - m_Name: W3_dyng_hair_s02
       m_ParentName:
-      m_Position: {x: 0.081162676, y: -0.09619653, z: 0.052212927}
+      m_Position: {x: -0.049009137, y: 0.066645265, z: 0.0828643}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_b05
+    - m_Name: W3_dyng_hair_s03
       m_ParentName:
-      m_Position: {x: 0.06527506, y: -0.07247126, z: 0.06491893}
+      m_Position: {x: -0.049455892, y: 0.032209992, z: 0.082996815}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_b04
+    - m_Name: W3_dyng_hair_s04
       m_ParentName:
-      m_Position: {x: 0.0684262, y: -0.03989756, z: 0.06777592}
+      m_Position: {x: -0.050058793, y: -0.0021588802, z: 0.082988724}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_b03
+    - m_Name: W3_dyng_hair_s05
       m_ParentName:
-      m_Position: {x: 0.069487005, y: -0.004545808, z: 0.06985269}
+      m_Position: {x: -0.050313156, y: -0.036034822, z: 0.083286695}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_b02
+    - m_Name: W3_dyng_hair_s06
       m_ParentName:
-      m_Position: {x: 0.068642765, y: 0.034289956, z: 0.07303623}
+      m_Position: {x: -0.050639685, y: -0.07306349, z: 0.08359833}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_b01
+    - m_Name: W3_dyng_hair_t01
       m_ParentName:
-      m_Position: {x: 0.061232924, y: 0.06446254, z: 0.0756536}
+      m_Position: {x: -0.033370614, y: 0.09266424, z: 0.09382733}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d06
+    - m_Name: W3_dyng_hair_t02
       m_ParentName:
-      m_Position: {x: -0.063972265, y: -0.06727731, z: 0.075058885}
+      m_Position: {x: -0.033765208, y: 0.06674945, z: 0.09384963}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d05
+    - m_Name: W3_dyng_hair_t03
       m_ParentName:
-      m_Position: {x: -0.06282155, y: -0.036858678, z: 0.07860606}
+      m_Position: {x: -0.033979695, y: 0.03974247, z: 0.09393725}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d04
+    - m_Name: W3_dyng_hair_t04
       m_ParentName:
-      m_Position: {x: -0.062208902, y: -0.010059714, z: 0.08267553}
+      m_Position: {x: -0.034490902, y: 0.010824084, z: 0.093938924}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d03
+    - m_Name: W3_dyng_hair_t05
       m_ParentName:
-      m_Position: {x: -0.060723133, y: 0.016132593, z: 0.087019116}
+      m_Position: {x: -0.035130482, y: -0.017873883, z: 0.09389728}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d02
+    - m_Name: W3_dyng_hair_t06
       m_ParentName:
-      m_Position: {x: -0.06131782, y: 0.038255453, z: 0.09155688}
+      m_Position: {x: -0.035551056, y: -0.04620087, z: 0.09392516}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_d01
+    - m_Name: W3_dyng_hair_u01
       m_ParentName:
-      m_Position: {x: -0.056378953, y: 0.0643338, z: 0.09180339}
+      m_Position: {x: 0.049839377, y: 0.048163056, z: 0.08371934}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_c01
+    - m_Name: W3_dyng_hair_u02
       m_ParentName:
-      m_Position: {x: -0.063432336, y: 0.02377081, z: 0.06593653}
+      m_Position: {x: 0.049210373, y: 0.01925528, z: 0.08376705}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_c02
+    - m_Name: W3_dyng_hair_u03
       m_ParentName:
-      m_Position: {x: -0.06491598, y: -0.0067881346, z: 0.06254489}
+      m_Position: {x: 0.04867531, y: -0.012916207, z: 0.08373658}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_c03
+    - m_Name: W3_dyng_hair_v01
       m_ParentName:
-      m_Position: {x: -0.06626175, y: -0.04067242, z: 0.05606952}
+      m_Position: {x: 0.06504123, y: 0.03331995, z: 0.06658949}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_c04
+    - m_Name: W3_dyng_hair_v02
       m_ParentName:
-      m_Position: {x: -0.068831325, y: -0.045331955, z: 0.03212828}
+      m_Position: {x: 0.06453212, y: 0.0015919209, z: 0.06661985}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_c05
+    - m_Name: W3_dyng_hair_v03
       m_ParentName:
-      m_Position: {x: -0.078605354, y: -0.035041213, z: 0.006052514}
+      m_Position: {x: 0.06341397, y: -0.02899623, z: 0.06761028}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_a03
+    - m_Name: W3_dyng_hair_x01
       m_ParentName:
-      m_Position: {x: 0.03303311, y: 0.026197791, z: 0.09934491}
+      m_Position: {x: -0.060441002, y: 0.0053834915, z: 0.039171793}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_a01
+    - m_Name: W3_dyng_hair_x02
       m_ParentName:
-      m_Position: {x: 0.023104442, y: 0.06667304, z: 0.11199068}
+      m_Position: {x: -0.06084485, y: -0.025116682, z: 0.03902564}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_a02
+    - m_Name: W3_dyng_hair_x03
       m_ParentName:
-      m_Position: {x: 0.028742336, y: 0.048770428, z: 0.10851914}
+      m_Position: {x: -0.061254166, y: -0.058305502, z: 0.038864784}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e06
+    - m_Name: W3_dyng_hair_x04
       m_ParentName:
-      m_Position: {x: -0.052475356, y: -0.044568658, z: 0.082318515}
+      m_Position: {x: -0.06173665, y: -0.08969867, z: 0.038796417}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e05
+    - m_Name: W3_dyng_hair_y01
       m_ParentName:
-      m_Position: {x: -0.05242265, y: -0.019708276, z: 0.08822037}
+      m_Position: {x: 0.06547296, y: 0.003886819, z: 0.0235776}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e04
+    - m_Name: W3_dyng_hair_y02
       m_ParentName:
-      m_Position: {x: -0.051834296, y: 0.005695939, z: 0.095511794}
+      m_Position: {x: 0.06471041, y: -0.028164625, z: 0.02335937}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e03
+    - m_Name: W3_dyng_hair_y03
       m_ParentName:
-      m_Position: {x: -0.051471878, y: 0.030618668, z: 0.10073723}
+      m_Position: {x: 0.06432318, y: -0.059072375, z: 0.023205368}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e02
+    - m_Name: W3_dyng_hair_y04
       m_ParentName:
-      m_Position: {x: -0.049775586, y: 0.060113907, z: 0.100110896}
+      m_Position: {x: 0.06348255, y: -0.08957088, z: 0.023025705}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_e01
+    - m_Name: W3_dyng_hair_z01
       m_ParentName:
-      m_Position: {x: -0.0382501, y: 0.08750272, z: 0.09027912}
-      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-      m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_g01
-      m_ParentName:
-      m_Position: {x: -0.043484557, y: -0.026830196, z: -0.076169685}
-      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
-      m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: W3_dyng_hair_f01
-      m_ParentName:
-      m_Position: {x: 0.04919751, y: -0.03154242, z: -0.07616971}
+      m_Position: {x: 0.028694235, y: -0.026124835, z: -0.05487638}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
     - m_Name: W3_nose
@@ -4244,6 +4261,16 @@ Avatar:
       m_Position: {x: 0.12919722, y: -0.04046786, z: -0.026035784}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: W3_l_boob
+      m_ParentName:
+      m_Position: {x: -0.04230851, y: 0.017216206, z: 0.028756965}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: W3_r_boob
+      m_ParentName:
+      m_Position: {x: 0.042273127, y: 0.01721394, z: 0.028760556}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
     - m_Name: J_Bip_L_UpperLeg
       m_ParentName:
       m_Position: {x: -0.072680034, y: -0.034039915, z: -0.0028520226}
@@ -4314,57 +4341,67 @@ Avatar:
       m_Position: {x: 0.092095956, y: 0.045971155, z: -0.0013822429}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_0_Body
+    - m_Name: W3_Hips_AUX
+      m_ParentName:
+      m_Position: {x: -0.000000003802024, y: -0.000000059604645, z: -0.00000015087426}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: a_01_wa__triss_dlc_px:GMesh_lod0.002_0_Cloth
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_1_Body
+    - m_Name: a_01_wa__triss_dlc_px:GMesh_lod0.002_1_Cloth
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_2_Body
+    - m_Name: body_01_wa__triss_dlc_lod0_0_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_3_Body
+    - m_Name: body_01_wa__triss_dlc_lod0_2_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_4_Body
+    - m_Name: body_01_wa__triss_dlc_lod0_3_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_lod0_5_Body
+    - m_Name: body_01_wa__triss_dlc_lod0_4_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: body_01_wa__triss_sleeve_lod0_6_Body
+    - m_Name: c_01_wa__triss_dlc_lod0_5_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: c_01_wa__triss_lod0_7_Body
+    - m_Name: c_01_wa__triss_dlc_lod0_6_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: c_01_wa__triss_lod0_8_Body
+    - m_Name: h_01_wa__triss_lod0_7_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: h_01_wa__triss_lod0_9_Body
+    - m_Name: h_wa__neck_transition_lod0_8_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: h_wa__neck_transition_lod0_10_Body
+    - m_Name: he_01_wa__triss_lod0_9_Body
+      m_ParentName:
+      m_Position: {x: 0, y: 0, z: 0}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: he_01_wa__triss_lod0_10_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4379,22 +4416,22 @@ Avatar:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: he_01_wa__triss_lod0_13_Body
+    - m_Name: i_01_wa__triss_dlc_lod0_13_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: he_01_wa__triss_lod0_14_Body
+    - m_Name: i_02_wa__triss_dlc_px:GMesh_lod0.001_0_Cloth
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: i_01_wa__triss_lod0_15_Body
+    - m_Name: l_01_wa__triss_dlc_lod0_14_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
-    - m_Name: t_01_wa__body_triss_lod0_16_Body
+    - m_Name: twals_01_wa__body_triss_lod0_15_Body
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4405,6 +4442,11 @@ Avatar:
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}
       m_Scale: {x: 1, y: 1, z: 1}
     - m_Name: RightBoot
+      m_ParentName:
+      m_Position: {x: 0, y: 0, z: 0}
+      m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+      m_Scale: {x: 1, y: 1, z: 1}
+    - m_Name: OriginalGarments
       m_ParentName:
       m_Position: {x: 0, y: 0, z: 0}
       m_Rotation: {x: 0, y: 0, z: 0, w: 1}

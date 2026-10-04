@@ -147,21 +147,7 @@ namespace Homecoming.Editor
             rig.leftArm.localRotation=Quaternion.Euler(0,0,78); rig.rightArm.localRotation=Quaternion.Euler(0,0,-78);
             foreach(var human in data.humanBones)
                 if(human.bone.Contains("Proximal") && !human.bone.Contains("Thumb")) nodes[human.node].localRotation=Quaternion.Euler(0,human.bone.StartsWith("left")?-12:12,0);
-            Material Palette(string name,Color color)
-            {
-                var material=new Material(Shader.Find("Universal Render Pipeline/Lit")){name=name}; material.color=color; material.SetFloat("_Smoothness",.25f); return material;
-            }
-            var footwear=new XiaModelBuilder(Palette("Skin",new Color(.94f,.70f,.54f)),Palette("Hair",new Color(.14f,.065f,.04f)),Palette("Blouse",Color.white),Palette("Skirt",new Color(.12f,.25f,.22f)),Palette("Leather",new Color(.20f,.09f,.055f)),Palette("HomeSlipper",new Color(.85f,.46f,.40f)));
-            var slipperMaterial=Palette("叶奈法家居拖鞋",new Color(.85f,.46f,.40f));
-            rig.leftSlipper=footwear.BuildFootwear("左家居拖鞋",new Vector3(0,-.065f,.045f),slipperMaterial,Bone("leftFoot"),true);
-            rig.rightSlipper=footwear.BuildFootwear("右家居拖鞋",new Vector3(0,-.065f,.045f),slipperMaterial,Bone("rightFoot"),true);
-            rig.leftSlipper.transform.localRotation=rig.rightSlipper.transform.localRotation=Quaternion.Euler(0,180,0);
-            var old=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Homecoming/Resources/Homecoming/Xia.prefab");
-            var originalRig=old.GetComponent<CharacterRig>();
-            rig.bag=UnityEngine.Object.Instantiate(originalRig.bag);
-            rig.bag.name="通勤手提包"; rig.bag.transform.position=Bone("rightHand").position+new Vector3(.015f,-.22f,.015f); rig.bag.transform.rotation=Quaternion.identity; rig.bag.transform.SetParent(Bone("rightHand"),true); rig.bag.SetActive(true);
             rig.leftGroundShoe=GroundShoe(rig.leftShoe,root.transform,"LeftGroundShoe"); rig.rightGroundShoe=GroundShoe(rig.rightShoe,root.transform,"RightGroundShoe");
-            rig.leftSlipper.SetActive(false); rig.rightSlipper.SetActive(false);
             // Persist accessory meshes/materials; all author-provided assets remain in ThirdParty.
             int accessory=0;
             foreach(var filter in root.GetComponentsInChildren<MeshFilter>(true))
@@ -177,7 +163,7 @@ namespace Homecoming.Editor
                     else AssetDatabase.CreateAsset(renderer.sharedMaterial,path);
                 }
             rig.CaptureRestPose(); rig.Expression(1,false);
-            
+
             PrefabUtility.SaveAsPrefabAsset(root,"Assets/Homecoming/Resources/Homecoming/YenneferDLC.prefab");
             AssetDatabase.SaveAssets(); UnityEngine.Object.DestroyImmediate(root); AssetDatabase.Refresh();
             Debug.Log("YENNEFER IMPORT PASSED: travel outfit, original mesh, UVs, textures, humanoid rig and separated footwear.");

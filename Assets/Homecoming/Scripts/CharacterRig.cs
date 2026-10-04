@@ -21,6 +21,16 @@ namespace Homecoming
         public float RightDressLift { get; private set; }
         readonly int[] hemIndices={-1,-1};
         readonly Vector3[] hemRest=new Vector3[2],hemSit=new Vector3[2],hemLift=new Vector3[2];
+        public void RemoveHomeAccessories()
+        {
+            foreach(var accessory in new[]{bag,leftSlipper,rightSlipper})
+            {
+                if(!accessory)continue;
+                accessory.SetActive(false);
+                if(Application.isPlaying)Destroy(accessory);else DestroyImmediate(accessory);
+            }
+            bag=null;leftSlipper=null;rightSlipper=null;
+        }
         public void CaptureRestPose()
         {
             hipRestPosition=hips.localPosition;
