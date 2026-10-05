@@ -1,0 +1,6 @@
+{
+  "game": "The Witcher 3",
+  "source": "characters/models/main_npc/yennefer/model/twals_01_wa__body_notcensor.w2mesh",
+  "sha256": "c5830564763e2e777fe339df20d57768683bb9171e031971a8c26ba9753cabbb",
+  "selection": "Original source triangles below 0.90m only; legs and barefoot feet. Upper body is not exported. Unity selects source leg triangles below 0.85m to overlap the skirt. Original UVs and weights retained. Skeleton mapped to the DLC outfit."
+}

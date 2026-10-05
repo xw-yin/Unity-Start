@@ -16,9 +16,11 @@ namespace Homecoming.Editor
         [Serializable] class Part { public string name,file; public int[] joints; }
         public static void Build(CharacterRig rig,string folder)
         {
-            var data=JsonUtility.FromJson<Manifest>(File.ReadAllText(Source+"manifest.json"));
+            bool yennefer=folder.Contains("WitcherYenneferDLC/");
+            string sourceFolder=yennefer?"Assets/ThirdParty/WitcherYenneferOriginalFeet/Prepared/":Source;
+            var data=JsonUtility.FromJson<Manifest>(File.ReadAllText(sourceFolder+"manifest.json"));
             var part=data.parts.Single();
-            var source=WitcherCharacterImport.ReadPreparedMesh(Source,part.file,part.name);
+            var source=WitcherCharacterImport.ReadPreparedMesh(sourceFolder,part.file,part.name);
             var boot=rig.leftShoe.GetComponent<SkinnedMeshRenderer>();
             var names=part.joints.Select(i=>data.nodes[i].name).ToArray();
             var map=names.Select(n=>Array.FindIndex(boot.bones,b=>b.name==n)).ToArray();
@@ -57,7 +59,7 @@ namespace Homecoming.Editor
             material.SetFloat("_Cull",2);EditorUtility.SetDirty(material);
             var skinMaterial=AssetDatabase.LoadAssetAtPath<Material>(folder+"Materials/OriginalLegSkin.mat");
             if(!skinMaterial){skinMaterial=new Material(Shader.Find("Universal Render Pipeline/Lit"));AssetDatabase.CreateAsset(skinMaterial,folder+"Materials/OriginalLegSkin.mat");}
-            skinMaterial.color=Color.white;skinMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_00.png"));EditorUtility.SetDirty(skinMaterial);
+            skinMaterial.color=Color.white;skinMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(sourceFolder+"Texture_00.png"));EditorUtility.SetDirty(skinMaterial);
             rig.anatomicalLegs=new SkinnedMeshRenderer[2];rig.hosiery=new SkinnedMeshRenderer[2];
             for(int side=0;side<2;side++)
             {
@@ -75,7 +77,7 @@ namespace Homecoming.Editor
                 {
                     // Select whole source triangles under the garment overlap.
                     var face=new[]{sourceTriangles[i],sourceTriangles[i+1],sourceTriangles[i+2]};
-                    float garmentOverlap=folder.Contains("WitcherIris/")?.90f:.68f;
+                    float garmentOverlap=folder.Contains("WitcherIris/")?.90f:yennefer?.85f:.68f;
                     if(face.Any(v=>!Own(v)||positions[v].y>garmentOverlap))continue;
                     foreach(int v in face){if(!lookup.ContainsKey(v)){lookup[v]=used.Count;used.Add(v);}triangles.Add(lookup[v]);}
                 }
@@ -96,8 +98,34 @@ namespace Homecoming.Editor
                 var sock=obj.AddComponent<SkinnedMeshRenderer>();sock.sharedMesh=sockMesh;sock.bones=boot.bones;sock.rootBone=rig.hips;sock.sharedMaterial=material;sock.updateWhenOffscreen=true;sock.localBounds=boot.localBounds;rig.hosiery[side]=sock;
             }
             UnityEngine.Object.DestroyImmediate(source);
+            if(yennefer)RemoveCoveredYenneferSurfaces(rig,folder);
             if(folder.Contains("WitcherShani/"))BuildOriginalShaniSocks(rig,folder,material);
-            Debug.Log("ORIGINAL GAME LEGS: ls_02_wa__body_barefoot; source triangles, weights and UVs retained; stockings remain attached.");
+            Debug.Log("ORIGINAL GAME LEGS: "+(yennefer?"yennefer/twals_01_wa__body_notcensor":"ls_02_wa__body_barefoot")+"; source triangles, weights and UVs retained; stockings remain attached.");
+        }
+
+
+        // Replace partial outfit leg panels to avoid overlapping skin strips.
+        static void RemoveCoveredYenneferSurfaces(CharacterRig rig,string folder)
+        {
+            foreach(var renderer in rig.GetComponentsInChildren<SkinnedMeshRenderer>().ToArray())
+            {
+                if(renderer.name=="body_05_wa__yennefer_lod0_6_Body")
+                {
+                    UnityEngine.Object.DestroyImmediate(renderer.gameObject);continue;
+                }
+                if(renderer.name!="body_05_wa__yennefer_lod0_8_Body")continue;
+                var source=renderer.sharedMesh;var vertices=source.vertices;
+                var faces=source.triangles;var keep=new List<int>();
+                for(int i=0;i<faces.Length;i+=3)
+                    if(vertices[faces[i]].y>.82f&&vertices[faces[i+1]].y>.82f&&vertices[faces[i+2]].y>.82f)
+                        keep.AddRange(new[]{faces[i],faces[i+1],faces[i+2]});
+                var used=keep.Distinct().ToArray();var lookup=used.Select((v,i)=>new{v,i}).ToDictionary(x=>x.v,x=>x.i);
+                var mesh=new Mesh{name="OriginalUpperBodySkin",vertices=used.Select(i=>vertices[i]).ToArray(),normals=used.Select(i=>source.normals[i]).ToArray(),uv=used.Select(i=>source.uv[i]).ToArray(),boneWeights=used.Select(i=>source.boneWeights[i]).ToArray(),bindposes=source.bindposes,triangles=keep.Select(i=>lookup[i]).ToArray()};
+                mesh.RecalculateBounds();mesh.RecalculateTangents();
+                string path=folder+"Meshes/OriginalUpperBodySkin.asset";var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);
+                if(existing){WitcherCharacterImport.CopyMesh(mesh,existing);UnityEngine.Object.DestroyImmediate(mesh);mesh=existing;}else AssetDatabase.CreateAsset(mesh,path);
+                renderer.sharedMesh=mesh;
+            }
         }
 
         // The game's wedding/no-shoes variant includes actual closed sock feet.

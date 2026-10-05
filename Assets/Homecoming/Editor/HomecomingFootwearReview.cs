@@ -108,7 +108,7 @@ namespace Homecoming.Editor
                     motion.Sample(10.95f);
                     if(rig.LeftDressLift<.99f)throw new Exception("Shoe reach began before the gown was raised");
                     var hand=rig.GetComponentsInChildren<Transform>().Single(t=>t.name=="J_Bip_R_Hand");
-                    float error=Vector3.Distance(hand.position,rig.DressHoldPoint(0)+new Vector3(0,.055f,-.015f));
+                    float error=Vector3.Distance(motion.Hands.Contact(1,HomecomingHandPose.Hold.Fabric),rig.DressHoldPoint(0));
                     if(error>.06f)throw new Exception("The free hand does not hold the raised gown: "+index+" error="+error+" hand="+hand.position+" hem="+rig.DressHoldPoint(0));
                     motion.Sample(16.95f);
                     if(rig.RightDressLift<.99f)throw new Exception("Right shoe reach began before the gown was raised");

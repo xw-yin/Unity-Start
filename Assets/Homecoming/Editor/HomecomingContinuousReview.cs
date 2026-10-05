@@ -110,7 +110,8 @@ namespace Homecoming.Editor
                             var shoe=story.transform.Find("脱下的通勤鞋").GetChild(side);
                             if(motion.Shoes.ContactError(shoe,side)>.002f)throw new Exception("Held shoe lost contact");
                             var properties=new MaterialPropertyBlock();sock.GetPropertyBlock(properties);
-                            if(properties.GetFloat("_BootMask")!=0)throw new Exception("Exposed foot clipped by removed boot");
+                            float expected=action<motion.Shoes.Cleared(side)?1:0;
+                            if(properties.GetFloat("_BootMask")!=expected)throw new Exception("Incorrect boot extraction coverage");
                         }
                     }
                     bool stage=new[]{0,90,150,210,270,300,330,360,390,405,420,450,510,570,630,780,840,960}.Contains(frame);
