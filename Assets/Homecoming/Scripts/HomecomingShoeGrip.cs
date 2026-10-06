@@ -38,7 +38,7 @@ namespace Homecoming
                 origins[side]=feet[side].InverseTransformPoint(origin); rest[side]=feet[side].rotation;
                 var ground=(side==0?rig.leftGroundShoe:rig.rightGroundShoe).GetComponent<MeshFilter>().sharedMesh;
                 bootVertices[side]=ground.vertices;
-                var wanted=longBoots||ankleBoots?new Vector3(0,ground.bounds.max.y-.025f,ground.bounds.min.z+.055f):new Vector3(0,ground.bounds.max.y*.75f,ground.bounds.max.z-.018f);
+                var wanted=longBoots||ankleBoots?new Vector3(side==0?ground.bounds.max.x-.008f:ground.bounds.min.x+.008f,ground.bounds.max.y-.02f,ground.bounds.min.z+.055f):new Vector3(0,ground.bounds.max.y*.75f,ground.bounds.max.z-.018f);
                 float distance=float.MaxValue;
                 foreach(var v in ground.vertices)
                 {
@@ -56,7 +56,9 @@ namespace Homecoming
         Quaternion AttachedRotation(int side)=>longBoots?calves[side].rotation*Quaternion.Inverse(calfRest[side]):feet[side].rotation*Quaternion.Inverse(rest[side]);
         public Vector3 HeelOnFoot(int side)=>feet[side].position+AttachedRotation(side)*(rest[side]*origins[side]+heels[side]);
         public Matrix4x4 AttachedMatrix(int side)=>Matrix4x4.TRS(HeelOnFoot(side)-AttachedRotation(side)*heels[side],AttachedRotation(side),Vector3.one);
-        public Vector3 GroundOrigin(int side)=>new Vector3(side==0?-.64f:-1.86f,.012f,1.23f);
+        public Vector3 GroundOrigin(int side)=>longBoots
+            ?new Vector3(side==0?-.64f:-1.86f,.012f,1.23f)
+            :new Vector3(side==0?-.86f:-1.64f,.012f,1.08f);
         public Quaternion Rotation(int side,float action)=>Quaternion.Slerp(longBoots?AttachedRotation(side):Quaternion.identity,Quaternion.Euler(0,side==0?-90:90,0),Ease(action,Start(side)+(longBoots?3.05f:2.8f),Release(side)));
         public Vector3 GroundHeel(int side)=>GroundOrigin(side)+Quaternion.Euler(0,side==0?-90:90,0)*heels[side];
         public void SetHandRotation(int side,Quaternion rotation){handRotation[side]=rotation;hasHandRotation[side]=true;}

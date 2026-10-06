@@ -1,0 +1,9 @@
+{
+  "sourceMesh": "characters/models/common/woman_average/body/model/ta0_01_wa__body_censored.w2mesh",
+  "usage": "Only original upper-arm triangles under Shani sleeves, welded to matching original Shani forearm vertices. Original hands retained.",
+  "sha256": {
+    "ta0_01_wa__body_censored.w2mesh": "2776a79af6e953c979cebbcbdb83d2d85afb16219e1c5af44e28e41445acfe59",
+    "ta0_01_wa__body_censored.w2mesh.1.buffer": "4158b97ad8a2d96c894fc4e69b4504105846f1866aa0bdc3e0563ab19f6c0fca"
+  },
+  "adaptation": "454 original source triangles added; exposed forearm and hands unchanged. Newly restored skin hidden inside sleeves has radial fit (0.40 to 1.0) to prevent shirt intersections."
+}

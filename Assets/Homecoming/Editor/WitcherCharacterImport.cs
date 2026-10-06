@@ -77,6 +77,7 @@ namespace Homecoming.Editor
             rig.leftElbow=Bone("leftLowerArm"); rig.rightElbow=Bone("rightLowerArm");
             rig.leftThigh=Bone("leftUpperLeg"); rig.rightThigh=Bone("rightUpperLeg");
             rig.leftCalf=Bone("leftLowerLeg"); rig.rightCalf=Bone("rightLowerLeg");
+            if(CharacterName=="Shani")ShaniModelRefinement.AttachCostumeBones(rig,nodes);
             foreach(var node in nodes)if(node.name=="W3_dress_helper")node.SetParent(rig.hips,true);
             var expressions=new List<SkinnedMeshRenderer>();
             var garments=new List<SkinnedMeshRenderer>();var fabricFreedom=new List<float>();
@@ -84,6 +85,7 @@ namespace Homecoming.Editor
             for(int i=0;i<data.parts.Length;i++)
             {
                 var part=data.parts[i]; var mesh=ReadMesh(part);
+                if(CharacterName=="Shani"&&part.role.StartsWith("Shoe")&&data.materials[part.material].name=="b_01_wa__shani_Material2")ShaniModelRefinement.RemoveStockingTiesFromBoot(mesh);
                 string meshPath=Destination+"Meshes/Part_"+i.ToString("D2")+".asset";
                 var existing=AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
                 if(existing) { CopyMesh(mesh,existing); UnityEngine.Object.DestroyImmediate(mesh); mesh=existing; }
@@ -93,6 +95,14 @@ namespace Homecoming.Editor
                 renderer.bones=part.joints.Select(index=>nodes[index]).ToArray(); renderer.rootBone=rig.hips; renderer.updateWhenOffscreen=true;
                 renderer.localBounds=new Bounds(new Vector3(0,.95f,0),new Vector3(2.6f,2.6f,2.6f));
                 ModelMesh.ApplyMaterial(renderer,materials[part.material]);
+                if(CharacterName=="Shani")
+                {
+                    if(part.name.StartsWith("ta_01_wa__body_shani"))ShaniModelRefinement.CompleteOriginalArms(renderer);
+                    // Original component__shadow is a special translucent eye
+                    // pass, not an opaque white surface in URP. Keep the source
+                    // asset, but do not draw it over the actual iris mesh.
+                    if(data.materials[part.material].name=="he_01_wa__shani_Material1")renderer.enabled=false;
+                }
                 if(part.expressions.Length>0) expressions.Add(renderer);
                 if(part.role=="ShoeLeft") leftBoots.Add(renderer);
                 if(part.role=="ShoeRight") rightBoots.Add(renderer);

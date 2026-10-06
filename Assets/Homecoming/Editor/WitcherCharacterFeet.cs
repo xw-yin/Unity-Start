@@ -163,18 +163,13 @@ namespace Homecoming.Editor
             material.SetTexture("_DetailNormalMap",AssetDatabase.LoadAssetAtPath<Texture2D>(path+"OriginalSockWeave.png"));
             material.SetFloat("_DetailNormalMapScale",.30f);material.SetTextureScale("_DetailNormalMap",new Vector2(100,99));
             material.EnableKeyword("_DETAIL_NORMALMAP");EditorUtility.SetDirty(material);
+            var vertices=source.vertices;var normals=source.normals;var uv=source.uv;var faces=source.triangles;
             for(int side=0;side<2;side++)
             {
-                string prefix=side==0?"J_Bip_L_":"J_Bip_R_";
-                bool Own(int v)
-                {
-                    var w=weights[v];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};
-                    var amounts=new[]{w.weight0,w.weight1,w.weight2,w.weight3};float own=0,other=0;
-                    for(int j=0;j<4;j++)if(names[ids[j]].StartsWith(prefix))own+=amounts[j];else if(names[ids[j]].StartsWith("J_Bip_"))other+=amounts[j];
-                    return own>other;
-                }
+                // Knee ribbons are weighted to original W3 helper bones, not
+                // only J_Bip leg bones. Include their complete source triangles.
+                bool Own(int v)=>side==0?vertices[v].x<0:vertices[v].x>0;
                 var used=new List<int>();var lookup=new Dictionary<int,int>();var triangles=new List<int>();
-                var vertices=source.vertices;var normals=source.normals;var uv=source.uv;var faces=source.triangles;
                 for(int i=0;i<faces.Length;i+=3)
                 {
                     var face=new[]{faces[i],faces[i+1],faces[i+2]};
