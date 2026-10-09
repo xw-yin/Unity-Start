@@ -13,6 +13,7 @@ namespace Homecoming
         HomecomingMotion motion;
         XiaModelBuilder modelBuilder;
         float elapsed;
+        float idleElapsed;
         int phase;
         bool started, paused;
         [SerializeField, Range(0,6)] int characterIndex;
@@ -25,6 +26,11 @@ namespace Homecoming
         public void SelectCharacter(int index)
         {
             if(index<0 || index>=HomecomingCharacters.ResourcesPaths.Length || index==characterIndex) return;
+            ReplaceCharacter(index);
+        }
+        public void ReloadCharacter()=>ReplaceCharacter(characterIndex);
+        void ReplaceCharacter(int index)
+        {
             var prefab=Resources.Load<GameObject>(HomecomingCharacters.ResourcesPaths[index]);
             if(!prefab) { Debug.LogError("角色模型尚未导入："+HomecomingCharacters.Names[index]);return; }
             characterIndex=index;
@@ -218,10 +224,10 @@ namespace Homecoming
         }
         void ResetStory()
         {
-            elapsed=0; phase=0; paused=false; started=false;
+            elapsed=0; idleElapsed=0; phase=0; paused=false; started=false;
             if(!woman) return; woman.localPosition=new Vector3(-1.45f,0,4.95f); woman.localRotation=Quaternion.identity;
             door.localRotation=Quaternion.identity; hips.localPosition=rig.hipRestPosition;
-            rig.Neutral();
+            motion?.ResetFace();rig.Neutral();
             motion=new HomecomingMotion(rig);
             motion.Sample(0);
             rig.SetSkirtPose(0);
@@ -240,7 +246,10 @@ namespace Homecoming
             if(!rig || !cameraControls) { if(Application.isPlaying) Build(); else return; }
             if(motion==null) motion=new HomecomingMotion(rig);
             if(Keyboard.current != null) { if(Keyboard.current.spaceKey.wasPressedThisFrame) TogglePlayback(); if(Keyboard.current.rKey.wasPressedThisFrame) Replay(); if(Keyboard.current.cKey.wasPressedThisFrame) cameraControls.SetView((cameraControls.ViewIndex+1)%3); }
-            if(!started || paused || Finished) return;
+            if(paused)return;
+            if(!started){idleElapsed+=Time.deltaTime;motion.SampleWaiting(idleElapsed);return;}
+            if(Finished){idleElapsed+=Time.deltaTime;motion.Sample(32+idleElapsed);rig.Expression(32+idleElapsed,true);return;}
+            idleElapsed=0;
             elapsed+=Time.deltaTime; float t=elapsed;
             motion.Sample(t);
             phase=t<1.5f?0:t<8?1:t<22?2:t<27?3:4;

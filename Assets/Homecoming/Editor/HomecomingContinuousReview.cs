@@ -64,7 +64,7 @@ namespace Homecoming.Editor
             {
                 StartTimeline();
             }
-            if(state==PlayModeStateChange.EnteredEditMode){EditorSettings.enterPlayModeOptionsEnabled=SessionState.GetBool(Key+".Reload",false);SessionState.SetBool(Key,false);EditorApplication.Exit(0);}
+            if(state==PlayModeStateChange.EnteredEditMode){EditorSettings.enterPlayModeOptionsEnabled=SessionState.GetBool(Key+".Reload",false);SessionState.SetBool(Key,false);SessionState.EraseInt(Key+".Last");EditorApplication.Exit(0);}
         }
         static void StartTimeline()
         {
@@ -93,6 +93,7 @@ namespace Homecoming.Editor
                     typeof(HomecomingScene).GetField("elapsed",Flags).SetValue(story,time-Time.deltaTime);
                     typeof(HomecomingScene).GetMethod("Update",Flags).Invoke(story,null);
                     var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story);
+                    BootExtractionReview.Capture(story,rig,motion,character,frame);
                     for(int b=0;b<bones.Length;b++)
                     {
                         float angle=Quaternion.Angle(previous[b],bones[b].rotation);previous[b]=bones[b].rotation;
@@ -101,8 +102,11 @@ namespace Homecoming.Editor
                     for(int side=0;side<2;side++)
                     {
                         var sock=rig.hosiery[side];
-                        if(!sock.enabled||!sock.gameObject.activeInHierarchy)throw new Exception("Stocking disappeared: "+character);
                         float action=time-1;
+                        bool dressed=rig.dressedLegs!=null&&rig.dressedLegs.Length==2;
+                        bool extracted=action>=HomecomingShoeGrip.Detach(side);
+                        if(!sock.gameObject.activeInHierarchy||sock.enabled!=(dressed?extracted:true))throw new Exception("Incorrect dressed / extracted stocking layer: "+character);
+                        if(dressed&&(rig.dressedLegs[side].enabled==extracted||rig.dressedHosiery[side].enabled==extracted))throw new Exception("DLC outfit surface is not exclusive with the full foot layer");
                         if(action>=HomecomingShoeGrip.Detach(side)&&action<HomecomingShoeGrip.Release(side))
                         {
                             var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(side==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
@@ -116,6 +120,20 @@ namespace Homecoming.Editor
                     }
                     bool stage=new[]{0,90,150,210,270,300,330,360,390,405,420,450,510,570,630,780,840,960}.Contains(frame);
                     bool movie=(character==0||character==4||character==6)&&frame%5==0;
+                    if(new[]{0,2,3}.Contains(character)&&new[]{240,330,675}.Contains(frame))
+                    {
+                        var camera=story.CameraControls.GetComponent<Camera>();var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
+                        var aim=rig.transform.position+new Vector3(0,.85f,0);camera.transform.position=aim+new Vector3(.1f,.04f,-2.8f);camera.transform.LookAt(aim);camera.fieldOfView=38;
+                        CaptureGpu(camera,"Artifacts/DLCOutfitReview/"+character+"-"+frame+"-gpu-front.png");camera.transform.SetPositionAndRotation(position,rotation);camera.fieldOfView=fov;
+                    }
+                    if(character==0&&new[]{240,389,390,405,420,570,600,675}.Contains(frame))
+                    {
+                        var camera=story.CameraControls.GetComponent<Camera>();var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
+                        var aim=rig.transform.TransformPoint(new Vector3(0,.39f,-.04f));camera.transform.position=aim+new Vector3(.28f,.13f,-1.55f);camera.transform.LookAt(aim);camera.fieldOfView=38;
+                        CaptureGpu(camera,"Artifacts/ContinuousReview/0/"+frame+"-gpu-front.png");
+                        camera.transform.position=aim+new Vector3(1.3f,.12f,-.7f);camera.transform.LookAt(aim);CaptureGpu(camera,"Artifacts/ContinuousReview/0/"+frame+"-gpu-side.png");
+                        camera.transform.SetPositionAndRotation(position,rotation);camera.fieldOfView=fov;
+                    }
                     if(stage||movie)
                     {
                         var camera=story.CameraControls.GetComponent<Camera>();
@@ -136,7 +154,7 @@ namespace Homecoming.Editor
                         if(maximumReach>.04f)throw new Exception("Hand cannot reach shoe: "+character);
                         if(maximumAngle>30)throw new Exception("Abrupt skeletal turn: "+character+" "+worstAngle+" angle="+maximumAngle);
                         story.Replay();if(rig.transform.position.z<3.8f||!rig.leftShoe.activeSelf)throw new Exception("Replay state incorrect");
-                        if(++character>=HomecomingCharacters.Names.Length)
+                        if(++character>SessionState.GetInt(Key+".Last",HomecomingCharacters.Names.Length-1))
                         {
                             Debug.Log("CONTINUOUS PLAY REVIEW PASSED: complete timelines, held footwear, intact hosiery, bone continuity and replay.");
                             EditorApplication.update-=Tick;EditorApplication.ExitPlaymode();return;
@@ -146,6 +164,14 @@ namespace Homecoming.Editor
                 }
             }
             catch(Exception error){Debug.LogException(error);EditorApplication.update-=Tick;SessionState.SetBool(Key,false);EditorApplication.Exit(1);}
+        }
+        // Keep the actual SkinnedMeshRenderers, blendshapes and property blocks
+        // on the runtime rendering path, instead of replacing them with BakeMesh.
+        internal static void CaptureGpu(Camera camera,string path)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));var target=new RenderTexture(1100,1000,24);var oldTarget=camera.targetTexture;var oldActive=RenderTexture.active;Texture2D image=null;
+            try{camera.targetTexture=target;camera.Render();RenderTexture.active=target;image=new Texture2D(1100,1000,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1100,1000),0,0);image.Apply();File.WriteAllBytes(path,image.EncodeToPNG());}
+            finally{camera.targetTexture=oldTarget;RenderTexture.active=oldActive;if(image)UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(target);}
         }
     }
 }

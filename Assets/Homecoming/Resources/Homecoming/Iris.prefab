@@ -5896,7 +5896,7 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3249368668583684834}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -14178,6 +14178,7 @@ MonoBehaviour:
   importedSource: 1
   longBoots: 1
   footwearKind: 2
+  openToeFootwear: 0
   anatomicalLegs:
   - {fileID: 2272706793841448029}
   - {fileID: 323711448557828604}

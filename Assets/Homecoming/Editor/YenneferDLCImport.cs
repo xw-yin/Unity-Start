@@ -48,7 +48,7 @@ namespace Homecoming.Editor
                 material.SetFloat("_Cutoff",surface.alpha=="MASK"?surface.cutoff:surface.alpha=="BLEND"?.005f:0);
                 if(surface.alpha=="BLEND") { material.SetFloat("_SrcBlend",5); material.SetFloat("_DstBlend",10); material.SetFloat("_ZWrite",0); material.renderQueue=3000; }
                 else material.renderQueue=surface.alpha=="MASK"?2450:2000;
-                if(surface.name=="DLC_UnderBootStockings"||surface.name=="body_05_wa__yennefer_Material6")
+                if(surface.name=="DLC_UnderBootStockings")
                 {
                     material.SetTexture("_BaseMap",null);material.SetTexture("_BumpMap",null);
                     material.DisableKeyword("_NORMALMAP");material.color=new Color(.018f,.018f,.018f);material.SetFloat("_Smoothness",.18f);
@@ -94,38 +94,17 @@ namespace Homecoming.Editor
                 renderer.bones=part.joints.Select(index=>nodes[index]).ToArray(); renderer.rootBone=rig.hips; renderer.updateWhenOffscreen=true;
                 renderer.localBounds=new Bounds(new Vector3(0,.95f,0),new Vector3(2.6f,2.6f,2.6f));
                 ModelMesh.ApplyMaterial(renderer,materials[part.material]);
+                if(data.materials[part.material].name.StartsWith("he_")&&data.materials[part.material].name.EndsWith("_Material1")&&data.materials[part.material].texture<0)renderer.enabled=false;
                 if(part.expressions.Length>0) expressions.Add(renderer);
                 if(part.role=="ShoeLeft") rig.leftShoe=obj;
                 if(part.role=="ShoeRight") rig.rightShoe=obj;
                 if(part.name.StartsWith("dress_05_")) rig.skirt=renderer;
             }
             rig.expressionRenderers=expressions.ToArray();
-            foreach(var shoe in new[]{rig.leftShoe,rig.rightShoe})
-            {
-                var skin=shoe.GetComponent<SkinnedMeshRenderer>();var mesh=skin.sharedMesh;var v=mesh.vertices;
-                var foot=shoe==rig.leftShoe?Bone("leftFoot"):Bone("rightFoot");
-                var calf=shoe==rig.leftShoe?Bone("leftLowerLeg"):Bone("rightLowerLeg");
-                var ankle=shoe.transform.InverseTransformPoint(foot.position);var knee=shoe.transform.InverseTransformPoint(calf.position);
-                float[] levels={.16f,.20f,.25f,.30f,.35f,.40f,.45f,.50f,.54f};var centers=new Vector3[levels.Length];
-                for(int ring=0;ring<levels.Length;ring++)
-                {
-                    var band=v.Where(p=>Mathf.Abs(p.y-levels[ring])<.027f).ToArray();
-                    centers[ring]=new Vector3((band.Min(p=>p.x)+band.Max(p=>p.x))*.5f,levels[ring],(band.Min(p=>p.z)+band.Max(p=>p.z))*.5f);
-                }
-                var w=new BoneWeight[v.Length];int bone=Array.IndexOf(skin.bones,foot);
-                for(int i=0;i<v.Length;i++)
-                {
-                    float blend=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.22f,v[i].y));
-                    var axis=Vector3.LerpUnclamped(ankle,knee,(v[i].y-ankle.y)/(knee.y-ankle.y));
-                    var center=centers[0];for(int ring=1;ring<levels.Length;ring++)if(v[i].y>=levels[ring-1])center=Vector3.Lerp(centers[ring-1],centers[ring],Mathf.InverseLerp(levels[ring-1],levels[ring],v[i].y));
-                    v[i].x+=blend*(axis.x-center.x);v[i].z+=blend*(axis.z-center.z);
-                    v[i].x=axis.x+(v[i].x-axis.x)*(1+.25f*blend);v[i].z=axis.z+(v[i].z-axis.z)*(1+.25f*blend);
-                    if(v[i].y>.12f)v[i].y=.12f+(v[i].y-.12f)*.833333f;
-                    w[i]=new BoneWeight{boneIndex0=bone,weight0=1};
-                }
-                mesh.vertices=v;mesh.boneWeights=w;mesh.RecalculateBounds();mesh.RecalculateTangents();EditorUtility.SetDirty(mesh);
-            }
+            // Preserve the original boot silhouette and calf / ankle skinning.
+            YenneferOriginalBoots.Restore(rig);
             YenneferLowerBody.Build(rig);
+            YenneferOriginalBoots.FitCoverage(rig);
             rig.footwearKind=CharacterRig.FootwearKind.TallBoot;
             if(rig.skirt)
             {
@@ -163,6 +142,7 @@ namespace Homecoming.Editor
                     else AssetDatabase.CreateAsset(renderer.sharedMaterial,path);
                 }
             rig.CaptureRestPose(); rig.Expression(1,false);
+            WitcherCostumeMaterials.Apply(rig,Source);
 
             PrefabUtility.SaveAsPrefabAsset(root,"Assets/Homecoming/Resources/Homecoming/YenneferDLC.prefab");
             AssetDatabase.SaveAssets(); UnityEngine.Object.DestroyImmediate(root); AssetDatabase.Refresh();
@@ -195,7 +175,7 @@ namespace Homecoming.Editor
             var center=bounds.center; center.y=bounds.min.y;
             for(int i=0;i<vertices.Length;i++) vertices[i]-=center;
             mesh.vertices=vertices; mesh.normals=normals; mesh.RecalculateBounds();
-            var obj=ModelMesh.Object(name,mesh,skin.sharedMaterial,root,Vector3.zero); obj.SetActive(false); return obj;
+            var obj=ModelMesh.Object(name,mesh,skin.sharedMaterial,root,Vector3.zero); obj.GetComponent<Renderer>().sharedMaterials=skin.sharedMaterials; obj.SetActive(false); return obj;
         }
         static Mesh ReadMesh(Part part)
         {

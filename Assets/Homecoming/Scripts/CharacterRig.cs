@@ -11,7 +11,9 @@ namespace Homecoming
         public bool longBoots;
         public enum FootwearKind { Shoe, AnkleBoot, TallBoot }
         public FootwearKind footwearKind;
+        public bool openToeFootwear;
         public SkinnedMeshRenderer[] anatomicalLegs, hosiery;
+        public SkinnedMeshRenderer[] dressedLegs,dressedHosiery;
         public GameObject leftGroundShoe, rightGroundShoe;
         public SkinnedMeshRenderer[] expressionRenderers;
         public Vector3 hipRestPosition=new Vector3(0,.91f,0);
@@ -82,10 +84,11 @@ namespace Homecoming
             }
             var p=hemRest[side]+hemSit[side]*skirt.GetBlendShapeWeight(mesh.GetBlendShapeIndex("Sitting"))*.01f+hemLift[side]*(side==0?LeftDressLift:RightDressLift);
             var weight=mesh.boneWeights[hemIndices[side]];var bones=skirt.bones;var binds=mesh.bindposes;
-            return (bones[weight.boneIndex0].localToWorldMatrix*binds[weight.boneIndex0]).MultiplyPoint3x4(p)*weight.weight0+
+            var target=(bones[weight.boneIndex0].localToWorldMatrix*binds[weight.boneIndex0]).MultiplyPoint3x4(p)*weight.weight0+
                    (bones[weight.boneIndex1].localToWorldMatrix*binds[weight.boneIndex1]).MultiplyPoint3x4(p)*weight.weight1+
                    (bones[weight.boneIndex2].localToWorldMatrix*binds[weight.boneIndex2]).MultiplyPoint3x4(p)*weight.weight2+
                    (bones[weight.boneIndex3].localToWorldMatrix*binds[weight.boneIndex3]).MultiplyPoint3x4(p)*weight.weight3;
+            return solver?solver.PoseTarget(this,p,hemRest[side].y,weight,target):target;
         }
         public Vector3 HipPosition(float sitting)
         {

@@ -1,0 +1,291 @@
+{
+  "source": "dlc/dlc4/data/characters/models/main_npc/yennefer/model/body_05_wa__yennefer.w2mesh",
+  "blend": "F:/Unity/ExtractedModels/Yennefer/Yennefer-dlc-dress.blend",
+  "scale": 0.92,
+  "originalMaterials": [
+    1,
+    8
+  ],
+  "components": [
+    {
+      "triangles": 631,
+      "minY": 0.005547175649553537,
+      "maxY": 0.3631787896156311,
+      "boot": true
+    },
+    {
+      "triangles": 638,
+      "minY": 0.8739823698997498,
+      "maxY": 0.9821307063102722,
+      "boot": false
+    },
+    {
+      "triangles": 631,
+      "minY": 0.005547258537262678,
+      "maxY": 0.3631788194179535,
+      "boot": true
+    },
+    {
+      "triangles": 12,
+      "minY": 1.0139750242233276,
+      "maxY": 1.0209177732467651,
+      "boot": false
+    },
+    {
+      "triangles": 58,
+      "minY": 0.9526294469833374,
+      "maxY": 1.0206109285354614,
+      "boot": false
+    },
+    {
+      "triangles": 248,
+      "minY": 0.3552722930908203,
+      "maxY": 0.6533049941062927,
+      "boot": true
+    },
+    {
+      "triangles": 248,
+      "minY": 0.35527223348617554,
+      "maxY": 0.6533048152923584,
+      "boot": true
+    },
+    {
+      "triangles": 1576,
+      "minY": 0.9845176339149475,
+      "maxY": 1.203180193901062,
+      "boot": false
+    },
+    {
+      "triangles": 48,
+      "minY": 1.1194299459457397,
+      "maxY": 1.1547787189483643,
+      "boot": false
+    },
+    {
+      "triangles": 64,
+      "minY": 1.0143035650253296,
+      "maxY": 1.0218156576156616,
+      "boot": false
+    },
+    {
+      "triangles": 48,
+      "minY": 1.0529812574386597,
+      "maxY": 1.0892937183380127,
+      "boot": false
+    },
+    {
+      "triangles": 32,
+      "minY": 1.1793954372406006,
+      "maxY": 1.187498927116394,
+      "boot": false
+    },
+    {
+      "triangles": 48,
+      "minY": 1.088811993598938,
+      "maxY": 1.1236786842346191,
+      "boot": false
+    },
+    {
+      "triangles": 48,
+      "minY": 1.0178515911102295,
+      "maxY": 1.0543831586837769,
+      "boot": false
+    },
+    {
+      "triangles": 50,
+      "minY": 0.9669090509414673,
+      "maxY": 1.0199103355407715,
+      "boot": false
+    },
+    {
+      "triangles": 112,
+      "minY": 0.9922490119934082,
+      "maxY": 1.0241808891296387,
+      "boot": false
+    },
+    {
+      "triangles": 112,
+      "minY": 0.995993971824646,
+      "maxY": 1.024071455001831,
+      "boot": false
+    },
+    {
+      "triangles": 299,
+      "minY": 0.0025268429890275,
+      "maxY": 0.1524243950843811,
+      "boot": true
+    },
+    {
+      "triangles": 299,
+      "minY": 0.002526799449697137,
+      "maxY": 0.15242435038089752,
+      "boot": true
+    },
+    {
+      "triangles": 48,
+      "minY": 0.5174293518066406,
+      "maxY": 0.525248110294342,
+      "boot": true
+    },
+    {
+      "triangles": 32,
+      "minY": 0.5900978446006775,
+      "maxY": 0.5983546376228333,
+      "boot": true
+    },
+    {
+      "triangles": 48,
+      "minY": 0.5174293518066406,
+      "maxY": 0.5252482295036316,
+      "boot": true
+    },
+    {
+      "triangles": 32,
+      "minY": 0.5900977253913879,
+      "maxY": 0.5983545184135437,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 1.119780421257019,
+      "maxY": 1.1547785997390747,
+      "boot": false
+    },
+    {
+      "triangles": 58,
+      "minY": 1.1509678363800049,
+      "maxY": 1.1858344078063965,
+      "boot": false
+    },
+    {
+      "triangles": 48,
+      "minY": 1.1509678363800049,
+      "maxY": 1.1858344078063965,
+      "boot": false
+    },
+    {
+      "triangles": 56,
+      "minY": 1.0878921747207642,
+      "maxY": 1.1231969594955444,
+      "boot": false
+    },
+    {
+      "triangles": 56,
+      "minY": 1.052565336227417,
+      "maxY": 1.088811993598938,
+      "boot": false
+    },
+    {
+      "triangles": 56,
+      "minY": 1.0173696279525757,
+      "maxY": 1.0538792610168457,
+      "boot": false
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5415207743644714,
+      "maxY": 0.5740004181861877,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5196413397789001,
+      "maxY": 0.5518144369125366,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5670796036720276,
+      "maxY": 0.598157525062561,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5627650618553162,
+      "maxY": 0.5952666401863098,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5415208339691162,
+      "maxY": 0.5740004181861877,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5456821322441101,
+      "maxY": 0.5768914818763733,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5196413993835449,
+      "maxY": 0.5518144369125366,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5231675505638123,
+      "maxY": 0.5536541938781738,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.567079484462738,
+      "maxY": 0.5981574058532715,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5627650022506714,
+      "maxY": 0.5952664613723755,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5456820130348206,
+      "maxY": 0.5768913626670837,
+      "boot": true
+    },
+    {
+      "triangles": 56,
+      "minY": 0.5231674313545227,
+      "maxY": 0.5536540746688843,
+      "boot": true
+    }
+  ],
+  "parts": [
+    {
+      "side": "Left",
+      "material": 0,
+      "file": "OriginalBootLeft_0.bin",
+      "vertices": 1057,
+      "triangles": 1594,
+      "height": 0.6507781511172652
+    },
+    {
+      "side": "Left",
+      "material": 1,
+      "file": "OriginalBootLeft_1.bin",
+      "vertices": 1000,
+      "triangles": 1459,
+      "height": 0.6170335561037064
+    },
+    {
+      "side": "Right",
+      "material": 0,
+      "file": "OriginalBootRight_0.bin",
+      "vertices": 1057,
+      "triangles": 1594,
+      "height": 0.6507780158426613
+    },
+    {
+      "side": "Right",
+      "material": 1,
+      "file": "OriginalBootRight_1.bin",
+      "vertices": 1000,
+      "triangles": 1459,
+      "height": 0.6170335114002228
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "source": "characters/models/main_npc/yennefer/model/l_02_wa__yennefer.w2mesh",
+  "blend": "F:/Unity/ExtractedModels/Yennefer/Yennefer-dlc-dress.blend",
+  "scale": 0.92,
+  "parts": [
+    {
+      "side": "Left",
+      "material": 0,
+      "file": "OriginalBootLeft_0.bin",
+      "vertices": 1657,
+      "triangles": 2584,
+      "height": 0.7705785788130015
+    },
+    {
+      "side": "Left",
+      "material": 1,
+      "file": "OriginalBootLeft_1.bin",
+      "vertices": 328,
+      "triangles": 496,
+      "height": 0.48638923466205597
+    },
+    {
+      "side": "Right",
+      "material": 0,
+      "file": "OriginalBootRight_0.bin",
+      "vertices": 1641,
+      "triangles": 2530,
+      "height": 0.7702555218711495
+    },
+    {
+      "side": "Right",
+      "material": 1,
+      "file": "OriginalBootRight_1.bin",
+      "vertices": 328,
+      "triangles": 496,
+      "height": 0.48638902604579926
+    }
+  ]
+}

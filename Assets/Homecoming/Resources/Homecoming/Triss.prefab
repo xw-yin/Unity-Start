@@ -687,7 +687,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
     m_Center: {x: -0.07715478, y: -0.6908523, z: 0.00510855}
-    m_Extent: {x: 0.055622824, y: 0.25986266, z: 0.11891991}
+    m_Extent: {x: 0.055622824, y: 0.2598627, z: 0.11891991}
   m_DirtyAABB: 0
 --- !u!1 &244260804809398430
 GameObject:
@@ -1334,8 +1334,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
-    m_Center: {x: 0.07713568, y: -0.69085234, z: 0.0051086172}
-    m_Extent: {x: 0.05561477, y: 0.25986272, z: 0.118919924}
+    m_Center: {x: 0.07713568, y: -0.69085234, z: 0.0051086135}
+    m_Extent: {x: 0.05561477, y: 0.25986278, z: 0.118919924}
   m_DirtyAABB: 0
 --- !u!1 &490188813714477455
 GameObject:
@@ -2626,7 +2626,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
     m_Center: {x: -0.07715478, y: -0.6908523, z: 0.00510855}
-    m_Extent: {x: 0.055622824, y: 0.25986266, z: 0.11891991}
+    m_Extent: {x: 0.055622824, y: 0.2598627, z: 0.11891991}
   m_DirtyAABB: 0
 --- !u!1 &1181582978122329700
 GameObject:
@@ -5770,7 +5770,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
     m_Center: {x: -0.07715478, y: -0.6908523, z: 0.00510855}
-    m_Extent: {x: 0.055622824, y: 0.25986266, z: 0.11891991}
+    m_Extent: {x: 0.055622824, y: 0.2598627, z: 0.11891991}
   m_DirtyAABB: 0
 --- !u!1 &3764680776087953092
 GameObject:
@@ -6504,7 +6504,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ec63b365785794cbad9ee780cffb32, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Homecoming.HomecomingGarmentDynamics
   maximumDistance:
   - 0
@@ -6795,6 +6795,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  seatedHipCompensation: 0
 --- !u!1 &3919853248219154786
 GameObject:
   m_ObjectHideFlags: 0
@@ -6893,7 +6894,6 @@ Transform:
   - {fileID: 3653533757114126915}
   - {fileID: 6910789406052128743}
   - {fileID: 584336020080228005}
-  - {fileID: 673867782713326227}
   - {fileID: 1563563240460608438}
   - {fileID: 1178030813945785650}
   - {fileID: 5145994119794875002}
@@ -7287,7 +7287,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ec63b365785794cbad9ee780cffb32, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Homecoming.HomecomingGarmentDynamics
   maximumDistance:
   - 0
@@ -7756,6 +7756,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  seatedHipCompensation: 0
 --- !u!1 &4268048249981806057
 GameObject:
   m_ObjectHideFlags: 0
@@ -8116,7 +8117,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
     m_Center: {x: -0.07715478, y: -0.6908523, z: 0.00510855}
-    m_Extent: {x: 0.055622824, y: 0.25986266, z: 0.11891991}
+    m_Extent: {x: 0.055622824, y: 0.2598627, z: 0.11891991}
   m_DirtyAABB: 0
 --- !u!1 &4318300967513818664
 GameObject:
@@ -8445,7 +8446,7 @@ SkinnedMeshRenderer:
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
     m_Center: {x: -0.07715478, y: -0.6908523, z: 0.00510855}
-    m_Extent: {x: 0.055622824, y: 0.25986266, z: 0.11891991}
+    m_Extent: {x: 0.055622824, y: 0.2598627, z: 0.11891991}
   m_DirtyAABB: 0
 --- !u!1 &4355989441893837567
 GameObject:
@@ -9445,7 +9446,7 @@ Transform:
   m_GameObject: {fileID: 4914120082674060074}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04230851, y: 0.017216206, z: 0.028756965}
+  m_LocalPosition: {x: -0.04230933, y: 0.017216444, z: 0.028757978}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11710,304 +11711,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7669783647785855611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6524133124732504232
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 673867782713326227}
-  - component: {fileID: 2248095180963484385}
-  m_Layer: 0
-  m_Name: body_01_wa__triss_dlc_lod0_4_Body
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &673867782713326227
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6524133124732504232}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7126358596600208516}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &2248095180963484385
-SkinnedMeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6524133124732504232}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 3
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 708d76e7b12ddf747ac6b77407d95d7f, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  serializedVersion: 2
-  m_Quality: 0
-  m_UpdateWhenOffscreen: 1
-  m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4300000, guid: 13150c332a0536b469cfeb4e21749ae6, type: 2}
-  m_Bones:
-  - {fileID: 7126358596600208516}
-  - {fileID: 2425140568798486771}
-  - {fileID: 3241131598203153293}
-  - {fileID: 2465665795618125286}
-  - {fileID: 2978176702826840615}
-  - {fileID: 3151186410550770610}
-  - {fileID: 5324832535681343327}
-  - {fileID: 8962043521379511210}
-  - {fileID: 6268635915507563945}
-  - {fileID: 6946707653565249630}
-  - {fileID: 23272183365422572}
-  - {fileID: 6333735060680898498}
-  - {fileID: 2877547808359552292}
-  - {fileID: 5038340900584596854}
-  - {fileID: 5483340776221454466}
-  - {fileID: 7669783647785855611}
-  - {fileID: 4567649178027544510}
-  - {fileID: 172470383243098732}
-  - {fileID: 1336378876894569509}
-  - {fileID: 2164489565028455394}
-  - {fileID: 3999326979478774563}
-  - {fileID: 7489063990125853641}
-  - {fileID: 7095269219313359607}
-  - {fileID: 6054679355986578078}
-  - {fileID: 6316553847583192147}
-  - {fileID: 7045585291330948897}
-  - {fileID: 6131057371813279882}
-  - {fileID: 9019428457234102626}
-  - {fileID: 301189722530141306}
-  - {fileID: 4808692422911963118}
-  - {fileID: 7058911821907407585}
-  - {fileID: 7485255596188844521}
-  - {fileID: 4515013081441851980}
-  - {fileID: 7846564277133699145}
-  - {fileID: 3437574603955667708}
-  - {fileID: 1009558163892397682}
-  - {fileID: 4572303816481612530}
-  - {fileID: 7209452472549620626}
-  - {fileID: 2098795222325788223}
-  - {fileID: 8992046619042754691}
-  - {fileID: 60607571179251058}
-  - {fileID: 2711917320927995548}
-  - {fileID: 1969249404178982162}
-  - {fileID: 262103343622896712}
-  - {fileID: 2331369714589347800}
-  - {fileID: 4316242464148580972}
-  - {fileID: 5362760592734818931}
-  - {fileID: 6942960066162339991}
-  - {fileID: 5595600589964165309}
-  - {fileID: 3485318692229589628}
-  - {fileID: 1227947456298799011}
-  - {fileID: 4490918929291466566}
-  - {fileID: 5927926327067873407}
-  - {fileID: 1532879453862449748}
-  - {fileID: 3299501081150078175}
-  - {fileID: 7360022674811999487}
-  - {fileID: 4459319102858350327}
-  - {fileID: 8812193359662391122}
-  - {fileID: 7137565924910127447}
-  - {fileID: 1340892274700305550}
-  - {fileID: 6544853272922547456}
-  - {fileID: 4466743444993494053}
-  - {fileID: 1525312154194428386}
-  - {fileID: 593035833855833414}
-  - {fileID: 8339014401136418206}
-  - {fileID: 8809408498267953697}
-  - {fileID: 2310668056810087147}
-  - {fileID: 4584446376515949378}
-  - {fileID: 709171339094441128}
-  - {fileID: 3526547707050808126}
-  - {fileID: 4607199596102945276}
-  - {fileID: 8256289769492700936}
-  - {fileID: 3669854006266551308}
-  - {fileID: 5174295960162566539}
-  - {fileID: 3491069987846324215}
-  - {fileID: 3020297813543736912}
-  - {fileID: 7128092150164472656}
-  - {fileID: 2257143041463905370}
-  - {fileID: 8342589466634200949}
-  - {fileID: 6212548672845378470}
-  - {fileID: 7712526254330995655}
-  - {fileID: 5574935041422477832}
-  - {fileID: 2920953138333343092}
-  - {fileID: 4467964595756600553}
-  - {fileID: 7498858011810163982}
-  - {fileID: 1200647370926400324}
-  - {fileID: 4450362696138637492}
-  - {fileID: 6979371261459346016}
-  - {fileID: 948882966148146800}
-  - {fileID: 6921676262242869236}
-  - {fileID: 4059914398669638819}
-  - {fileID: 6847787226536155042}
-  - {fileID: 5009147685987124818}
-  - {fileID: 9218950496452445568}
-  - {fileID: 7580611887184499731}
-  - {fileID: 1567702899878559609}
-  - {fileID: 9216839257084282265}
-  - {fileID: 2551435003575292903}
-  - {fileID: 3595427927150161691}
-  - {fileID: 4954520104124999548}
-  - {fileID: 4207071272856602687}
-  - {fileID: 8850208155542811064}
-  - {fileID: 1372473852194577242}
-  - {fileID: 6475067697406035113}
-  - {fileID: 8107627696996830682}
-  - {fileID: 1612327891701026599}
-  - {fileID: 1183924253666866059}
-  - {fileID: 5810796104244489713}
-  - {fileID: 7839064824586552161}
-  - {fileID: 2844773310954390276}
-  - {fileID: 7538327354270580797}
-  - {fileID: 7135617110966550721}
-  - {fileID: 5978522180468597480}
-  - {fileID: 4580377996602898493}
-  - {fileID: 5243002661440830481}
-  - {fileID: 5625222576870627526}
-  - {fileID: 87636030061598665}
-  - {fileID: 7153946509286738252}
-  - {fileID: 2133323521028753510}
-  - {fileID: 2411426276560212892}
-  - {fileID: 1034113209921432792}
-  - {fileID: 3444916615139194213}
-  - {fileID: 5588526712971769574}
-  - {fileID: 5438134873349192917}
-  - {fileID: 4321052115465205630}
-  - {fileID: 6932325575072051486}
-  - {fileID: 2996011988595209130}
-  - {fileID: 1109988116140507178}
-  - {fileID: 1158091045411288237}
-  - {fileID: 8429233275598785711}
-  - {fileID: 661616234165612363}
-  - {fileID: 1675747365217893901}
-  - {fileID: 2270404402526512813}
-  - {fileID: 5436721785605930085}
-  - {fileID: 3930488259581291679}
-  - {fileID: 4096318726162679037}
-  - {fileID: 8258068500333985230}
-  - {fileID: 1839525897102430333}
-  - {fileID: 7425101561000876515}
-  - {fileID: 7889738204726644629}
-  - {fileID: 9084767010296793286}
-  - {fileID: 1831809259870876802}
-  - {fileID: 7593729711946123962}
-  - {fileID: 2697059215856261660}
-  - {fileID: 6491608582483209336}
-  - {fileID: 5051579352331079231}
-  - {fileID: 2023513182281221775}
-  - {fileID: 7195617668625911791}
-  - {fileID: 6958249021539649236}
-  - {fileID: 7086001242164629550}
-  - {fileID: 3392027860580245746}
-  - {fileID: 8701602444668565512}
-  - {fileID: 6361012186910399065}
-  - {fileID: 8550458190352511925}
-  - {fileID: 93775917259142388}
-  - {fileID: 1141570675351664993}
-  - {fileID: 7948254481152212559}
-  - {fileID: 8793015512257008012}
-  - {fileID: 7912652113846929256}
-  - {fileID: 4598268500512417795}
-  - {fileID: 5259153256008307753}
-  - {fileID: 8297071642349112163}
-  - {fileID: 4258771169907102019}
-  - {fileID: 5014445052075660301}
-  - {fileID: 4601332522207679302}
-  - {fileID: 2873910980020217686}
-  - {fileID: 8169414516393056210}
-  - {fileID: 2945079474636369251}
-  - {fileID: 1790587619055845950}
-  - {fileID: 6048784894316652834}
-  - {fileID: 5023572681769178641}
-  - {fileID: 3476030589086337711}
-  - {fileID: 7695676915390173669}
-  - {fileID: 4075000649595072269}
-  - {fileID: 4896215224446412666}
-  - {fileID: 338836364378192187}
-  - {fileID: 6761122115267909853}
-  - {fileID: 8187327944985696189}
-  - {fileID: 865583859721349229}
-  - {fileID: 5536273197351063828}
-  - {fileID: 7628720735330987465}
-  - {fileID: 366977265488992174}
-  - {fileID: 6242781736191692148}
-  - {fileID: 7007414722517798126}
-  - {fileID: 8425227661661371108}
-  - {fileID: 1210618456774797877}
-  - {fileID: 4608540680767099100}
-  - {fileID: 8104652220257580322}
-  - {fileID: 2231879769653624203}
-  - {fileID: 1491402005618694336}
-  - {fileID: 4462424544692161311}
-  - {fileID: 4224488788157122259}
-  - {fileID: 4569285926639864631}
-  - {fileID: 1352896308133401434}
-  - {fileID: 8581736412571016758}
-  - {fileID: 7086762798797269604}
-  - {fileID: 1574569266660369970}
-  - {fileID: 809639217194775991}
-  - {fileID: 82279177670356711}
-  - {fileID: 4258153142197241179}
-  - {fileID: 4164411277863821558}
-  - {fileID: 8248788294887319657}
-  - {fileID: 115862134413661253}
-  - {fileID: 4774080036455830350}
-  - {fileID: 4148157496333181596}
-  - {fileID: 8330899720629241093}
-  m_BlendShapeWeights: []
-  m_RootBone: {fileID: 23272183365422572}
-  m_AABB:
-    m_Center: {x: 0, y: 0.95, z: 0}
-    m_Extent: {x: 1.3, y: 1.3, z: 1.3}
-  m_DirtyAABB: 0
 --- !u!1 &6538220588867123120
 GameObject:
   m_ObjectHideFlags: 0
@@ -12556,7 +12259,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c578c19f5d7b4142a626c2662a6d9fa, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Homecoming.CharacterRig
   hips: {fileID: 23272183365422572}
   spine: {fileID: 6333735060680898498}
@@ -12578,12 +12281,15 @@ MonoBehaviour:
   importedSource: 1
   longBoots: 1
   footwearKind: 2
+  openToeFootwear: 1
   anatomicalLegs:
   - {fileID: 3257756321370647594}
   - {fileID: 847176195496842234}
   hosiery:
   - {fileID: 514362202108752718}
   - {fileID: 2478248730200211941}
+  dressedLegs: []
+  dressedHosiery: []
   leftGroundShoe: {fileID: 2898460292216328858}
   rightGroundShoe: {fileID: 3387592864641623617}
   expressionRenderers: []
@@ -13228,9 +12934,6 @@ MonoBehaviour:
   - bone: {fileID: 584336020080228005}
     rotation: {x: 0, y: 0, z: 0, w: 1}
     parentBasis: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  - bone: {fileID: 673867782713326227}
-    rotation: {x: 0, y: 0, z: 0, w: 1}
-    parentBasis: {x: 0, y: 1, z: 0, w: -0.00000004371139}
   - bone: {fileID: 1563563240460608438}
     rotation: {x: 0, y: 0, z: 0, w: 1}
     parentBasis: {x: 0, y: 1, z: 0, w: -0.00000004371139}
@@ -13311,7 +13014,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -14796,7 +14499,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ec63b365785794cbad9ee780cffb32, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Homecoming.HomecomingGarmentDynamics
   maximumDistance:
   - 0.0074802483
@@ -15171,6 +14874,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  seatedHipCompensation: 0
 --- !u!1 &7670183093578803880
 GameObject:
   m_ObjectHideFlags: 0
@@ -15543,6 +15247,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 708d76e7b12ddf747ac6b77407d95d7f, type: 2}
   - {fileID: 2100000, guid: c43b3a39ac404ca49bfa74fe6d87573e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -15781,8 +15486,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 23272183365422572}
   m_AABB:
-    m_Center: {x: -0.00056774914, y: -0.4118975, z: -0.24656343}
-    m_Extent: {x: 0.39827138, y: 0.55733454, z: 0.36755383}
+    m_Center: {x: -0.0000055730343, y: -0.0986824, z: 0.008155841}
+    m_Extent: {x: 0.15692571, y: 0.17613697, z: 0.10870291}
   m_DirtyAABB: 0
 --- !u!114 &7774251595146650193
 MonoBehaviour:
@@ -15794,9 +15499,589 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4ec63b365785794cbad9ee780cffb32, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Homecoming.HomecomingGarmentDynamics
   maximumDistance:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   - 0
   - 0
   - 0
@@ -16789,6 +17074,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  seatedHipCompensation: 1
 --- !u!1 &8391439073511504984
 GameObject:
   m_ObjectHideFlags: 0
@@ -16907,7 +17193,7 @@ Transform:
   m_GameObject: {fileID: 8734394367901050545}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.042273127, y: 0.01721394, z: 0.028760556}
+  m_LocalPosition: {x: 0.042272322, y: 0.01721406, z: 0.028761588}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

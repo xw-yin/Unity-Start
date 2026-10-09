@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Linq;
 
 namespace Homecoming
 {
@@ -19,16 +20,27 @@ namespace Homecoming
         float routeLength;
         readonly Sole leftSole,rightSole;
         readonly Sole leftStockingSole,rightStockingSole;
+        readonly HomecomingFootContact[] barefoot=new HomecomingFootContact[2];
+        readonly Quaternion[] flatFootRest=new Quaternion[2];
+        public float HeelHeight(int side)=>barefoot[side]?.HeelHeight??0;
+        public float BallHeight(int side)=>barefoot[side]?.BallHeight??0;
         float sampleAction;
         readonly HomecomingClothDynamics cloth;
         readonly HomecomingGarmentDynamics[] garments;
         readonly bool longDress;
+        readonly bool wideGown;
+        readonly bool dlcBoots;
+        readonly SkinnedMeshRenderer[] bootFit;
+        readonly int[] bootFitSides,bootFitIndices;
         readonly float[] thighClearance=new float[2];
         readonly Vector3[] handTargets=new Vector3[2];
         readonly Quaternion[] handRotations=new Quaternion[2];
         readonly HomecomingHandPose.Hold[] handModes=new HomecomingHandPose.Hold[2];
         readonly float[] bootFingerAmounts=new float[2],fingerAmounts=new float[2],fabricReach=new float[2],supportReach=new float[2];
         readonly Vector3[] elbowBend=new Vector3[2];
+        readonly Transform[] smileBones=new Transform[2];
+        readonly Vector3[] smileRest=new Vector3[2];
+        readonly Quaternion headRest;
         readonly Quaternion[] previousHandTurn=new Quaternion[2];
         float previousSample=-1,handStep;bool elbowsInitialized;
         public HomecomingShoeGrip Shoes { get; private set; }
@@ -63,7 +75,12 @@ namespace Homecoming
         public HomecomingMotion(CharacterRig source)
         {
             rig=source;garments=rig.GetComponentsInChildren<HomecomingGarmentDynamics>();
+            dlcBoots=rig.leftShoe&&rig.leftShoe.GetComponent<SkinnedMeshRenderer>()&&rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.name.StartsWith("OriginalYenneferBootDLC");
+            bootFit=dlcBoots||rig.openToeFootwear?rig.GetComponentsInChildren<SkinnedMeshRenderer>().Where(s=>s.sharedMesh.GetBlendShapeIndex("BootFit")>=0).ToArray():new SkinnedMeshRenderer[0];
+            bootFitIndices=bootFit.Select(s=>s.sharedMesh.GetBlendShapeIndex("BootFit")).ToArray();
+            bootFitSides=bootFit.Select(s=>s==rig.hosiery[0]||s==rig.anatomicalLegs[0]||s.name.EndsWith("Left")?0:1).ToArray();
             longDress=rig.skirt&&rig.skirt.sharedMesh.GetBlendShapeIndex("BootLeft")>=0;
+            wideGown=longDress&&rig.skirt.sharedMesh.bounds.size.x>.95f;
             if(garments.Length==0 && rig.longBoots && rig.skirt && rig.skirt.sharedMesh.GetBlendShapeIndex("Sitting")>=0)
             {
                 cloth=rig.GetComponent<HomecomingClothDynamics>();
@@ -94,9 +111,22 @@ namespace Homecoming
                 if(bone.name=="J_Bip_R_Foot") rf=bone;
                 if(bone.name=="J_Bip_L_Hand") lh=bone;
                 if(bone.name=="J_Bip_R_Hand") rh=bone;
+                if(bone.name=="W3_left_corner_lip1"){smileBones[0]=bone;smileRest[0]=bone.localPosition;}
+                if(bone.name=="W3_right_corner_lip1"){smileBones[1]=bone;smileRest[1]=bone.localPosition;}
             }
+            headRest=RestRotation(rig.head);
             if(lf) leftFootRest=RestRotation(lf);
             if(rf) rightFootRest=RestRotation(rf);
+            if(rig.importedSource&&rig.hosiery!=null&&rig.hosiery.Length==2)
+            {
+                var all=rig.GetComponentsInChildren<Transform>(true);
+                for(int side=0;side<2;side++)
+                {
+                    var foot=side==0?lf:rf;var toe=all.First(b=>b.name==(side==0?"J_Bip_L_ToeBase":"J_Bip_R_ToeBase"));
+                    barefoot[side]=new HomecomingFootContact(rig.hosiery[side],foot,toe);
+                    flatFootRest[side]=barefoot[side].Flat(side==0?leftFootRest:rightFootRest);
+                }
+            }
             leftCalfRest=RestRotation(rig.leftCalf);rightCalfRest=RestRotation(rig.rightCalf);
         }
         static float Ease(float t,float a,float b) { float u=Mathf.Clamp01((t-a)/(b-a)); return u*u*u*(u*(u*6-15)+10); }
@@ -104,8 +134,75 @@ namespace Homecoming
         public void Sample(float t)
         {
             SamplePose(t);
+            if(t>=26.7f) ApplyCutePose(t-27,Ease(t,26.7f,28),false);
+            else if(t<1.5f) ApplyCutePose(t+1,Ease(t,0,.65f)*(1-Ease(t,.85f,1.5f)));
+            FitBoots(t-1);
             if(cloth) cloth.Sample(rig,t);
             foreach(var garment in garments)garment.Sample(rig,t);
+        }
+        public void SampleWaiting(float time)
+        {
+            SamplePose(0);
+            ApplyCutePose(time,.35f,false);
+            FitBoots(-1);
+            if(cloth)cloth.Sample(rig,time);
+            foreach(var garment in garments)garment.Sample(rig,time);
+        }
+        void FitBoots(float action)
+        {
+            for(int i=0;i<bootFit.Length;i++)bootFit[i].SetBlendShapeWeight(bootFitIndices[i],100*(1-Ease(action,HomecomingShoeGrip.Detach(bootFitSides[i])+.05f,HomecomingShoeGrip.Detach(bootFitSides[i])+.9f)));
+        }
+        public void ResetFace()
+        {
+            for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i];
+        }
+        void ApplyCutePose(float time,float amount,bool gestures=true)
+        {
+            if(amount<=0||!lf||!rf||!lh||!rh)return;
+            var root=rig.transform;
+            float cycle=Mathf.Repeat(Mathf.Max(0,time),10);
+            float wave=gestures?Ease(cycle,.55f,1.35f)*(1-Ease(cycle,3.1f,4.1f)):0;
+            float gather=gestures?Ease(cycle,4.5f,5.6f)*(1-Ease(cycle,8.1f,9.5f)):0;
+            // Move the pelvis over planted feet; never slide the soles with the sway.
+            var left=lf.position;var right=rf.position;var lr=lf.rotation;var rr=rf.rotation;
+            rig.hips.position+=root.right*(.018f*Mathf.Sin(time*.72f)*amount)+root.up*(.0025f*Mathf.Sin(time*2.1f)*amount);
+            rig.Pose(rig.spine,new Vector3(-1.5f,1.2f*Mathf.Sin(time*.72f),2.2f*Mathf.Sin(time*.72f))*amount);
+            rig.Pose(rig.head,new Vector3(-2+2*Mathf.Sin(time*1.1f),-5*wave,6*Mathf.Sin(time*.72f+.6f))*amount);
+            var faceUp=rig.head.rotation*Quaternion.Inverse(headRest)*Vector3.up;
+            for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i]+smileBones[i].parent.InverseTransformVector(faceUp*(.0014f*amount));
+            Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+root.right*.13f-root.forward);
+            Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position-root.right*.13f-root.forward);
+            lf.rotation=lr;rf.rotation=rr;
+            for(int side=0;side<2;side++)
+            {
+                var upper=side==0?rig.leftArm:rig.rightArm;var elbow=side==0?rig.leftElbow:rig.rightElbow;var hand=Hands.Hand(side);
+                float sign=side==0?1:-1,hello=side==1?wave:0;
+                float armAmount=Mathf.Max(.2f,Mathf.Max(gather,hello))*amount;
+                if(armAmount<.00001f)continue;
+                var target=hand.position+root.right*(sign*.018f*amount)-root.forward*(.06f*amount);
+                var together=root.TransformPoint(new Vector3(sign*.07f,1.10f+(side==1?.045f:0),-.36f));
+                var greeting=upper.position+root.right*(sign*(.20f+.018f*Mathf.Sin(time*5)))-root.forward*.20f+root.up*.015f;
+                target=Vector3.Lerp(target,together,gather*amount);
+                target=Vector3.Lerp(target,greeting,hello*amount);
+                // Elbows stay away from the torso while raising a hand, with a
+                // continuous pole instead of a switch to a grasping pose.
+                var pole=Vector3.Lerp(elbow.position,upper.position+root.forward*.14f+root.right*(sign*(.035f+.20f*hello*amount)),armAmount);
+                SolveArm(upper,elbow,hand,target,pole);
+                var axis=(hand.position-elbow.position).normalized;
+                var baseTurn=Hands.Rotation(side,root.right*(-sign),axis);
+                var gathered=Hands.Rotation(side,-root.up+root.forward*.25f,(root.right*(-sign*.65f)-root.forward*.65f-root.up*.2f).normalized);
+                var waving=Hands.Rotation(side,-root.forward,root.up+root.right*(.22f*Mathf.Sin(time*5)));
+                var desired=Quaternion.Slerp(baseTurn,gathered,gather*amount);
+                desired=Quaternion.Slerp(desired,waving,hello*amount);
+                desired=Hands.LimitWrist(side,desired,axis,Mathf.Lerp(35,65,hello*amount));
+                var palm=Vector3.ProjectOnPlane(Hands.Palm(side,desired),axis).normalized;
+                var actual=Vector3.ProjectOnPlane(Hands.Palm(side,hand.rotation),axis).normalized;
+                elbow.rotation=Quaternion.FromToRotation(actual,palm)*elbow.rotation;
+                hand.rotation=desired;
+                Hands.Fingers(side,HomecomingHandPose.Hold.Rest,0);
+                Hands.Overlay(side,HomecomingHandPose.Hold.Greeting,1,hello*amount);
+            }
+            KeepAboveFloor();
         }
         void SamplePose(float t)
         {
@@ -114,6 +211,7 @@ namespace Homecoming
             previousSample=t;
             sampleAction=t-1;
             rig.Neutral();
+            ResetFace();
             rig.SetDressLift(0,0);
             if(t<8)
             {
@@ -205,11 +303,11 @@ namespace Homecoming
             float r=Ease(t,16,17.4f)*(1-Ease(t,20.4f,21.2f));
             float lp=Ease(t,rig.longBoots?13.05f:12.3f,rig.longBoots?14.2f:13.1f)*(1-Ease(t,14.4f,15.2f));
             float rp=Ease(t,rig.longBoots?19.05f:18.3f,rig.longBoots?20.2f:19.1f)*(1-Ease(t,20.4f,21.2f));
-            rig.hips.position+=Vector3.right*.25f*(lp-rp);
+            rig.hips.position+=Vector3.right*(Shoes.AnatomicalExtraction?.18f:.25f)*(lp-rp);
             rig.hips.position+=Vector3.back*(rig.longBoots?BootHipForward:.12f)*(l+r);
-            float lean=(rig.longBoots?BootLean:28)*(l+r)+(rig.longBoots?8:10)*(lp+rp)+12*Ease(t,7,8)*(1-Ease(t,8,9))+12*Ease(t,22,23)*(1-Ease(t,24,26));
-            rig.Pose(rig.spine,V(-lean+.65f*Mathf.Sin(t*1.7f),0,2*(lp-rp)));
-            rig.Pose(rig.head,V(8*(l+r),-5*(l-r),0));
+            float lean=(rig.longBoots?BootLean:28)*(l+r)+(rig.longBoots?8:10)*(lp+rp)+12*Ease(t,7,8)*(1-Ease(t,8,9))+17*Ease(t,22.4f,23.4f)*(1-Ease(t,24,26));
+            rig.Pose(rig.spine,V(-lean+.35f*Mathf.Sin(t*1.1f),1.5f*(l-r),2*(lp-rp)));
+            rig.Pose(rig.head,V(-3*(l+r),-4*(l-r),-1.5f*(l-r)));
             foreach(var pose in rig.restPoses)
             {
                 if(pose.bone.name=="J_Bip_L_Shoulder")rig.Pose(pose.bone,V(0,20,-6)*Mathf.Max(l,.75f*r));
@@ -219,7 +317,7 @@ namespace Homecoming
             Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,10,11.4f)*(1-Ease(t,13.35f,14.4f));
             float rl=Ease(t,16,17.4f)*(1-Ease(t,19.35f,20.4f));
-            float lift=longDress?(rig.longBoots?.14f:.32f):rig.longBoots?BootLegLift:.40f;
+            float lift=longDress?(rig.longBoots?(Shoes.AnatomicalExtraction?.29f:.14f):.32f):rig.longBoots?BootLegLift:.40f;
             // The free hand lifts and holds the hem before the shoe hand reaches.
             // Release the fabric once the shaft clears the foot, before leaning
             // to place the shoe. Holding it at lap height through that lean
@@ -228,19 +326,44 @@ namespace Homecoming
             float gatherRight=Ease(t,15.15f,16)*(1-Ease(t,19.1f,20));
             rig.SetDressLift(gatherLeft,gatherRight);
             left+=V(.07f,lift,rig.longBoots?BootLegBack:.10f)*ll;right+=V(-.07f,lift,rig.longBoots?BootLegBack:.10f)*rl;
+            if(rig.longBoots&&Shoes.AnatomicalExtraction)
+            {
+                // Withdraw the leg towards the body while the hand controls
+                // the cuff. The captured boot frame no longer follows the leg.
+                left+=V(.018f,.085f,-.07f)*Ease(t,12,13.05f)*(1-Ease(t,13.35f,14.4f));
+                right+=V(-.018f,.085f,-.07f)*Ease(t,18,19.05f)*(1-Ease(t,19.35f,20.4f));
+            }
+            float leftBare=Ease(t,Shoes.Cleared(0),14.4f),rightBare=Ease(t,Shoes.Cleared(1),20.4f);
+            if(barefoot[0]!=null)
+            {
+                float leftHeight=barefoot[0].AnkleHeight(flatFootRest[0]),rightHeight=barefoot[1].AnkleHeight(flatFootRest[1]);
+                left.y+=(leftHeight-.10f)*leftBare;right.y+=(rightHeight-.10f)*rightBare;
+                rig.hips.position+=Vector3.up*((leftHeight+rightHeight)*.5f-.10f)*Mathf.Min(leftBare,rightBare)*(1-sit);
+            }
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+V(.16f,-.02f,-1));
             Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position+V(-.16f,-.02f,-1));
             if(rig.longBoots){AlignBoot(lf,rig.leftCalf,leftFootRest);AlignBoot(rf,rig.rightCalf,rightFootRest);}
             else{lf.rotation=leftFootRest;rf.rotation=rightFootRest;}
             // Point the toes through the shaft as the boot is pulled away; the boot
             // follows the calf, so the ankle can flex independently inside its opening.
-            if(rig.longBoots)
+            if(barefoot[0]!=null)
             {
-                lf.rotation*=Quaternion.Euler(65*Ease(t,12.20f,12.65f)*(1-Ease(t,13.15f,14.4f)),0,0);
-                rf.rotation*=Quaternion.Euler(65*Ease(t,18.20f,18.65f)*(1-Ease(t,19.15f,20.4f)),0,0);
+                float pointLeft=rig.longBoots?Ease(t,Shoes.AnatomicalExtraction?11.35f:12.2f,Shoes.AnatomicalExtraction?11.95f:12.65f)*(1-Ease(t,Shoes.Cleared(0),14.2f)):0;
+                float pointRight=rig.longBoots?Ease(t,Shoes.AnatomicalExtraction?17.35f:18.2f,Shoes.AnatomicalExtraction?17.95f:18.65f)*(1-Ease(t,Shoes.Cleared(1),20.2f)):0;
+                if(Shoes.AnatomicalExtraction)
+                {
+                    // The heel counter limits the ankle while the boot is worn.
+                    // Complete the toe point as the heel leaves the shoe, rather
+                    // than forcing the full plantar flexion through its back wall.
+                    pointLeft=(.55f*Ease(t,11.35f,11.95f)+.45f*Ease(t,12.03f,12.48f))*(1-Ease(t,Shoes.Cleared(0),14.2f));
+                    pointRight=(.55f*Ease(t,17.35f,17.95f)+.45f*Ease(t,18.03f,18.48f))*(1-Ease(t,Shoes.Cleared(1),20.2f));
+                }
+                var leftFlat=Quaternion.Slerp(lf.rotation,flatFootRest[0],Mathf.Max(leftBare,pointLeft));
+                var rightFlat=Quaternion.Slerp(rf.rotation,flatFootRest[1],Mathf.Max(rightBare,pointRight));
+                lf.rotation=barefoot[0].Point(leftFlat,(lf.position-rig.leftCalf.position).normalized,pointLeft);
+                rf.rotation=barefoot[1].Point(rightFlat,(rf.position-rig.rightCalf.position).normalized,pointRight);
+                barefoot[0].PlantToes(leftBare);barefoot[1].PlantToes(rightBare);
             }
-            lf.rotation=Quaternion.Slerp(lf.rotation,leftFootRest,Ease(t,13.35f,14.4f));
-            rf.rotation=Quaternion.Slerp(rf.rotation,rightFootRest,Ease(t,19.35f,20.4f));
             KeepAboveFloor();
             PoseHands(t,sit,l,r,lean,lp-rp);
         }
@@ -279,7 +402,15 @@ namespace Homecoming
             var upper=side==0?rig.leftArm:rig.rightArm;var elbow=side==0?rig.leftElbow:rig.rightElbow;var hand=Hands.Hand(side);
             float length=Vector3.Distance(upper.position,elbow.position)+Vector3.Distance(elbow.position,hand.position);
             var outward=rig.transform.right*(side==0?1:-1);
-            return upper.position+Vector3.down*(length*.93f)+outward*.045f+rig.transform.forward*-.025f;
+            // Author the relaxed silhouette, rather than shortening the arm and
+            // letting a generic grasp hint put its wrist behind the hip.
+            float outside=side==0?.12f:.13f,forward=side==0?.075f:.085f;
+            // Finger clearance follows the costume's width, not just the
+            // shared skeleton. Capture the profile before cloth deformation.
+            if(wideGown){outside+=.025f;forward+=.025f;}
+            float span=length*.985f;
+            float drop=Mathf.Sqrt(Mathf.Max(.01f,span*span-outside*outside-forward*forward));
+            return upper.position+Vector3.down*drop+outward*outside-rig.transform.forward*forward;
         }
         void PoseHands(float t,float sit,float leftReach,float rightReach,float lean,float lateral)
         {
@@ -341,6 +472,15 @@ namespace Homecoming
                     fingers[side]=Ease(t,startLift-.3f,startLift)*(1-Ease(t,startLift+4.85f,startLift+5.5f));
                     modes[side]=HomecomingHandPose.Hold.Fabric;
                 }
+                float rising=Ease(t,22.3f,23)*(1-Ease(t,24.6f,25.6f));
+                if(rising>0)
+                {
+                    var turn=Hands.Rotation(side,palm,downThigh);
+                    var point=Vector3.Lerp(thigh.position,knee.position,.42f)-palm*thighClearance[side];
+                    targets[side]=Vector3.Lerp(targets[side],Hands.Wrist(side,HomecomingHandPose.Hold.Support,point,turn),rising);
+                    rotations[side]=Quaternion.Slerp(rotations[side],turn,rising);
+                    modes[side]=HomecomingHandPose.Hold.Support;support[side]=rising;fingers[side]=rising*.55f;
+                }
             }
             float leftLength=Vector3.Distance(rig.leftArm.position,rig.leftElbow.position)+Vector3.Distance(rig.leftElbow.position,lh.position);
             float rightLength=Vector3.Distance(rig.rightArm.position,rig.rightElbow.position)+Vector3.Distance(rig.rightElbow.position,rh.position);
@@ -359,6 +499,7 @@ namespace Homecoming
             for(int side=0;side<2;side++)
             {
                 var upper=side==0?rig.leftArm:rig.rightArm;var elbow=side==0?rig.leftElbow:rig.rightElbow;var hand=Hands.Hand(side);
+                float standing=1-sit;
                 float forearm=Vector3.Distance(elbow.position,hand.position);
                 // Choose the elbow plane that lets the hand continue the forearm,
                 // instead of forcing a sideways elbow and folding the wrist back.
@@ -369,10 +510,16 @@ namespace Homecoming
                 // select a raised-elbow pose when the cuff is close to the torso.
                 var hanging=Vector3.down*.24f+rig.transform.right*(side==0?.10f:-.10f)-rig.transform.forward*.12f;
                 desiredBend=Vector3.ProjectOnPlane(hanging,direction)+desiredBend*.35f;
+                // In a hanging arm the elbow is slightly behind the wrist, so
+                // the forearm comes forward. The shoe-reaching plane faces the
+                // opposite way and must fade out as the character stands.
+                var relaxedHint=rig.transform.forward*.14f+rig.transform.right*(side==0?.015f:-.015f);
+                desiredBend=Vector3.Lerp(desiredBend,Vector3.ProjectOnPlane(relaxedHint,direction),standing);
                 float outward=Vector3.Dot(desiredBend,lateralPlane);
                 // Keep the elbow on the body's outer side when the preferred
                 // plane passes close to the straight-arm singularity.
-                float margin=Mathf.Sqrt(outward*outward+.085f*.085f);
+                float clearance=Mathf.Lerp(.085f,.012f,standing);
+                float margin=Mathf.Sqrt(outward*outward+clearance*clearance);
                 var pole=upper.position+desiredBend+lateralPlane*(margin-outward);
                 var bend=Vector3.ProjectOnPlane(pole-upper.position,direction).normalized;
                 if(elbowsInitialized)
@@ -383,6 +530,9 @@ namespace Homecoming
                 elbowBend[side]=bend;
                 SolveArm(upper,elbow,hand,targets[side],upper.position+bend);
                 var turn=rotations[side];
+                var relaxedDirection=(hand.position-elbow.position).normalized;
+                var relaxedPalm=Vector3.ProjectOnPlane(rig.transform.right*(side==0?-1:1),relaxedDirection).normalized;
+                turn=Quaternion.Slerp(turn,Hands.Rotation(side,relaxedPalm,relaxedDirection),standing);
                 var contact=targets[side]-Hands.Wrist(side,modes[side],Vector3.zero,turn);
                 // Keep the finger contact while limiting wrist extension. This
                 // matters for low shoes and for the hand returning to the lap.

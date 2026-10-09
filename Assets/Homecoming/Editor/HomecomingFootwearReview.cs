@@ -76,6 +76,11 @@ namespace Homecoming.Editor
                         if(!sock.name.StartsWith("夏妮原版")||!AssetDatabase.GetAssetPath(sock.sharedMaterial.GetTexture("_BaseMap")).Contains("WitcherShaniOriginalSocks/"))throw new Exception("Shani is missing her original game sock model/material");
                         if(sock.sharedMesh.bounds.min.y>.02f||sock.sharedMesh.bounds.max.y<.45f)throw new Exception("Original Shani sock foot is incomplete");
                     }
+                    else if(index==0)
+                    {
+                        var source=leg.sharedMesh;var hosiery=sock.sharedMesh;var a=source.triangles;var b=hosiery.triangles;var av=source.vertices;var bv=hosiery.vertices;var aw=source.boneWeights;var bw=hosiery.boneWeights;
+                        if(a.Length!=b.Length||Enumerable.Range(0,a.Length).Any(i=>av[a[i]]!=bv[b[i]]||!aw[a[i]].Equals(bw[b[i]])))throw new Exception("Lace UV seam changes the original leg / foot geometry or skinning");
+                    }
                     else if(!leg.sharedMesh.vertices.SequenceEqual(sock.sharedMesh.vertices)||!leg.sharedMesh.triangles.SequenceEqual(sock.sharedMesh.triangles)||!leg.sharedMesh.boneWeights.SequenceEqual(sock.sharedMesh.boneWeights))throw new Exception("Sock does not retain complete source leg and foot surface");
                     if(!leg.bones.SequenceEqual(sock.bones)||leg.transform.localToWorldMatrix!=sock.transform.localToWorldMatrix)throw new Exception("Sock does not follow the anatomical leg");
                     if(sock.transform.IsChildOf(rig.leftShoe.transform)||sock.transform.IsChildOf(rig.rightShoe.transform))throw new Exception("Sock moves with removable footwear");
@@ -84,10 +89,11 @@ namespace Homecoming.Editor
                 if(index==0)
                 {
                     if(rig.GetComponentsInChildren<SkinnedMeshRenderer>().Any(s=>s.name.StartsWith("DLC_Stocking_")))throw new Exception("Legacy cylindrical stockings still present");
-                    foreach(var sock in rig.hosiery.Concat(rig.GetComponentsInChildren<SkinnedMeshRenderer>().Where(s=>s.sharedMaterial.name=="body_05_wa__yennefer_Material6")))
+                    foreach(var sock in rig.hosiery)
                     {
                         var mat=sock.sharedMaterial;
-                        if(mat.GetTexture("_BaseMap")||(mat.HasProperty("_BumpMap")&&mat.GetTexture("_BumpMap"))||mat.color.maxColorComponent>.025f||Mathf.Abs(mat.color.r-mat.color.b)>.001f)throw new Exception("Yennefer hosiery still has a pattern or non-black tint");
+                        if(!AssetDatabase.GetAssetPath(mat.GetTexture("_BaseMap")).EndsWith("WitcherYenneferDLC/Prepared/Texture_04.png")||mat.GetFloat("_LaceAmount")<.99f||mat.GetFloat("_SkinUseSecondUV")<.99f)throw new Exception("Yennefer lower hosiery does not continue the original lace texture");
+                        if(mat.GetFloat("_SheerAmount")>.5f&&(mat.GetFloat("_Denier")<10||mat.GetFloat("_Denier")>30||!mat.GetTexture("_SkinMap")))throw new Exception("Yennefer sheer hosiery lacks original skin or the requested 10–30D setting");
                     }
                 }
                 var motion=new HomecomingMotion(rig);
@@ -97,7 +103,7 @@ namespace Homecoming.Editor
                     if(legs.Any(s=>!s.gameObject.activeSelf)||!meshes.SequenceEqual(legs.Select(s=>s.sharedMesh)))throw new Exception("Hosiery changes when a shoe is removed");
                     foreach(var sock in rig.hosiery)
                     {
-                        if(!sock.enabled||!sock.gameObject.activeInHierarchy)throw new Exception("Stocking disappeared with the shoe");
+                        if(!sock.gameObject.activeInHierarchy)throw new Exception("Stocking object disappeared with the shoe");
                         var baked=new Mesh();sock.BakeMesh(baked);
                         if(baked.vertexCount!=sock.sharedMesh.vertexCount||baked.vertices.Any(v=>float.IsNaN(v.x)||float.IsInfinity(v.y)))throw new Exception("Invalid leg / foot deformation after removing shoe");
                         UnityEngine.Object.DestroyImmediate(baked);

@@ -17,7 +17,8 @@ namespace Homecoming.Editor
         public static void Build(CharacterRig rig,string folder)
         {
             bool yennefer=folder.Contains("WitcherYenneferDLC/");
-            string sourceFolder=yennefer?"Assets/ThirdParty/WitcherYenneferOriginalFeet/Prepared/":Source;
+            bool triss=folder.Contains("WitcherTriss/");
+            string sourceFolder=yennefer?"Assets/ThirdParty/WitcherYenneferOriginalFeet/Prepared/":triss?"Assets/ThirdParty/WitcherTrissOriginalFeet/Prepared/":Source;
             var data=JsonUtility.FromJson<Manifest>(File.ReadAllText(sourceFolder+"manifest.json"));
             var part=data.parts.Single();
             var source=WitcherCharacterImport.ReadPreparedMesh(sourceFolder,part.file,part.name);
@@ -54,7 +55,7 @@ namespace Homecoming.Editor
             {
                 // DLC Triss has bare legs, not the default character's hosiery.
                 material.color=Color.white;
-                material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Source+"Texture_00.png"));
+                material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(sourceFolder+"Texture_00.png"));
             }
             material.SetFloat("_Cull",2);EditorUtility.SetDirty(material);
             var skinMaterial=AssetDatabase.LoadAssetAtPath<Material>(folder+"Materials/OriginalLegSkin.mat");
@@ -68,7 +69,12 @@ namespace Homecoming.Editor
                 {
                     var w=weights[index];float own=0,other=0;
                     var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};var amounts=new[]{w.weight0,w.weight1,w.weight2,w.weight3};
-                    for(int j=0;j<4;j++){if(names[ids[j]].StartsWith(prefix))own+=amounts[j];else if(names[ids[j]].StartsWith("J_Bip_"))other+=amounts[j];}
+                    for(int j=0;j<4;j++)
+                    {
+                        string name=names[ids[j]];
+                        if(name.StartsWith(prefix)||(triss&&name.StartsWith(side==0?"W3_l_":"W3_r_")))own+=amounts[j];
+                        else if(name.StartsWith("J_Bip_")||(triss&&name.StartsWith(side==0?"W3_r_":"W3_l_")))other+=amounts[j];
+                    }
                     return own>other;
                 }
                 var used=new List<int>();var triangles=new List<int>();var lookup=new Dictionary<int,int>();
@@ -78,12 +84,26 @@ namespace Homecoming.Editor
                     // Select whole source triangles under the garment overlap.
                     var face=new[]{sourceTriangles[i],sourceTriangles[i+1],sourceTriangles[i+2]};
                     float garmentOverlap=folder.Contains("WitcherIris/")?.90f:yennefer?.85f:.68f;
-                    if(face.Any(v=>!Own(v)||positions[v].y>garmentOverlap))continue;
+                    if(face.Any(v=>!Own(v))||(triss?face.Average(v=>positions[v].y)>=.68f:face.Any(v=>positions[v].y>garmentOverlap)))continue;
                     foreach(int v in face){if(!lookup.ContainsKey(v)){lookup[v]=used.Count;used.Add(v);}triangles.Add(lookup[v]);}
                 }
                 if(triangles.Count<300)throw new Exception("Original game leg geometry is missing");
                 var mesh=new Mesh{name=side==0?"OriginalGameLeftLeg":"OriginalGameRightLeg",vertices=used.Select(i=>positions[i]).ToArray(),normals=used.Select(i=>originalNormals[i]).ToArray(),uv=used.Select(i=>originalUV[i]).ToArray(),boneWeights=used.Select(i=>mapped[i]).ToArray(),bindposes=boot.sharedMesh.bindposes,triangles=triangles.ToArray()};
                 mesh.RecalculateBounds();mesh.RecalculateTangents();
+                if(triss)
+                {
+                    // A small temporary fit keeps the original foot inside the
+                    // sandal sole and straps. Base geometry is restored as it exits.
+                    int footIndex=Array.FindIndex(boot.bones,b=>b.name==prefix+"Foot"),toeIndex=Array.FindIndex(boot.bones,b=>b.name==prefix+"ToeBase");
+                    var footOrigin=boot.sharedMesh.bindposes[footIndex].inverse.MultiplyPoint3x4(Vector3.zero);
+                    var toeAxis=(boot.sharedMesh.bindposes[toeIndex].inverse.MultiplyPoint3x4(Vector3.zero)-footOrigin).normalized;
+                    var delta=used.Select(i=>
+                    {
+                        float heelFit=1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(0,.035f,Vector3.Dot(positions[i]-footOrigin,toeAxis)));
+                        return -originalNormals[i]*(.0035f+.0015f*heelFit)*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.12f,.18f,positions[i].y)));
+                    }).ToArray();
+                    mesh.AddBlendShapeFrame("BootFit",100,delta,null,null);
+                }
                 string path=folder+"Meshes/"+mesh.name+".asset";var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);
                 if(existing){WitcherCharacterImport.CopyMesh(mesh,existing);UnityEngine.Object.DestroyImmediate(mesh);mesh=existing;}else AssetDatabase.CreateAsset(mesh,path);
                 var leg=new GameObject(side==0?"左腿原始腿脚":"右腿原始腿脚");leg.transform.SetParent(boot.transform.parent,false);
@@ -99,8 +119,9 @@ namespace Homecoming.Editor
             }
             UnityEngine.Object.DestroyImmediate(source);
             if(yennefer)RemoveCoveredYenneferSurfaces(rig,folder);
+            if(yennefer)YenneferSheerHosiery.Build(rig,folder);
             if(folder.Contains("WitcherShani/"))BuildOriginalShaniSocks(rig,folder,material);
-            Debug.Log("ORIGINAL GAME LEGS: "+(yennefer?"yennefer/twals_01_wa__body_notcensor":"ls_02_wa__body_barefoot")+"; source triangles, weights and UVs retained; stockings remain attached.");
+            Debug.Log("ORIGINAL GAME LEGS: "+(yennefer?"yennefer/twals_01_wa__body_notcensor":triss?"triss/twals_01_wa__body_triss":"ls_02_wa__body_barefoot")+"; source triangles, weights and UVs retained; stockings remain attached.");
         }
 
 

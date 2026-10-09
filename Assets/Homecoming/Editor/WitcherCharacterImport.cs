@@ -25,8 +25,9 @@ namespace Homecoming.Editor
         }
         public static void Import(string name)
         {
-            CharacterName=name; Source="Assets/ThirdParty/Witcher"+name+"/Prepared/";
-            Destination="Assets/ThirdParty/Witcher"+name+"/Unity/";
+            CharacterName=name; string appearance=name=="Ciri"?"CiriDLC":name;
+            Source="Assets/ThirdParty/Witcher"+appearance+"/Prepared/";
+            Destination="Assets/ThirdParty/Witcher"+appearance+"/Unity/";
             Directory.CreateDirectory(Destination+"Meshes"); Directory.CreateDirectory(Destination+"Materials");
             AssetDatabase.Refresh();
             var data=JsonUtility.FromJson<Manifest>(File.ReadAllText(Source+"manifest.json"));
@@ -95,6 +96,7 @@ namespace Homecoming.Editor
                 renderer.bones=part.joints.Select(index=>nodes[index]).ToArray(); renderer.rootBone=rig.hips; renderer.updateWhenOffscreen=true;
                 renderer.localBounds=new Bounds(new Vector3(0,.95f,0),new Vector3(2.6f,2.6f,2.6f));
                 ModelMesh.ApplyMaterial(renderer,materials[part.material]);
+                if(data.materials[part.material].name.StartsWith("he_")&&data.materials[part.material].name.EndsWith("_Material1")&&data.materials[part.material].texture<0)renderer.enabled=false;
                 if(CharacterName=="Shani")
                 {
                     if(part.name.StartsWith("ta_01_wa__body_shani"))ShaniModelRefinement.CompleteOriginalArms(renderer);
@@ -113,9 +115,16 @@ namespace Homecoming.Editor
                     if(CharacterName=="Triss"&&!part.name.StartsWith("d_01_"))renderer.gameObject.AddComponent<HomecomingGarmentDynamics>().Configure(part.cloth);
                     else {garments.Add(renderer);fabricFreedom.AddRange(part.cloth);}
                 }
+                if(CharacterName=="Triss"&&part.name=="body_01_wa__triss_dlc_lod0_4_Body")
+                {
+                    // The original underskirt must gather with the outer gown,
+                    // rather than remaining a separate thigh-skinned panel.
+                    garments.Add(renderer);fabricFreedom.AddRange(Enumerable.Repeat(0f,mesh.vertexCount));
+                }
                 if(part.role=="Body" && !rig.skirt) rig.skirt=renderer;
             }
             rig.expressionRenderers=expressions.ToArray();
+            rig.openToeFootwear=CharacterName=="Triss";
             rig.leftShoe=MergeBoots(leftBoots,rig,"LeftBoot");
             rig.rightShoe=MergeBoots(rightBoots,rig,"RightBoot");
             if(garments.Count>0)
@@ -134,12 +143,13 @@ namespace Homecoming.Editor
                         for(int j=0;j<4;j++)if(amounts[j]>0&&(rig.skirt.bones[ids[j]].name.Contains("dress")||rig.skirt.bones[ids[j]].name=="W3_Root"))detachedRoot=true;
                         // Original dress helper bones sit under the game root;
                         // this scene's seated pelvis must carry their waist seam.
-                        if(garmentVertices[i].y<.94f||detachedRoot)garmentWeights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
+                        if(CharacterName!="Triss"&&(garmentVertices[i].y<.94f||detachedRoot))garmentWeights[i]=new BoneWeight{boneIndex0=hip,weight0=1};
                     }
                     rig.skirt.sharedMesh.boneWeights=garmentWeights;
                     BuildDressSittingShape(rig.skirt.sharedMesh);
                 }
-                rig.skirt.gameObject.AddComponent<HomecomingGarmentDynamics>().Configure(fabricFreedom.ToArray());
+                var fabric=rig.skirt.gameObject.AddComponent<HomecomingGarmentDynamics>();
+                fabric.Configure(fabricFreedom.ToArray());fabric.ConfigureSeatedHipCompensation(CharacterName=="Triss");
             }
             WitcherCharacterFeet.Build(rig,Destination);
             rig.longBoots=rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.bounds.size.y>.30f;
@@ -149,6 +159,9 @@ namespace Homecoming.Editor
             rig.leftArm.localRotation=Quaternion.Euler(0,0,78); rig.rightArm.localRotation=Quaternion.Euler(0,0,-78);
             foreach(var human in data.humanBones)
                 if(human.bone.Contains("Proximal") && !human.bone.Contains("Thumb")) nodes[human.node].localRotation=Quaternion.Euler(0,human.bone.StartsWith("left")?-12:12,0);
+            // Reapply reviewed Blender edits before generating the detached shoe
+            // proxies so attached and detached surfaces keep matching normals.
+            BlenderModelBridge.ApplySavedRefinements(Destination);
             rig.leftGroundShoe=GroundShoe(rig.leftShoe,root.transform,"LeftGroundShoe"); rig.rightGroundShoe=GroundShoe(rig.rightShoe,root.transform,"RightGroundShoe");
             // Persist accessory meshes/materials; all author-provided assets remain in ThirdParty.
             int accessory=0;
@@ -165,6 +178,7 @@ namespace Homecoming.Editor
                     else AssetDatabase.CreateAsset(renderer.sharedMaterial,path);
                 }
             rig.CaptureRestPose(); rig.Expression(1,false);
+            WitcherCostumeMaterials.Apply(rig,Source);
 
             PrefabUtility.SaveAsPrefabAsset(root,"Assets/Homecoming/Resources/Homecoming/"+CharacterName+".prefab");
             AssetDatabase.SaveAssets(); UnityEngine.Object.DestroyImmediate(root); AssetDatabase.Refresh();

@@ -18,6 +18,7 @@ namespace Homecoming.Editor
                 if(!solver||solver.FreeParticles<20||!AssetDatabase.Contains(solver.SourceMesh))throw new Exception("Missing imported fabric mask: "+index);
                 var source=solver.SourceMesh;var original=source.vertices;var skin=solver.GetComponent<SkinnedMeshRenderer>();
                 var mask=new SerializedObject(solver).FindProperty("maximumDistance");
+                bool compensated=new SerializedObject(solver).FindProperty("seatedHipCompensation").boolValue;
                 var pinned=Enumerable.Range(0,mask.arraySize).Where(i=>mask.GetArrayElementAtIndex(i).floatValue<=.0001f).ToArray();
                 if(pinned.Length<4)throw new Exception("Fabric has no sewn attachment points");
                 var motion=new HomecomingMotion(rig);float moving=0,maximum=0;
@@ -31,7 +32,8 @@ namespace Homecoming.Editor
                         if(time>2&&time<7)moving=Mathf.Max(moving,solver.MaximumDisplacement);
                         var deformed=skin.sharedMesh.vertices;
                         foreach(var p in deformed)if(float.IsNaN(p.sqrMagnitude)||float.IsInfinity(p.sqrMagnitude))throw new Exception("Non-finite fabric vertex");
-                        foreach(int i in pinned)if(Vector3.Distance(deformed[i],original[i])>.00001f)throw new Exception("A pinned fabric attachment moved");
+                        if(compensated){if(solver.MaximumPinnedDisplacement>.00001f)throw new Exception("A compensated fabric attachment drifted");}
+                        else foreach(int i in pinned)if(Vector3.Distance(deformed[i],original[i])>.00001f)throw new Exception("A pinned fabric attachment moved");
                     }
                 }
                 if(moving<.004f||maximum>.111f)throw new Exception("Fabric is rigid or unstable: "+index+" walking="+moving+" maximum="+maximum);

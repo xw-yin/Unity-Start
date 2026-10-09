@@ -5,17 +5,17 @@ namespace Homecoming
     // Hand axes and contact anchors come from the imported finger skeleton.
     public sealed class HomecomingHandPose
     {
-        public enum Hold { Rest, Boot, Fabric, Support }
+        public enum Hold { Rest, Boot, Fabric, Support, Greeting }
         readonly Transform[] hands=new Transform[2];
         readonly Transform[,,] fingers=new Transform[2,5,3];
         readonly Quaternion[,,] rest=new Quaternion[2,5,3];
-        readonly Quaternion[,,,] poses=new Quaternion[2,4,5,3];
+        readonly Quaternion[,,,] poses=new Quaternion[2,5,5,3];
         readonly Vector3[,] forward=new Vector3[2,5],tipForward=new Vector3[2,5];
         readonly Vector3[,,] segment=new Vector3[2,5,3];
         readonly float[,] tipLength=new float[2,5];
         readonly Vector3[] normal=new Vector3[2];
         readonly Quaternion[] basis=new Quaternion[2];
-        readonly Vector3[,] offsets=new Vector3[2,4];
+        readonly Vector3[,] offsets=new Vector3[2,5];
         static readonly string[] Names={"Index","Middle","Ring","Little","Thumb"};
         public HomecomingHandPose(CharacterRig rig)
         {
@@ -49,7 +49,7 @@ namespace Homecoming
                     var tip=fingers[side,f,2];
                     if(tip&&b){tipForward[side,f]=tip.InverseTransformDirection((tip.position-b.position).normalized);tipLength[side,f]=Vector3.Distance(tip.position,b.position)*.7f;}
                 }
-                for(int hold=0;hold<4;hold++)
+                for(int hold=0;hold<5;hold++)
                 {
                     BuildFingers(side,(Hold)hold,hold==0?0:1);
                     for(int f=0;f<5;f++)for(int j=0;j<3;j++)if(fingers[side,f,j])poses[side,hold,f,j]=fingers[side,f,j].localRotation;
@@ -117,9 +117,12 @@ namespace Homecoming
                 {
                     var bone=fingers[side,f,j];if(!bone)continue;
                     bone.localRotation=rest[side,f,j];
-                    float relaxed=j==0?16+f*2:j==1?22+f*2:10;
+                    // Rest uses a loose cascade, with most curvature in the
+                    // first two joints and a soft fingertip, not a grip curl.
+                    float relaxed=j==0?10+f*2:j==1?14+f*2:5;
                     float closed=hold==Hold.Boot?(j==0?28:j==1?62:35):hold==Hold.Fabric?(f==0?(j==0?25:j==1?42:20):(j==0?20:j==1?30:14)):(j==0?8:j==1?12:6);
-                    if(f==4){relaxed=j==0?8:10;closed=hold==Hold.Boot?(j==0?25:30):hold==Hold.Fabric?(j==0?25:30):10;}
+                    if(f==4){relaxed=j==0?8:6;closed=hold==Hold.Boot?(j==0?25:30):hold==Hold.Fabric?(j==0?25:30):10;}
+                    if(hold==Hold.Greeting)closed=f==4?8:j==0?5+f*2:j==1?8+f*2:3;
                     cumulative+=Mathf.Lerp(relaxed,closed,amount);
                     var baseDirection=forward[side,f];
                     var axis=Vector3.Cross(baseDirection,normal[side]).normalized;
@@ -128,7 +131,7 @@ namespace Homecoming
                     // its bind geometry, instead of adding rotations to a curl.
                     bone.rotation=Quaternion.FromToRotation(bone.TransformDirection(segment[side,f,j]),desired)*bone.rotation;
                 }
-                if(f==4&&amount>0&&fingers[side,0,1])
+                if(f==4&&amount>0&&hold!=Hold.Greeting&&fingers[side,0,1])
                 {
                     var thumb=fingers[side,4,0];var target=fingers[side,0,1].position;
                     var oppose=Quaternion.FromToRotation(Tip(side,4)-thumb.position,target-thumb.position);

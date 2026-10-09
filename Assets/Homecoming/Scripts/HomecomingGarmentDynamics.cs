@@ -8,9 +8,10 @@ namespace Homecoming
     public sealed class HomecomingGarmentDynamics : MonoBehaviour
     {
         [SerializeField] float[] maximumDistance;
+        [SerializeField] bool seatedHipCompensation;
         SkinnedMeshRenderer skin;
         Mesh source, dynamicMesh;
-        Vector3[] rest, output, goal, previousGoal, position, velocity, stepOrigin, posedRest;
+        Vector3[] rest, output, goal, originalGoal, previousGoal, position, velocity, stepOrigin, posedRest;
         Vector3[][] shapeDelta;
         float[] shapeWeights;
         Matrix4x4[] boneMatrices, inverseSkin, bindposes;
@@ -18,13 +19,39 @@ namespace Homecoming
         Transform[] bones;
         int[] particle, representative;
         float[] limits,stepLimits;
+        bool[] pelvisVertices;
         struct Edge { public int a,b; public float length; }
         Edge[] edges;
         float lastTime=-1;
         public Mesh SourceMesh=>source;
         public float MaximumDisplacement { get; private set; }
+        public float MaximumPinnedDisplacement { get; private set; }
         public int FreeParticles { get; private set; }
         public void Configure(float[] freedom) { maximumDistance=freedom; }
+        public void ConfigureSeatedHipCompensation(bool enabled) { seatedHipCompensation=enabled; }
+
+        // Keep the imported skinning for walking. The lap blendshape was authored
+        // in pelvis space, so compensate for leg skinning only while seated.
+        public Vector3 PoseTarget(CharacterRig rig,Vector3 point,float restHeight,BoneWeight weight,Vector3 skinned)
+        {
+            if(!seatedHipCompensation)return skinned;
+            var renderer=skin?skin:GetComponent<SkinnedMeshRenderer>();
+            var mesh=source?source:renderer.sharedMesh;
+            int sitting=mesh.GetBlendShapeIndex("Sitting");
+            float amount=sitting<0?0:renderer.GetBlendShapeWeight(sitting)*.01f;
+            if(amount<=0)return skinned;
+            var rigBones=bones??renderer.bones;
+            if(!NeedsPelvis(restHeight,weight,rigBones))return skinned;
+            int hip=System.Array.IndexOf(rigBones,rig.hips);
+            if(hip<0)throw new System.InvalidOperationException("The gown has no pelvis binding");
+            var binds=bindposes??mesh.bindposes;
+            var hipPoint=(rig.hips.localToWorldMatrix*binds[hip]).MultiplyPoint3x4(point);
+            return Vector3.Lerp(skinned,hipPoint,amount);
+        }
+        static bool Helper(Transform bone,float weight)=>weight>0&&(bone.name.Contains("dress")||bone.name=="W3_Root");
+        static bool NeedsPelvis(float height,BoneWeight weight,Transform[] rigBones)=>height<.94f||
+            Helper(rigBones[weight.boneIndex0],weight.weight0)||Helper(rigBones[weight.boneIndex1],weight.weight1)||
+            Helper(rigBones[weight.boneIndex2],weight.weight2)||Helper(rigBones[weight.boneIndex3],weight.weight3);
 
         void Initialize()
         {
@@ -44,7 +71,10 @@ namespace Homecoming
             representative=reps.ToArray();limits=freedom.ToArray();stepLimits=new float[limits.Length];
             foreach(float limit in limits)if(limit>0)FreeParticles++;
             goal=new Vector3[groups.Count];previousGoal=new Vector3[groups.Count];position=new Vector3[groups.Count];velocity=new Vector3[groups.Count];stepOrigin=new Vector3[groups.Count];
+            originalGoal=new Vector3[groups.Count];
             bones=skin.bones;inverseSkin=new Matrix4x4[groups.Count];boneMatrices=new Matrix4x4[bones.Length];
+            pelvisVertices=new bool[rest.Length];
+            if(seatedHipCompensation)for(int i=0;i<rest.Length;i++)pelvisVertices[i]=NeedsPelvis(rest[i].y,weights[i],bones);
             var set=new HashSet<long>();var links=new List<Edge>();var triangles=source.triangles;
             for(int i=0;i<triangles.Length;i+=3)for(int j=0;j<3;j++)
             {
@@ -61,12 +91,16 @@ namespace Homecoming
             for(int shape=0;shape<shapeWeights.Length;shape++)shapeWeights[shape]=skin.GetBlendShapeWeight(shape)/100;
             for(int i=0;i<rest.Length;i++){posedRest[i]=rest[i];for(int shape=0;shape<shapeDelta.Length;shape++)posedRest[i]+=shapeDelta[shape][i]*shapeWeights[shape];}
             for(int i=0;i<boneMatrices.Length;i++)boneMatrices[i]=bones[i].localToWorldMatrix*bindposes[i];
+            int sitting=source.GetBlendShapeIndex("Sitting"),hip=System.Array.IndexOf(bones,rig.hips);
+            float sitAmount=seatedHipCompensation&&sitting>=0?shapeWeights[sitting]:0;
+            var pelvisMatrix=hip>=0?boneMatrices[hip]:Matrix4x4.identity;
             for(int i=0;i<goal.Length;i++)
             {
                 int vertex=representative[i];var w=weights[vertex];var matrix=new Matrix4x4();
                 for(int row=0;row<4;row++)for(int col=0;col<4;col++)
                     matrix[row,col]=boneMatrices[w.boneIndex0][row,col]*w.weight0+boneMatrices[w.boneIndex1][row,col]*w.weight1+boneMatrices[w.boneIndex2][row,col]*w.weight2+boneMatrices[w.boneIndex3][row,col]*w.weight3;
-                goal[i]=matrix.MultiplyPoint3x4(posedRest[vertex]);inverseSkin[i]=matrix.inverse;
+                originalGoal[i]=matrix.MultiplyPoint3x4(posedRest[vertex]);
+                goal[i]=sitAmount>0&&pelvisVertices[vertex]?Vector3.Lerp(originalGoal[i],pelvisMatrix.MultiplyPoint3x4(posedRest[vertex]),sitAmount):originalGoal[i];inverseSkin[i]=matrix.inverse;
             }
             bool holding=source.GetBlendShapeIndex("BootLeft")>=0&&(rig.LeftDressLift>.01f||rig.RightDressLift>.01f);
             Vector3 leftHold=holding?rig.DressHoldPoint(0):Vector3.zero,rightHold=holding?rig.DressHoldPoint(1):Vector3.zero;
@@ -122,11 +156,12 @@ namespace Homecoming
                     for(int i=0;i<goal.Length;i++)velocity[i]=limits[i]>0?(position[i]-stepOrigin[i])/h:Vector3.zero;
                 }
             }
-            MaximumDisplacement=0;
+            MaximumDisplacement=0;MaximumPinnedDisplacement=0;
             for(int i=0;i<rest.Length;i++)
             {
                 int id=particle[i];var offset=position[id]-goal[id];MaximumDisplacement=Mathf.Max(MaximumDisplacement,offset.magnitude);
-                output[i]=rest[i]+inverseSkin[id].MultiplyVector(offset);
+                if(limits[id]==0)MaximumPinnedDisplacement=Mathf.Max(MaximumPinnedDisplacement,offset.magnitude);
+                output[i]=rest[i]+inverseSkin[id].MultiplyVector(offset+(goal[id]-originalGoal[id]));
             }
             dynamicMesh.vertices=output;dynamicMesh.RecalculateNormals();
             System.Array.Copy(goal,previousGoal,goal.Length);lastTime=time;
