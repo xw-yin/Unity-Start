@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Homecoming
 {
-    // Body geometry covered by clothing is masked, including during extraction.
-    // This is per renderer: each stocking follows its own boot's actual pose.
+    // Mask enclosed dressed surfaces while worn. Anatomically skinned boots
+    // expose the complete stocking/foot when transferred to the hand.
     public sealed class HomecomingBootCoverage : MonoBehaviour
     {
         readonly SkinnedMeshRenderer[] stockings=new SkinnedMeshRenderer[2];
@@ -53,9 +53,11 @@ namespace Homecoming
                 block.SetVector("_BootBoundsMin",minimum);block.SetVector("_BootBoundsMax",currentBounds.max+padding);
                 block.SetFloat("_OpenFootSoleMask",rig.openToeFootwear?1:0);
                 block.SetFloat("_BootSoleMax",currentBounds.min.y+.145f);
-                // Detaching transfers the boot to the hand while the foot is
-                // still inside. Keep coverage during the actual extraction.
-                block.SetFloat("_BootMask",action>=grip.Cleared(i)?0:1);
+                // In the revised anatomical extraction, show the original leg
+                // foot. A moving AABB cuts through exposed calves and conceals
+                // invalid extraction paths instead of fitting the shoe.
+                float coverageEnd=grip.AnatomicalExtraction?HomecomingShoeGrip.Detach(i):grip.Cleared(i);
+                block.SetFloat("_BootMask",action>=coverageEnd?0:1);
                 block.SetFloat("_BootRestMask",originalBoots[i]&&action<HomecomingShoeGrip.Detach(i)?1:0);stockings[i].SetPropertyBlock(block);
                 if(laces[i])laces[i].SetPropertyBlock(block);
                 if(rig.dressedLegs!=null&&rig.dressedLegs.Length==2&&rig.dressedLegs[i])

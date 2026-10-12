@@ -15,7 +15,7 @@ namespace Homecoming.Editor
             {
                 story.SelectCharacter(index);var rig=story.GetComponentInChildren<CharacterRig>();
                 var solver=index==2?rig.skirt.GetComponent<HomecomingGarmentDynamics>():rig.GetComponentInChildren<HomecomingGarmentDynamics>();
-                if(!solver||solver.FreeParticles<20||!AssetDatabase.Contains(solver.SourceMesh))throw new Exception("Missing imported fabric mask: "+index);
+                if(!solver||solver.FreeParticles<20||!AssetDatabase.Contains(solver.ImportedMesh))throw new Exception("Missing imported fabric mask: "+index);
                 var source=solver.SourceMesh;var original=source.vertices;var skin=solver.GetComponent<SkinnedMeshRenderer>();
                 var mask=new SerializedObject(solver).FindProperty("maximumDistance");
                 bool compensated=new SerializedObject(solver).FindProperty("seatedHipCompensation").boolValue;

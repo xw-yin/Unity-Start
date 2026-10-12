@@ -271,6 +271,7 @@ namespace Homecoming
                 var shoe=shoes.GetChild(i);
                 shoe.gameObject.SetActive(action>=HomecomingShoeGrip.Detach(i));
                 motion.Shoes.PlaceProxy(shoe,i,action);
+                motion.ResolveHeldContact(shoe,i,action);
             }
             if(rig.longBoots||rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot)
             {
