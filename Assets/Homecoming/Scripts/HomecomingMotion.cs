@@ -47,6 +47,15 @@ namespace Homecoming
         readonly Vector3[] solvedDirection=new Vector3[2],solvedBend=new Vector3[2],priorDirection=new Vector3[2],priorBend=new Vector3[2];
         readonly Transform[] smileBones=new Transform[2];
         readonly Vector3[] smileRest=new Vector3[2];
+        // Facial bones: Witcher characters ship zero facial blendshapes, so the
+        // face is frozen unless these bones are driven. Same safe pattern as
+        // smileBones: cache rest localPosition, apply millimeter-scale positional
+        // nudges only (no rotations), all restored by ResetFace().
+        readonly Transform[] eyelidBones=new Transform[4]; // 0,1 upper L/R; 2,3 lower L/R
+        readonly Vector3[] eyelidRest=new Vector3[4];
+        readonly Transform[] browBones=new Transform[2];
+        readonly Vector3[] browRest=new Vector3[2];
+        Transform jawBone; Vector3 jawRest;
         readonly Quaternion headRest;
         readonly HomecomingAuthoredPose endingPose;
         readonly Quaternion[] previousHandTurn=new Quaternion[2];
@@ -157,6 +166,13 @@ namespace Homecoming
                 if(bone.name=="J_Bip_R_Shoulder")shoulders[1]=bone;
                 if(bone.name=="W3_left_corner_lip1"){smileBones[0]=bone;smileRest[0]=bone.localPosition;}
                 if(bone.name=="W3_right_corner_lip1"){smileBones[1]=bone;smileRest[1]=bone.localPosition;}
+                if(bone.name=="W3_upper_left_eyelid1"){eyelidBones[0]=bone;eyelidRest[0]=bone.localPosition;}
+                if(bone.name=="W3_upper_right_eyelid1"){eyelidBones[1]=bone;eyelidRest[1]=bone.localPosition;}
+                if(bone.name=="W3_lowwer_left_eyelid1"){eyelidBones[2]=bone;eyelidRest[2]=bone.localPosition;}
+                if(bone.name=="W3_lowwer_right_eyelid1"){eyelidBones[3]=bone;eyelidRest[3]=bone.localPosition;}
+                if(bone.name=="W3_left_eyebrow1"){browBones[0]=bone;browRest[0]=bone.localPosition;}
+                if(bone.name=="W3_right_eyebrow1"){browBones[1]=bone;browRest[1]=bone.localPosition;}
+                if(bone.name=="W3_jaw"){jawBone=bone;jawRest=bone.localPosition;}
             }
             headRest=RestRotation(rig.head);
             for(int side=0;side<2;side++)
@@ -226,6 +242,9 @@ namespace Homecoming
         public void ResetFace()
         {
             for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i];
+            for(int i=0;i<4;i++)if(eyelidBones[i])eyelidBones[i].localPosition=eyelidRest[i];
+            for(int i=0;i<2;i++)if(browBones[i])browBones[i].localPosition=browRest[i];
+            if(jawBone)jawBone.localPosition=jawRest;
         }
         void ApplyCutePose(float time,float amount,bool gestures=true)
         {
@@ -241,6 +260,24 @@ namespace Homecoming
             rig.Pose(rig.head,new Vector3(-2+2*Mathf.Sin(time*1.1f),-5*wave,6*Mathf.Sin(time*.72f+.6f))*amount);
             var faceUp=rig.head.rotation*Quaternion.Inverse(headRest)*Vector3.up;
             for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i]+smileBones[i].parent.InverseTransformVector(faceUp*(.0014f*amount));
+            // Blink: quick close-open on a ~3.1s cycle (mirrors the old blendshape
+            // blink timing from CharacterRig.Expression). Upper lids move down,
+            // lower lids move up; all in head space so head tilts don't skew it.
+            float blinkCycle=Mathf.Repeat(time,3.1f);
+            float blink=Mathf.Clamp01(1-Mathf.Abs(blinkCycle-.12f)/.12f)*amount;
+            for(int i=0;i<4;i++)if(eyelidBones[i])
+            {
+                float dir=i<2?-1:1; // upper lids down, lower lids up
+                eyelidBones[i].localPosition=eyelidRest[i]+eyelidBones[i].parent.InverseTransformVector(faceUp*(dir*.0012f*blink));
+            }
+            // Brows lift slightly with the smile; jaw drifts with the breath so
+            // the mouth is never perfectly frozen. All millimeter-scale.
+            for(int i=0;i<2;i++)if(browBones[i])browBones[i].localPosition=browRest[i]+browBones[i].parent.InverseTransformVector(faceUp*(.0008f*amount));
+            if(jawBone)
+            {
+                float jawOpen=(.5f+.5f*Mathf.Sin(time*1.1f))*.0016f*amount;
+                jawBone.localPosition=jawRest+jawBone.parent.InverseTransformVector(faceUp*(-jawOpen));
+            }
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+root.right*.13f-root.forward);
             Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position-root.right*.13f-root.forward);
             lf.rotation=lr;rf.rotation=rr;
