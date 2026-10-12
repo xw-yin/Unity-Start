@@ -10,7 +10,7 @@ namespace Homecoming
         [SerializeField] float[] maximumDistance;
         [SerializeField] bool seatedHipCompensation;
         SkinnedMeshRenderer skin;
-        Mesh source, dynamicMesh;
+        Mesh source, dynamicMesh, importedMesh, authoredMesh;
         Vector3[] rest, output, goal, originalGoal, previousGoal, position, velocity, stepOrigin, posedRest;
         Vector3[][] shapeDelta;
         float[] shapeWeights;
@@ -24,6 +24,7 @@ namespace Homecoming
         Edge[] edges;
         float lastTime=-1;
         public Mesh SourceMesh=>source;
+        public Mesh ImportedMesh=>importedMesh;
         public float MaximumDisplacement { get; private set; }
         public float MaximumPinnedDisplacement { get; private set; }
         public int FreeParticles { get; private set; }
@@ -55,7 +56,9 @@ namespace Homecoming
 
         void Initialize()
         {
-            skin=GetComponent<SkinnedMeshRenderer>();source=skin.sharedMesh;
+            skin=GetComponent<SkinnedMeshRenderer>();importedMesh=skin.sharedMesh;
+            authoredMesh=HomecomingGarmentPose.Create(GetComponentInParent<CharacterRig>(),importedMesh);
+            source=authoredMesh?authoredMesh:importedMesh;
             rest=source.vertices;weights=source.boneWeights;bindposes=source.bindposes;output=new Vector3[rest.Length];particle=new int[rest.Length];
             posedRest=new Vector3[rest.Length];shapeDelta=new Vector3[source.blendShapeCount][];shapeWeights=new float[source.blendShapeCount];
             for(int shape=0;shape<shapeDelta.Length;shape++){shapeDelta[shape]=new Vector3[rest.Length];source.GetBlendShapeFrameVertices(shape,0,shapeDelta[shape],null,null);}
@@ -175,8 +178,9 @@ namespace Homecoming
         }
         void OnDestroy()
         {
-            if(skin&&skin.sharedMesh==dynamicMesh)skin.sharedMesh=source;
+            if(skin&&skin.sharedMesh==dynamicMesh)skin.sharedMesh=importedMesh;
             if(dynamicMesh){if(Application.isPlaying)Destroy(dynamicMesh);else DestroyImmediate(dynamicMesh);}
+            if(authoredMesh){if(Application.isPlaying)Destroy(authoredMesh);else DestroyImmediate(authoredMesh);}
         }
     }
 }

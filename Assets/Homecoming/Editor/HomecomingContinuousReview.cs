@@ -23,13 +23,29 @@ namespace Homecoming.Editor
         static float maximumAngle,maximumReach;
         static string worstAngle;
         static readonly StringBuilder report=new StringBuilder();
+        internal static bool Fast=>SessionState.GetBool(Key+".Fast",false);
         static HomecomingContinuousReview()
         {
             EditorApplication.playModeStateChanged+=State;
             if(SessionState.GetBool(Key,false)&&EditorApplication.isPlaying)StartTimeline();
         }
-        public static void Run()
+        public static void Run()=>RunCore(false);
+        public static void FastPair()
         {
+            SessionState.SetInt(Key+".First",0);SessionState.SetInt(Key+".Last",2);RunCore(true);
+        }
+        public static void GarmentThenAll()
+        {
+            HomecomingGarmentReview.Run();
+            BootExtractionReview.FastAll();
+        }
+        public static void FastAll()
+        {
+            SessionState.SetInt(Key+".First",0);SessionState.SetInt(Key+".Last",6);RunCore(true);
+        }
+        static void RunCore(bool fast)
+        {
+            SessionState.SetBool(Key+".Fast",fast);
             SessionState.SetBool(Key,true);
             SessionState.SetBool(Key+".Reload",EditorSettings.enterPlayModeOptionsEnabled);
             EditorSettings.enterPlayModeOptionsEnabled=false;
@@ -77,7 +93,8 @@ namespace Homecoming.Editor
             story.SelectCharacter(character);story.enabled=false;
             rig=story.GetComponentInChildren<CharacterRig>();
             typeof(HomecomingScene).GetField("started",Flags).SetValue(story,true);
-            bones=new[]{rig.hips,rig.spine,rig.head,rig.leftArm,rig.rightArm,rig.leftElbow,rig.rightElbow,rig.leftThigh,rig.rightThigh,rig.leftCalf,rig.rightCalf};
+            bones=new[]{rig.hips,rig.spine,rig.head,rig.leftArm,rig.rightArm,rig.leftElbow,rig.rightElbow,rig.leftThigh,rig.rightThigh,rig.leftCalf,rig.rightCalf}
+                .Concat(rig.GetComponentsInChildren<Transform>().Where(t=>new[]{"J_Bip_L_Hand","J_Bip_R_Hand","J_Bip_L_Foot","J_Bip_R_Foot","J_Bip_L_ToeBase","J_Bip_R_ToeBase"}.Contains(t.name))).ToArray();
             previous=bones.Select(b=>b.rotation).ToArray();maximumAngle=maximumReach=0;worstAngle="";frame=0;
         }
         static void Tick()
@@ -112,21 +129,22 @@ namespace Homecoming.Editor
                             var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(side==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
                             maximumReach=Mathf.Max(maximumReach,Vector3.Distance(hand.position,motion.Shoes.WristTarget(side,action)));
                             var shoe=story.transform.Find("脱下的通勤鞋").GetChild(side);
-                            if(motion.Shoes.ContactError(shoe,side)>.002f)throw new Exception("Held shoe lost contact");
+                            if(motion.Shoes.ContactError(shoe,side)>.002f)throw new Exception("Held shoe lost contact: character="+character+" frame="+frame+" side="+side+" error="+motion.Shoes.ContactError(shoe,side));
                             var properties=new MaterialPropertyBlock();sock.GetPropertyBlock(properties);
-                            float expected=action<motion.Shoes.Cleared(side)?1:0;
+                            float coverageEnd=motion.Shoes.AnatomicalExtraction?HomecomingShoeGrip.Detach(side):motion.Shoes.Cleared(side);
+                            float expected=action<coverageEnd?1:0;
                             if(properties.GetFloat("_BootMask")!=expected)throw new Exception("Incorrect boot extraction coverage");
                         }
                     }
                     bool stage=new[]{0,90,150,210,270,300,330,360,390,405,420,450,510,570,630,780,840,960}.Contains(frame);
                     bool movie=(character==0||character==4||character==6)&&frame%5==0;
-                    if(new[]{0,2,3}.Contains(character)&&new[]{240,330,675}.Contains(frame))
+                    if(!Fast&&new[]{0,2,3}.Contains(character)&&new[]{240,330,675}.Contains(frame))
                     {
                         var camera=story.CameraControls.GetComponent<Camera>();var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
                         var aim=rig.transform.position+new Vector3(0,.85f,0);camera.transform.position=aim+new Vector3(.1f,.04f,-2.8f);camera.transform.LookAt(aim);camera.fieldOfView=38;
                         CaptureGpu(camera,"Artifacts/DLCOutfitReview/"+character+"-"+frame+"-gpu-front.png");camera.transform.SetPositionAndRotation(position,rotation);camera.fieldOfView=fov;
                     }
-                    if(character==0&&new[]{240,389,390,405,420,570,600,675}.Contains(frame))
+                    if(!Fast&&character==0&&new[]{240,389,390,405,420,570,600,675}.Contains(frame))
                     {
                         var camera=story.CameraControls.GetComponent<Camera>();var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
                         var aim=rig.transform.TransformPoint(new Vector3(0,.39f,-.04f));camera.transform.position=aim+new Vector3(.28f,.13f,-1.55f);camera.transform.LookAt(aim);camera.fieldOfView=38;
@@ -134,7 +152,7 @@ namespace Homecoming.Editor
                         camera.transform.position=aim+new Vector3(1.3f,.12f,-.7f);camera.transform.LookAt(aim);CaptureGpu(camera,"Artifacts/ContinuousReview/0/"+frame+"-gpu-side.png");
                         camera.transform.SetPositionAndRotation(position,rotation);camera.fieldOfView=fov;
                     }
-                    if(stage||movie)
+                    if(!Fast&&(stage||movie))
                     {
                         var camera=story.CameraControls.GetComponent<Camera>();
                         if(time<8){story.CameraControls.SetView(0);story.CameraControls.SnapForReview();}
@@ -148,6 +166,18 @@ namespace Homecoming.Editor
                     }
                     if(++frame>960)
                     {
+                        var originalRig=Resources.Load<GameObject>(HomecomingCharacters.ResourcesPaths[character]).GetComponent<CharacterRig>();
+                        for(int side=0;side<2;side++)
+                        {
+                            var renderer=rig.hosiery[side];var actual=renderer.sharedMesh;var original=originalRig.hosiery[side].sharedMesh;
+                            if(!actual.vertices.SequenceEqual(original.vertices)||!actual.boneWeights.SequenceEqual(original.boneWeights)||!actual.uv.SequenceEqual(original.uv)||!actual.triangles.SequenceEqual(original.triangles))
+                                throw new Exception("Original hosiery positions / weights were not restored after extraction: "+character+" / "+side);
+                            foreach(string fit in new[]{"BootFit","WornHighHeel"})
+                            {
+                                int index=actual.GetBlendShapeIndex(fit);
+                                if(index>=0&&renderer.GetBlendShapeWeight(index)>.0001f)throw new Exception("Worn corrective remains active after footwear removal: "+character+" / "+side+" / "+fit);
+                            }
+                        }
                         report.AppendLine(HomecomingCharacters.Names[character]+","+maximumAngle+","+maximumReach+","+worstAngle);
                         File.WriteAllText("Artifacts/ContinuousReview/results.csv",report.ToString());
                         Debug.Log("CONTINUOUS PLAY REVIEW: "+HomecomingCharacters.Names[character]+"; 961 frames; max bone angle="+maximumAngle+" "+worstAngle+"; max wrist error="+maximumReach);

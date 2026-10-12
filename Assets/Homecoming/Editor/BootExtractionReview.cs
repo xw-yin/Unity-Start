@@ -22,6 +22,8 @@ namespace Homecoming.Editor
         public static void Run(){SessionState.SetBool(Key,true);SessionState.SetInt("Homecoming.ContinuousReview.First",0);SessionState.SetInt("Homecoming.ContinuousReview.Last",6);HomecomingContinuousReview.Run();}
         public static void TrissOnly(){SessionState.SetBool(Key,true);SessionState.SetInt("Homecoming.ContinuousReview.First",2);SessionState.SetInt("Homecoming.ContinuousReview.Last",2);HomecomingContinuousReview.Run();}
         public static void Pair(){SessionState.SetBool(Key,true);SessionState.SetInt("Homecoming.ContinuousReview.First",0);SessionState.SetInt("Homecoming.ContinuousReview.Last",2);HomecomingContinuousReview.Run();}
+        public static void FastPair(){SessionState.SetBool(Key,true);HomecomingContinuousReview.FastPair();}
+        public static void FastAll(){SessionState.SetBool(Key,true);HomecomingContinuousReview.FastAll();}
         public static void RebuildTrissOnly(){WitcherCharacterImport.Import("Triss");HomecomingSetup.CreateScene();TrissOnly();}
         public static void FinishEvidence()
         {
@@ -50,6 +52,14 @@ namespace Homecoming.Editor
                 Surface boot;
                 if(action>=HomecomingShoeGrip.Detach(side)){var proxy=story.transform.Find("脱下的通勤鞋").GetChild(side);boot=Read(proxy.GetComponent<MeshFilter>().sharedMesh,proxy);}
                 else boot=Read((side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>());
+                if(Mathf.Abs(action-HomecomingShoeGrip.Detach(side))<.00001f)
+                {
+                    var worn=Read((side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>());
+                    float maximum=0;
+                    for(int i=0;i<boot.vertices.Length;i+=3)
+                        maximum=Mathf.Max(maximum,Vector3.Distance(new Vector3(boot.vertices[i],boot.vertices[i+1],boot.vertices[i+2]),new Vector3(worn.vertices[i],worn.vertices[i+1],worn.vertices[i+2])));
+                    Debug.Log("BOOT TRANSFER GEOMETRY: character="+character+" side="+side+" maximum world vertex change="+maximum);
+                }
                 if(boot.vertices.Where((v,i)=>i%3==1).Min()<-.002f)throw new Exception("Boot sole penetrates the floor: "+character+" / "+frame+" / "+side);
                 bool dressed=rig.dressedLegs!=null&&rig.dressedLegs.Length==2&&action<HomecomingShoeGrip.Detach(side);
                 var skin=dressed?rig.dressedLegs[side]:rig.hosiery[side];var properties=new MaterialPropertyBlock();skin.GetPropertyBlock(properties);
@@ -58,6 +68,7 @@ namespace Homecoming.Editor
                 output.sides[side]=new Side{boot=boot,sock=Read(skin),lace=character==0?Read(dressed?rig.dressedHosiery[side]:lace):null,worldToBoot=Enumerable.Range(0,16).Select(i=>matrix[i/4,i%4]).ToArray(),minimum=Values(properties.GetVector("_BootBoundsMin")),maximum=Values(properties.GetVector("_BootBoundsMax")),masked=properties.GetFloat("_BootMask")>.5f,restMasked=properties.GetFloat("_BootRestMask")>.5f,openFoot=properties.GetFloat("_OpenFootSoleMask")>.5f,soleMax=properties.GetFloat("_BootSoleMax"),heel=motion.HeelHeight(side),ball=motion.BallHeight(side)};
             }
             string folder="Artifacts/FootwearMotionReview/"+character;Directory.CreateDirectory(folder+"/Geometry");File.WriteAllText(folder+"/Geometry/"+frame+".json",JsonUtility.ToJson(output));
+            if(HomecomingContinuousReview.Fast)return;
             var camera=story.CameraControls.GetComponent<Camera>();var position=camera.transform.position;var rotation=camera.transform.rotation;float fov=camera.fieldOfView;
             var aim=rig.transform.position+new Vector3(0,.80f,0);camera.transform.position=aim+new Vector3(.08f,.07f,-2.7f);camera.transform.LookAt(aim);camera.fieldOfView=38;
             HomecomingContinuousReview.CaptureGpu(camera,folder+"/"+frame+"-front.png");

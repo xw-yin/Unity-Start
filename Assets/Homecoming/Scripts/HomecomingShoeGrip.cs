@@ -14,6 +14,7 @@ namespace Homecoming
         readonly Quaternion[] calfRest=new Quaternion[2];
         readonly bool longBoots;
         readonly bool ankleBoots;
+        readonly bool openToeFootwear;
         readonly Vector3[][] bootVertices=new Vector3[2][];
         readonly SkinnedMeshRenderer[] skins=new SkinnedMeshRenderer[2];
         readonly int[] cuffVertices=new int[2];
@@ -31,6 +32,7 @@ namespace Homecoming
         public HomecomingShoeGrip(CharacterRig rig,HomecomingHandPose handPose)
         {
             palms=handPose;longBoots=rig.longBoots;
+            openToeFootwear=rig.openToeFootwear;
             ankleBoots=rig.footwearKind==CharacterRig.FootwearKind.AnkleBoot;
             calves[0]=rig.leftCalf;calves[1]=rig.rightCalf;
             calfRest[0]=calves[0].rotation;calfRest[1]=calves[1].rotation;
@@ -75,6 +77,7 @@ namespace Homecoming
         public static float Detach(int side)=>Start(side)+2;
         public float Cleared(int side)=>Start(side)+(longBoots?3.05f:2.8f);
         public static float Release(int side)=>Start(side)+4.4f;
+        public Vector3 ExtractionAxis(int side)=>(captured[side]?extractionRotation[side]:AttachedRotation(side))*Vector3.up;
         static float Ease(float t,float a,float b) { float u=Mathf.Clamp01((t-a)/(b-a)); return u*u*u*(u*(u*6-15)+10); }
         Quaternion AttachedRotation(int side)=>longBoots?calves[side].rotation*Quaternion.Inverse(calfRest[side]):feet[side].rotation*Quaternion.Inverse(rest[side]);
         public Vector3 HeelOnFoot(int side)=>AnatomicalExtraction||originalBoot[side]?SkinnedCuff(side):feet[side].position+AttachedRotation(side)*(rest[side]*origins[side]+heels[side]);
@@ -87,7 +90,7 @@ namespace Homecoming
         }
         public Matrix4x4 AttachedMatrix(int side)=>Matrix4x4.TRS(HeelOnFoot(side)-AttachedRotation(side)*heels[side],AttachedRotation(side),Vector3.one);
         public Vector3 GroundOrigin(int side)=>longBoots
-            ?new Vector3(side==0?(AnatomicalExtraction?-.79f:-.64f):(AnatomicalExtraction?-1.71f:-1.86f),.012f,AnatomicalExtraction?1.13f:1.23f)
+            ?new Vector3(side==0?(AnatomicalExtraction?(originalBoot[side]?-.90f:-.79f):-.64f):(AnatomicalExtraction?(originalBoot[side]?-1.60f:-1.71f):-1.86f),.012f,AnatomicalExtraction?1.13f:1.23f)
             :new Vector3(side==0?-.86f:-1.64f,.012f,1.08f);
         void CaptureExtraction(int side,float action)
         {
@@ -115,7 +118,7 @@ namespace Homecoming
             CaptureExtraction(side,action);
             return Quaternion.Slerp(longBoots?(captured[side]?extractionRotation[side]:AttachedRotation(side)):Quaternion.identity,Quaternion.Euler(0,side==0?-90:90,0),Ease(action,Cleared(side),Release(side)));
         }
-        float Fold(int side,float action)=>(originalBoot[side]?1:.35f)*Ease(action,Detach(side),Cleared(side))*(1-.35f*Ease(action,Cleared(side),Release(side)));
+        float Fold(int side,float action)=>(originalBoot[side]?1:.35f)*(.25f*Ease(action,Detach(side),Cleared(side))+.75f*Ease(action,Cleared(side),Release(side)));
         public Vector3 GroundHeel(int side)
         {
             float bottom=0;if(snapshots[side]){bottom=float.MaxValue;foreach(var v in bootVertices[side])bottom=Mathf.Min(bottom,v.y);}
@@ -135,7 +138,10 @@ namespace Homecoming
             if(longBoots||ankleBoots)
             {
                 var axis=(captured[side]?extractionRotation[side]:AttachedRotation(side))*Vector3.up;
-                float clearance=AnatomicalExtraction?Mathf.Max(.34f,skins[side].sharedMesh.bounds.size.y-(originalBoot[side]?.17f:.10f)):longBoots?.50f:.22f;
+                // The fitted leg also withdraws through the opening. Share the
+                // clearance between that motion and the hand's pull rather than
+                // requiring the arm to travel almost the whole shaft length.
+                float clearance=AnatomicalExtraction?Mathf.Max(.34f,skins[side].sharedMesh.bounds.size.y-(originalBoot[side]?.24f:openToeFootwear?.18f:.10f)):longBoots?.50f:.22f;
                 float clearTime=longBoots?3.05f:2.8f;
                 var cuff=(captured[side]?extractionCuff[side]:HeelOnFoot(side))-axis*clearance*Ease(action,start+2,start+clearTime);
                 cuff=Vector3.Lerp(cuff,GroundHeel(side),Ease(action,start+clearTime,Release(side)));
@@ -165,6 +171,7 @@ namespace Homecoming
             {
                 var snapshot=proxy.GetComponent<HomecomingBootSnapshot>();
                 if(!snapshot)snapshot=proxy.gameObject.AddComponent<HomecomingBootSnapshot>();
+                if(snapshots[side]!=snapshot)snapshot.ResetCapture();
                 snapshots[side]=snapshot;
                 snapshot.UpdateShape(skins[side],extractionRotation[side],extractionCuff[side],heels[side],relaxedVertices[side],Ease(action,Cleared(side),Release(side)),Fold(side,action));
                 bootVertices[side]=snapshot.Points;
@@ -172,7 +179,11 @@ namespace Homecoming
             if(action<Release(side))
             {
                 proxy.rotation=Rotation(side,action);
-                proxy.position=HandContact(side)-proxy.rotation*heels[side];
+                // The shoe follows its independently planned path, not the
+                // solved fingertips. ContactError can now reveal a failed reach.
+                var turn=GripRotation(side,action);
+                var plannedContact=WristTarget(side,action)-palms.Wrist(side,HomecomingHandPose.Hold.Boot,Vector3.zero,turn);
+                proxy.position=plannedContact-proxy.rotation*heels[side];
             }
             else
             {
@@ -181,5 +192,6 @@ namespace Homecoming
             }
         }
         public float ContactError(Transform proxy,int side)=>Vector3.Distance(proxy.TransformPoint(heels[side]),HandContact(side));
+        public Vector3 ProxyContact(Transform proxy,int side)=>proxy.TransformPoint(heels[side]);
     }
 }

@@ -13,6 +13,7 @@ namespace Homecoming
         readonly Vector3[,] forward=new Vector3[2,5],tipForward=new Vector3[2,5];
         readonly Vector3[,,] segment=new Vector3[2,5,3];
         readonly float[,] tipLength=new float[2,5];
+        readonly Vector3[,] tipOffsets=new Vector3[2,5];
         readonly Vector3[] normal=new Vector3[2];
         readonly Quaternion[] basis=new Quaternion[2];
         readonly Vector3[,] offsets=new Vector3[2,5];
@@ -47,8 +48,9 @@ namespace Homecoming
                         if(joint)segment[side,f,j]=joint.InverseTransformDirection(next?next.position-joint.position:joint.position-fingers[side,f,1].position).normalized;
                     }
                     var tip=fingers[side,f,2];
-                    if(tip&&b){tipForward[side,f]=tip.InverseTransformDirection((tip.position-b.position).normalized);tipLength[side,f]=Vector3.Distance(tip.position,b.position)*.7f;}
+                    if(tip&&b){tipForward[side,f]=tip.InverseTransformDirection((tip.position-b.position).normalized);tipLength[side,f]=Vector3.Distance(tip.position,b.position)*.7f;tipOffsets[side,f]=tipForward[side,f]*tipLength[side,f];}
                 }
+                CalibrateTips(rig,side);
                 for(int hold=0;hold<5;hold++)
                 {
                     BuildFingers(side,(Hold)hold,hold==0?0:1);
@@ -84,11 +86,37 @@ namespace Homecoming
             var middle=fingers[side,1,0];return middle?Vector3.Lerp(hand.position,middle.position,.65f):hand.position;
         }
         public float PinchGap(int side)=>Vector3.Distance(Tip(side,0),Tip(side,4));
+        void CalibrateTips(CharacterRig rig,int side)
+        {
+            var samples=new System.Collections.Generic.List<Vector3>[5];
+            for(int f=0;f<5;f++)samples[f]=new System.Collections.Generic.List<Vector3>();
+            foreach(var skin in rig.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                var bones=skin.bones;var ids=Enumerable.Range(0,5).Select(f=>System.Array.IndexOf(bones,fingers[side,f,2])).ToArray();
+                if(ids.All(i=>i<0))continue;
+                var mesh=skin.sharedMesh;var vertices=mesh.vertices;var weights=mesh.boneWeights;
+                var matrices=bones.Select((b,i)=>b.localToWorldMatrix*mesh.bindposes[i]).ToArray();
+                for(int i=0;i<vertices.Length;i++)
+                {
+                    var w=weights[i];int digit=-1;
+                    for(int f=0;f<5;f++)if(ids[f]>=0&&((w.boneIndex0==ids[f]&&w.weight0>.5f)||(w.boneIndex1==ids[f]&&w.weight1>.5f)||(w.boneIndex2==ids[f]&&w.weight2>.5f)||(w.boneIndex3==ids[f]&&w.weight3>.5f))){digit=f;break;}
+                    if(digit<0)continue;var p=vertices[i];
+                    samples[digit].Add(matrices[w.boneIndex0].MultiplyPoint3x4(p)*w.weight0+matrices[w.boneIndex1].MultiplyPoint3x4(p)*w.weight1+matrices[w.boneIndex2].MultiplyPoint3x4(p)*w.weight2+matrices[w.boneIndex3].MultiplyPoint3x4(p)*w.weight3);
+                }
+            }
+            for(int f=0;f<5;f++)
+            {
+                if(samples[f].Count<4)continue;var tip=fingers[side,f,2];var direction=tip.TransformDirection(tipForward[side,f]);
+                float end=samples[f].Max(p=>Vector3.Dot(p-tip.position,direction));
+                var cap=samples[f].Where(p=>Vector3.Dot(p-tip.position,direction)>=end-.003f).ToArray();
+                tipOffsets[side,f]=tip.InverseTransformPoint(cap.Aggregate(Vector3.zero,(sum,p)=>sum+p)/cap.Length);
+            }
+        }
         Vector3 Tip(int side,int finger)
         {
             var tip=fingers[side,finger,2];
             if(!tip)return hands[side].position;
-            return tip.position+tip.TransformDirection(tipForward[side,finger])*tipLength[side,finger];
+            return tip.TransformPoint(tipOffsets[side,finger]);
         }
         public void Fingers(int side,Hold hold,float amount)
         {
@@ -120,7 +148,9 @@ namespace Homecoming
                     // Rest uses a loose cascade, with most curvature in the
                     // first two joints and a soft fingertip, not a grip curl.
                     float relaxed=j==0?10+f*2:j==1?14+f*2:5;
-                    float closed=hold==Hold.Boot?(j==0?28:j==1?62:35):hold==Hold.Fabric?(f==0?(j==0?25:j==1?42:20):(j==0?20:j==1?30:14)):(j==0?8:j==1?12:6);
+                    // Index/thumb define the pinch; the remaining digits support
+                    // the rim with a softer cascade instead of four equal hooks.
+                    float closed=hold==Hold.Boot?(j==0?28+f*2.2f:j==1?62-f*5.5f:35-f*3):hold==Hold.Fabric?(f==0?(j==0?25:j==1?42:20):(j==0?20:j==1?30:14)):(j==0?8:j==1?12:6);
                     if(f==4){relaxed=j==0?8:6;closed=hold==Hold.Boot?(j==0?25:30):hold==Hold.Fabric?(j==0?25:30):10;}
                     if(hold==Hold.Greeting)closed=f==4?8:j==0?5+f*2:j==1?8+f*2:3;
                     cumulative+=Mathf.Lerp(relaxed,closed,amount);
@@ -145,7 +175,7 @@ namespace Homecoming
                 for(int pass=0;pass<8;pass++)
                 {
                     var point=(Tip(side,0)+Tip(side,4))*.5f;
-                    var separation=hand.TransformDirection(normal[side])*(hold==Hold.Boot?.010f:.003f);
+                    var separation=hand.TransformDirection(normal[side])*(hold==Hold.Boot?.0035f:.003f);
                     for(int digit=0;digit<2;digit++)
                     {
                         int f=digit==0?0:4;var root=fingers[side,f,0];

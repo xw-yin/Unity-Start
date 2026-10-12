@@ -1,0 +1,4 @@
+interface:
+  display_name: "角色动作与服装适配"
+  short_description: "从公开作品与动作参考出发，制作自然的角色表演并验证服装、腿脚和鞋的适配"
+  default_prompt: "使用 $character-animation-and-fit，先研究参考并完成动作分镜和模型诊断，再在 Blender 与 Unity 中逐段制作、回放验收。"
