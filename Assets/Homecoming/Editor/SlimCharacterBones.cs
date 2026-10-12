@@ -72,6 +72,44 @@ namespace Homecoming.Editor
                       "请运行 Homecoming/Editor 的连续复查（961 帧 x 7 角色）验证外观无变化。");
         }
 
+        // Headless entry point for Unity's official unity-cli skill workflow:
+        //   unity run <project> --editor-version 6000.6.3f1 -- \
+        //     -executeMethod Homecoming.Editor.SlimCharacterBones.RunBatch -logFile slim.log
+        // No dialogs; writes a report file; exits non-zero on failure so CI/CLI
+        // can tell success from failure. Safe to run repeatedly (no-op when
+        // every mesh is already minimal).
+        public static void RunBatch()
+        {
+            const string reportPath = "Artifacts/SlimBones/report.txt";
+            try
+            {
+                var plans = BuildPlans();
+                var totalBefore = plans.Sum(p => p.mesh.bindposes.Length * p.renderers.Count);
+                var totalAfter = plans.Sum(p => p.newCount * p.renderers.Count);
+                Directory.CreateDirectory(Path.GetDirectoryName(reportPath));
+                using (var w = new StreamWriter(reportPath, false, new UTF8Encoding(false)))
+                {
+                    w.WriteLine($"slim-report utc={DateTime.UtcNow:O}");
+                    w.WriteLine($"meshes={plans.Count} boneSlotsBefore={totalBefore} boneSlotsAfter={totalAfter}");
+                    foreach (var p in plans.OrderByDescending(p => (p.mesh.bindposes.Length - p.newCount) * p.renderers.Count))
+                        w.WriteLine($"{Path.GetFileName(p.assetPath)}: {p.mesh.bindposes.Length} -> {p.newCount} bones x {p.renderers.Count} renderers");
+                    if (plans.Count == 0) w.WriteLine("already-minimal");
+                }
+                if (plans.Count > 0)
+                {
+                    ApplyPlans(plans);
+                    AssetDatabase.SaveAssets();
+                }
+                Debug.Log($"[SlimCharacterBones] batch done: bone slots {totalBefore} -> {totalAfter}. report={reportPath}");
+                EditorApplication.Exit(0);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[SlimCharacterBones] batch FAILED: {e}");
+                EditorApplication.Exit(1);
+            }
+        }
+
         static List<MeshPlan> BuildPlans()
         {
             var prefabPaths = Directory.GetFiles(PrefabDir, "*.prefab", SearchOption.TopDirectoryOnly);
