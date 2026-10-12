@@ -332,14 +332,19 @@ namespace Homecoming
             if(t<8)
             {
                 rig.SetSkirtPose(0);
-                float distance=routeLength*Travel(t);
+                // Play the walk at its native speed: NativeWalkCycle covers
+                // strideDistance (1.55m) per duration (1.0s). The old 5.8s
+                // timeline walked at 0.97 m/s, stretching each 5.4cm lateral
+                // sway to 1.6s — visible waddling. Now ~3.64s, sway at 1.0s.
+                float walkDuration=routeLength/1.55f;
+                float distance=routeLength*Travel(t,walkDuration);
                 rig.transform.localPosition=Route(distance);
                 var direction=Route(Mathf.Min(routeLength,distance+.55f))-Route(Mathf.Max(0,distance-.55f));
                 Quaternion heading=direction.sqrMagnitude>.000001f ? Quaternion.LookRotation(direction)*Quaternion.Euler(0,180,0) : Quaternion.identity;
-                rig.transform.localRotation=Quaternion.Slerp(heading,Quaternion.identity,Ease(t,6.9f,8));
+                rig.transform.localRotation=Quaternion.Slerp(heading,Quaternion.identity,Ease(t,4.7f,5.2f));
                 rig.hips.localPosition=rig.hipRestPosition;
                 StandPose();
-                float weight=Ease(t,1.5f,2)*(1-Ease(t,6.6f,8));
+                float weight=Ease(t,1.5f,2)*(1-Ease(t,4.6f,5.2f));
                 if(walk)
                 {
                     float phase=distance/walk.strideDistance;
@@ -352,7 +357,7 @@ namespace Homecoming
                         // Keep the retargeted shoulder, forearm, wrist and fingers
                         // together; partial arm weighting changes their relative roll.
                         bool arm=name.Contains("Arm")||name.Contains("Shoulder")||name.Contains("Hand")||name.Contains("Index")||name.Contains("Middle")||name.Contains("Ring")||name.Contains("Little")||name.Contains("Thumb");
-                        float blend=arm?Ease(t,1.5f,2.6f)*(1-Ease(t,6.2f,8)):weight;
+                        float blend=arm?Ease(t,1.5f,2.6f)*(1-Ease(t,4.2f,5.2f)):weight;
                         walkBones[i].localRotation=Quaternion.Slerp(walkBones[i].localRotation,walk.Rotation(i,phase),blend);
                     }
                     rig.hips.localPosition=Vector3.Lerp(rig.hipRestPosition,walk.Hip(phase),weight);
@@ -774,9 +779,9 @@ namespace Homecoming
             lf.rotation=root.rotation*leftFootRest; rf.rotation=root.rotation*rightFootRest;
             PoseHands(-1,0,0,0,0,0);
         }
-        static float Travel(float t)
+        static float Travel(float t,float duration)
         {
-            const float duration=5.8f,ramp=.5f;
+            const float ramp=.5f;
             float elapsed=Mathf.Clamp(t-1.5f,0,duration);
             float distance;
             if(elapsed<ramp) distance=.5f*(elapsed-ramp/Mathf.PI*Mathf.Sin(Mathf.PI*elapsed/ramp));
