@@ -167,7 +167,7 @@ jobs:
   unsigned-ipa:
     if: inputs.distribution == 'unsigned'
     needs: export-local
-    runs-on: macos-15-intel
+    runs-on: macos-15
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
