@@ -46,6 +46,7 @@ namespace Homecoming.Editor
                 for(int i=0;i<mask.Length;i++)mask[i]&=used[i];
                 if(pixels) Object.DestroyImmediate(pixels);
             }
+            var cushion=story.GetComponentsInChildren<Renderer>().Single(x=>x.name=="换鞋凳软垫").bounds;
             var baked=new Mesh();
             var previous=new Vector3[bones.Length]; float maximum=0; string worst="";
             typeof(HomecomingScene).GetField("started",timelineFlags).SetValue(story,true);
@@ -62,7 +63,7 @@ namespace Homecoming.Editor
                 }
                 for(int side=0;side<2;side++)
                 {
-                    float action=frame/60f-1;
+                    float action=motion.ActionTime(frame/60f);
                     float start=HomecomingShoeGrip.Start(side);
                     if(action>start+1.7f&&action<start+1.98f)
                     {
@@ -92,7 +93,7 @@ namespace Homecoming.Editor
                             var inDoor=door.InverseTransformPoint(p);
                             if(inDoor.x>.015f&&inDoor.x<1.195f&&inDoor.y>.05f&&inDoor.y<2.45f&&Mathf.Abs(inDoor.z)<.035f)
                                 throw new System.Exception("Door penetration at "+frame/60f+"s: "+skin.name+" "+p);
-                            if(p.x>-1.78f&&p.x<-.72f&&p.z>1.35f&&p.z<1.89f&&p.y>.28f&&p.y<.40f)
+                            if(p.x>cushion.min.x+.02f&&p.x<cushion.max.x-.02f&&p.z>cushion.min.z+.02f&&p.z<cushion.max.z-.02f&&p.y>cushion.min.y+.02f&&p.y<cushion.max.y-.02f)
                                 throw new System.Exception("Bench penetration at "+frame/60f+"s: "+skin.name+" "+p+" bone="+skin.bones[skin.sharedMesh.boneWeights[vi].boneIndex0].name);
                             if(p.y<-.012f) throw new System.Exception("Floor penetration at "+frame/60f+"s: "+skin.name+" "+p+" weight="+skin.sharedMesh.boneWeights[vi].boneIndex0+" bone="+skin.bones[skin.sharedMesh.boneWeights[vi].boneIndex0].name);
                         }

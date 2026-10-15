@@ -6,22 +6,22 @@ namespace Homecoming
     // Once the foot is clear, ease the empty boot back to its resting shape.
     public sealed class HomecomingBootSnapshot : MonoBehaviour
     {
-        Mesh mesh,template;
+        Mesh mesh,template,sampledBody;
         Vector3[] captured,normals,restNormals,points;
         float previous=-1,previousFold=-1;
         [System.Serializable] class Shape { public int vertexCount;public float[] delta; }
+        [System.Serializable] class ContactKey { public float phase;public float[] delta; }
+        [System.Serializable] class ContactClip { public int vertexCount;public float[] baseVertices;public int[] vertices;public ContactKey[] keys; }
+        ContactClip contactClip;float previousContact=-1;
         Vector3[] authoredDelta;
-        Vector3[] sourcePoints,sourceNormals;BoneWeight[] sourceWeights;Transform[] sourceBones;
-        Matrix4x4[] bindings,frozenMatrices,currentMatrices;bool[] frozenFoot,usedBones;
-        Quaternion captureInverse;Vector3 captureOrigin;int cuffIndex;
         public Vector3[] Points=>points;
         public void ResetCapture()
         {
             if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);mesh=null;}
             if(template)GetComponent<MeshFilter>().sharedMesh=template;
-            previous=previousFold=-1;authoredDelta=null;
+            previous=previousFold=previousContact=-1;authoredDelta=null;contactClip=null;
         }
-        public void UpdateShape(SkinnedMeshRenderer skin,Quaternion rotation,Vector3 cuff,Vector3 localCuff,Vector3[] relaxed,float amount,float fold=0)
+        public void UpdateShape(SkinnedMeshRenderer skin,Quaternion rotation,Vector3 cuff,Vector3 localCuff,Vector3[] relaxed,float amount,float fold=0,float contactPhase=0)
         {
             if(!mesh)
             {
@@ -43,28 +43,20 @@ namespace Homecoming
                     normals[i]=(inverse*skin.transform.TransformDirection(normals[i])).normalized;
                 }
                 filter.sharedMesh=mesh;
-                sourcePoints=skin.sharedMesh.vertices;sourceNormals=skin.sharedMesh.normals;sourceWeights=skin.sharedMesh.boneWeights;sourceBones=skin.bones;bindings=skin.sharedMesh.bindposes;
-                frozenMatrices=new Matrix4x4[sourceBones.Length];currentMatrices=new Matrix4x4[sourceBones.Length];frozenFoot=new bool[sourceBones.Length];usedBones=new bool[sourceBones.Length];
-                foreach(var w in sourceWeights){if(w.weight0>0)usedBones[w.boneIndex0]=true;if(w.weight1>0)usedBones[w.boneIndex1]=true;if(w.weight2>0)usedBones[w.boneIndex2]=true;if(w.weight3>0)usedBones[w.boneIndex3]=true;}
-                for(int bone=0;bone<sourceBones.Length;bone++)
+                var sourcePoints=skin.sharedMesh.vertices;
+                var character=skin.GetComponentInParent<CharacterRig>().name.Replace("(Clone)","").Trim();
+                var contact=Resources.Load<TextAsset>("Homecoming/Poses/BootContact_"+character+"_"+skin.sharedMesh.name);
+                if(contact)
                 {
-                    frozenMatrices[bone]=sourceBones[bone].localToWorldMatrix*bindings[bone];
-                    for(var parent=sourceBones[bone];parent;parent=parent.parent)
-                        if(parent.name=="J_Bip_L_Foot"||parent.name=="J_Bip_R_Foot"){frozenFoot[bone]=true;break;}
+                    contactClip=JsonUtility.FromJson<ContactClip>(contact.text);
+                    if(contactClip.vertexCount!=sourcePoints.Length||contactClip.baseVertices.Length!=sourcePoints.Length*3)throw new System.InvalidOperationException("Boot contact source topology changed");
+                    for(int i=0;i<sourcePoints.Length;i++)if((sourcePoints[i]-new Vector3(contactClip.baseVertices[i*3],contactClip.baseVertices[i*3+1],contactClip.baseVertices[i*3+2])).sqrMagnitude>1e-12f)throw new System.InvalidOperationException("Boot contact source geometry changed");
                 }
-                captureInverse=inverse;captureOrigin=origin;cuffIndex=0;
-                for(int i=1;i<relaxed.Length;i++)if((relaxed[i]-localCuff).sqrMagnitude<(relaxed[cuffIndex]-localCuff).sqrMagnitude)cuffIndex=i;
+
             }
-            bool sameShape=Mathf.Abs(amount-previous)<.000001f&&Mathf.Abs(fold-previousFold)<.000001f;
-            if(amount>=.999999f&&sameShape)return;
-            bool changed=false;
-            for(int bone=0;bone<sourceBones.Length;bone++)if(usedBones[bone])
-            {
-                var next=frozenFoot[bone]?frozenMatrices[bone]:sourceBones[bone].localToWorldMatrix*bindings[bone];
-                if(next!=currentMatrices[bone])changed=true;currentMatrices[bone]=next;
-            }
-            if(sameShape&&!changed)return;
-            previous=amount;previousFold=fold;var blendedNormals=new Vector3[points.Length];
+            bool sameShape=Mathf.Abs(amount-previous)<.000001f&&Mathf.Abs(fold-previousFold)<.000001f&&Mathf.Abs(contactPhase-previousContact)<.000001f;
+            if(sameShape)return;
+            previous=amount;previousFold=fold;previousContact=contactPhase;var blendedNormals=new Vector3[points.Length];
             float ankle=.14f,height=Mathf.Max(.1f,localCuff.y-ankle);
             Vector3 FoldOffset(Vector3 p)
             {
@@ -72,29 +64,17 @@ namespace Homecoming
                 return new Vector3(Mathf.Sign(localCuff.x)*.06f*fold*h*h,-Mathf.Min(.16f,height*.4f)*fold*Mathf.SmoothStep(0,1,h),.012f*fold*Mathf.Sin(h*Mathf.PI*6)*envelope);
             }
             var gripOffset=FoldOffset(localCuff);
-            // Keep the hard toe/heel frame from transfer, while the soft shaft
-            // follows the calf through extraction. Freezing the whole bent boot
-            // left its shaft behind when the knee moved and caused calf clipping.
-            Vector3 Live(int i)
-            {
-                var w=sourceWeights[i];var p=sourcePoints[i];
-                var world=currentMatrices[w.boneIndex0].MultiplyPoint3x4(p)*w.weight0+currentMatrices[w.boneIndex1].MultiplyPoint3x4(p)*w.weight1+currentMatrices[w.boneIndex2].MultiplyPoint3x4(p)*w.weight2+currentMatrices[w.boneIndex3].MultiplyPoint3x4(p)*w.weight3;
-                return captureInverse*(world-captureOrigin);
-            }
-            var shaftAnchor=Live(cuffIndex)-localCuff;
-            Vector3 LiveNormal(int i)
-            {
-                var w=sourceWeights[i];var n=sourceNormals[i];
-                return (captureInverse*(currentMatrices[w.boneIndex0].MultiplyVector(n)*w.weight0+currentMatrices[w.boneIndex1].MultiplyVector(n)*w.weight1+currentMatrices[w.boneIndex2].MultiplyVector(n)*w.weight2+currentMatrices[w.boneIndex3].MultiplyVector(n)*w.weight3)).normalized;
-            }
+            // The detached prop keeps the captured boot in its own space.
+            // Driving its shaft with a calf that has already left the boot
+            // stretches the leather into a U and can appear to remove the leg.
             int gripIndex=0;
             if(authoredDelta!=null)
                 for(int i=1;i<relaxed.Length;i++)if((relaxed[i]-localCuff).sqrMagnitude<(relaxed[gripIndex]-localCuff).sqrMagnitude)gripIndex=i;
             for(int i=0;i<points.Length;i++)
             {
-                var p=Vector3.Lerp(Live(i)-shaftAnchor,relaxed[i],amount);
+                var p=Vector3.Lerp(captured[i],relaxed[i],amount);
                 points[i]=authoredDelta!=null?p+(authoredDelta[i]-authoredDelta[gripIndex])*fold:p+FoldOffset(p)-gripOffset;
-                var n=Vector3.Lerp(LiveNormal(i),restNormals[i],amount).normalized;
+                var n=Vector3.Lerp(normals[i],restNormals[i],amount).normalized;
                 float h=Mathf.Clamp01((p.y-ankle)/height);
                 if(authoredDelta==null&&p.y>ankle&&p.y<localCuff.y)
                 {
@@ -105,10 +85,32 @@ namespace Homecoming
                 }
                 blendedNormals[i]=n.normalized;
             }
+            if(contactClip!=null)
+            {
+                int next=1;while(next<contactClip.keys.Length-1&&contactClip.keys[next].phase<contactPhase)next++;
+                var a=contactClip.keys[next-1];var b=contactClip.keys[next];
+                float blend=Mathf.InverseLerp(a.phase,b.phase,contactPhase);
+                for(int i=0;i<contactClip.vertices.Length;i++)
+                {
+                    int offset=i*3;
+                    var first=new Vector3(a.delta[offset],a.delta[offset+1],a.delta[offset+2]);
+                    var second=new Vector3(b.delta[offset],b.delta[offset+1],b.delta[offset+2]);
+                    points[contactClip.vertices[i]]+=Vector3.Lerp(first,second,blend);
+                }
+            }
             mesh.vertices=points;
-            if(authoredDelta!=null)mesh.RecalculateNormals();else mesh.normals=blendedNormals;
+            if(authoredDelta!=null||contactClip!=null)mesh.RecalculateNormals();else mesh.normals=blendedNormals;
             mesh.RecalculateBounds();mesh.RecalculateTangents();
         }
-        void OnDestroy(){if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);}}
+        public float FootClearance(SkinnedMeshRenderer body,int[] indices,int[] rim,Vector3 localCuff)
+        {
+            if(!sampledBody)sampledBody=new Mesh{hideFlags=HideFlags.DontSave};
+            body.BakeMesh(sampledBody);var vertices=sampledBody.vertices;
+            var cuff=transform.TransformPoint(localCuff);float minimum=float.MaxValue;
+            foreach(int i in indices)minimum=Mathf.Min(minimum,Vector3.Dot(body.transform.TransformPoint(vertices[i])-cuff,transform.up));
+            float lip=float.MinValue;foreach(int i in rim)lip=Mathf.Max(lip,points[i].y);
+            return minimum-(lip-localCuff.y);
+        }
+        void OnDestroy(){foreach(var owned in new[]{mesh,sampledBody})if(owned){if(Application.isPlaying)Destroy(owned);else DestroyImmediate(owned);}}
     }
 }

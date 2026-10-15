@@ -4,6 +4,7 @@ namespace Homecoming
 {
     public class CharacterRig : MonoBehaviour
     {
+        public const float SeatRaise=.14f,FootrestHeight=.12f;
         public Transform hips,spine,head,leftArm,rightArm,leftElbow,rightElbow,leftThigh,rightThigh,leftCalf,rightCalf;
         public GameObject leftShoe,rightShoe,bag,leftSlipper,rightSlipper;
         public SkinnedMeshRenderer skirt;
@@ -92,7 +93,7 @@ namespace Homecoming
         }
         public Vector3 HipPosition(float sitting)
         {
-            var offset=new Vector3(0,(.61f-hipRestPosition.y)*sitting,.12f*sitting);
+            var offset=new Vector3(0,(.61f+(longBoots?SeatRaise:0)-hipRestPosition.y)*sitting,.12f*sitting);
             if(importedSource&&restPoses!=null) foreach(var pose in restPoses) if(pose.bone==hips) return hipRestPosition+Quaternion.Inverse(pose.parentBasis)*offset;
             return hipRestPosition+offset;
         }

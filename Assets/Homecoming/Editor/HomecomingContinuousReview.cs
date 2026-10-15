@@ -22,6 +22,8 @@ namespace Homecoming.Editor
         static Quaternion[] previous;
         static float maximumAngle,maximumReach;
         static string worstAngle;
+        static float arrivalHip,arrivalAt;static bool arrived,seatedSoon;
+        static readonly bool[] exitChecked=new bool[2];
         static readonly StringBuilder report=new StringBuilder();
         internal static bool Fast=>SessionState.GetBool(Key+".Fast",false);
         static HomecomingContinuousReview()
@@ -95,7 +97,7 @@ namespace Homecoming.Editor
             typeof(HomecomingScene).GetField("started",Flags).SetValue(story,true);
             bones=new[]{rig.hips,rig.spine,rig.head,rig.leftArm,rig.rightArm,rig.leftElbow,rig.rightElbow,rig.leftThigh,rig.rightThigh,rig.leftCalf,rig.rightCalf}
                 .Concat(rig.GetComponentsInChildren<Transform>().Where(t=>new[]{"J_Bip_L_Hand","J_Bip_R_Hand","J_Bip_L_Foot","J_Bip_R_Foot","J_Bip_L_ToeBase","J_Bip_R_ToeBase"}.Contains(t.name))).ToArray();
-            previous=bones.Select(b=>b.rotation).ToArray();maximumAngle=maximumReach=0;worstAngle="";frame=0;
+            previous=bones.Select(b=>b.rotation).ToArray();maximumAngle=maximumReach=0;worstAngle="";frame=0;arrived=seatedSoon=false;exitChecked[0]=exitChecked[1]=false;
         }
         static void Tick()
         {
@@ -110,6 +112,12 @@ namespace Homecoming.Editor
                     typeof(HomecomingScene).GetField("elapsed",Flags).SetValue(story,time-Time.deltaTime);
                     typeof(HomecomingScene).GetMethod("Update",Flags).Invoke(story,null);
                     var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story);
+                    if(!arrived&&time>1.5f&&Vector2.Distance(new Vector2(rig.transform.position.x,rig.transform.position.z),new Vector2(-1.25f,1.02f))<.015f){arrivalHip=rig.hips.position.y;arrivalAt=time;arrived=true;}
+                    if(arrived&&!seatedSoon&&time>=arrivalAt+.75f)
+                    {
+                        if(arrivalHip-rig.hips.position.y<.018f)throw new Exception("Character waits standing after arrival: "+character);
+                        seatedSoon=true;Debug.Log("SEAT AFTER ARRIVAL: "+character+" measured arrival="+arrivalAt+" drop="+(arrivalHip-rig.hips.position.y));
+                    }
                     BootExtractionReview.Capture(story,rig,motion,character,frame);
                     for(int b=0;b<bones.Length;b++)
                     {
@@ -119,14 +127,21 @@ namespace Homecoming.Editor
                     for(int side=0;side<2;side++)
                     {
                         var sock=rig.hosiery[side];
-                        float action=time-1;
+                        float action=motion.ActionTime(time);
                         bool dressed=rig.dressedLegs!=null&&rig.dressedLegs.Length==2;
                         bool extracted=action>=HomecomingShoeGrip.Detach(side);
+                        if(motion.Shoes.FittedLongBoots&&!exitChecked[side]&&action>=motion.Shoes.Cleared(side))
+                        {
+                            var held=story.transform.Find("脱下的通勤鞋").GetChild(side);
+                            float clearance=motion.Shoes.FootExitClearance(held,side);
+                            if(clearance<.005f)throw new Exception("Foot has not passed the cuff before carrying the boot: "+character+" / "+side+" margin="+clearance+" pointing correction="+sock.GetComponent<HomecomingFootwearLast>().RequiredPointAngle);
+                            exitChecked[side]=true;Debug.Log("FOOT ABOVE CUFF: "+character+" / "+side+" margin="+clearance);
+                        }
                         if(!sock.gameObject.activeInHierarchy||sock.enabled!=(dressed?extracted:true))throw new Exception("Incorrect dressed / extracted stocking layer: "+character);
                         if(dressed&&(rig.dressedLegs[side].enabled==extracted||rig.dressedHosiery[side].enabled==extracted))throw new Exception("DLC outfit surface is not exclusive with the full foot layer");
                         if(action>=HomecomingShoeGrip.Detach(side)&&action<HomecomingShoeGrip.Release(side))
                         {
-                            var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(side==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
+                            var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(motion.Shoes.HandSide(side)==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
                             maximumReach=Mathf.Max(maximumReach,Vector3.Distance(hand.position,motion.Shoes.WristTarget(side,action)));
                             var shoe=story.transform.Find("脱下的通勤鞋").GetChild(side);
                             if(motion.Shoes.ContactError(shoe,side)>.002f)throw new Exception("Held shoe lost contact: character="+character+" frame="+frame+" side="+side+" error="+motion.Shoes.ContactError(shoe,side));

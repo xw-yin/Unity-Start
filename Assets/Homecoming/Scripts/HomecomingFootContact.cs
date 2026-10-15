@@ -10,26 +10,31 @@ namespace Homecoming
     {
         readonly Transform foot,toe;
         readonly Vector3 heel,ball,tip;
+        readonly int[] heelVertices,ballVertices;
         public HomecomingFootContact(SkinnedMeshRenderer skin,Transform joint,Transform toe)
         {
             foot=joint;this.toe=toe;var mesh=skin.sharedMesh;var vertices=mesh.vertices;var weights=mesh.boneWeights;
             var bindings=mesh.bindposes;
             var matrices=skin.bones.Select((b,i)=>b.localToWorldMatrix*bindings[i]).ToArray();
             var forward=Vector3.ProjectOnPlane(toe.position-foot.position,Vector3.up).normalized;
-            var world=vertices.Select((v,i)=>
+            var allWorld=vertices.Select((v,i)=>
             {
                 var w=weights[i];return matrices[w.boneIndex0].MultiplyPoint3x4(v)*w.weight0+matrices[w.boneIndex1].MultiplyPoint3x4(v)*w.weight1+matrices[w.boneIndex2].MultiplyPoint3x4(v)*w.weight2+matrices[w.boneIndex3].MultiplyPoint3x4(v)*w.weight3;
-            }).Where(p=>p.y<foot.position.y+.012f).ToArray();
+            }).ToArray();
+            var indices=Enumerable.Range(0,allWorld.Length).Where(i=>allWorld[i].y<foot.position.y+.012f).ToArray();
+            var world=indices.Select(i=>allWorld[i]).ToArray();
             if(world.Length<20||forward.sqrMagnitude<.5f)throw new InvalidOperationException("Original foot contact surface is incomplete");
             float low=world.Min(p=>Vector3.Dot(p-foot.position,forward)),high=world.Max(p=>Vector3.Dot(p-foot.position,forward));
-            Vector3 Contact(float a,float b)
+            int[] Contacts(float a,float b)
             {
-                var region=world.Where(p=>Mathf.InverseLerp(low,high,Vector3.Dot(p-foot.position,forward))>=a&&Mathf.InverseLerp(low,high,Vector3.Dot(p-foot.position,forward))<=b).OrderBy(p=>p.y).ToArray();
+                var region=indices.Where(i=>Mathf.InverseLerp(low,high,Vector3.Dot(allWorld[i]-foot.position,forward))>=a&&Mathf.InverseLerp(low,high,Vector3.Dot(allWorld[i]-foot.position,forward))<=b).OrderBy(i=>allWorld[i].y).ToArray();
                 int count=Mathf.Max(1,Mathf.CeilToInt(region.Length*.15f));
-                return foot.InverseTransformPoint(region.Take(count).Aggregate(Vector3.zero,(sum,p)=>sum+p)/count);
+                return region.Take(count).ToArray();
             }
-            heel=Contact(0,.25f);ball=Contact(.60f,.86f);
-            tip=toe.InverseTransformPoint(foot.TransformPoint(Contact(.88f,1)));
+            Vector3 Contact(int[] ids)=>foot.InverseTransformPoint(ids.Aggregate(Vector3.zero,(sum,i)=>sum+allWorld[i])/ids.Length);
+            heelVertices=Contacts(0,.25f);ballVertices=Contacts(.60f,.86f);
+            heel=Contact(heelVertices);ball=Contact(ballVertices);
+            tip=toe.InverseTransformPoint(foot.TransformPoint(Contact(Contacts(.88f,1))));
         }
         public Quaternion Flat(Quaternion rotation)
         {
@@ -40,6 +45,17 @@ namespace Homecoming
         {
             var aligned=Quaternion.FromToRotation(flat*(ball-heel),direction)*flat;
             return Quaternion.Slerp(flat,Quaternion.RotateTowards(flat,aligned,58),amount);
+        }
+        public Quaternion PointFitted(Quaternion basis,Vector3 direction,float amount,HomecomingFootwearLast fit)
+        {
+            if(amount<=0)return basis;
+            foot.rotation=basis;
+            // A high-heel corrective already bends the source sole. Align that
+            // actual rendered sole, rather than adding the barefoot angle again.
+            var sole=fit.SampleFootAxis(heelVertices,ballVertices);
+            fit.RequiredPointAngle=Vector3.Angle(sole,direction);
+            var aligned=Quaternion.FromToRotation(sole,direction)*basis;
+            return Quaternion.Slerp(basis,Quaternion.RotateTowards(basis,aligned,58),amount);
         }
         public float AnkleHeight(Quaternion rotation)=>.012f-Mathf.Min((rotation*heel).y,(rotation*ball).y);
         public void PlantToes(float amount)

@@ -19,7 +19,7 @@ namespace Homecoming.Editor
         static int character,frame;
         static string folder;
         static bool Walking=>SessionState.GetString(Key+".Stage","").StartsWith("walk-");
-        static int LastFrame=>Walking?240:SessionState.GetString(Key+".Stage","")=="arm-probe"?600:SessionState.GetString(Key+".Stage","")=="probe"?450:960;
+        static int LastFrame=>Walking?240:SessionState.GetString(Key+".Stage","")=="arm-probe"?600:SessionState.GetString(Key+".Stage","").EndsWith("probe")?450:960;
         static int FirstSavedFrame=>LastFrame==600?540:LastFrame==450?300:0;
         static readonly MethodInfo update=typeof(HomecomingScene).GetMethod("Update",Flags);
         static readonly FieldInfo elapsed=typeof(HomecomingScene).GetField("elapsed",Flags);
@@ -30,9 +30,17 @@ namespace Homecoming.Editor
         public static void ArmProbe()=>Run("arm-probe");
         public static void WalkBaseline()=>Run("walk-baseline");
         public static void WalkCandidate()=>Run("walk-candidate");
+        public static void SeatBootBaseline()=>Run("seat-boot-baseline");
+        public static void SeatBootCandidate()=>Run("seat-boot-candidate");
+        public static void SeatBootProbe()=>Run("seat-boot-probe");
         static Vector3 hipUp;
         static void Run(string stage)
         {
+            if(stage.StartsWith("seat-boot-"))
+            {
+                SessionState.SetBool("Homecoming.BootExtractionReview",true);
+                SessionState.SetString("Homecoming.BootExtractionReview.Output","Artifacts/SeatBootReview/"+stage);
+            }
             SessionState.SetString(Key+".Stage",stage);SessionState.SetBool(Key,true);
             SessionState.SetBool(Key+".Reload",EditorSettings.enterPlayModeOptionsEnabled);
             EditorSettings.enterPlayModeOptionsEnabled=false;
@@ -68,6 +76,8 @@ namespace Homecoming.Editor
                 for(int batch=0;batch<4;batch++)
                 {
                     float time=frame/30f;elapsed.SetValue(story,time-Time.deltaTime);update.Invoke(story,null);
+                    if(SessionState.GetString(Key+".Stage","").StartsWith("seat-boot-")||SessionState.GetString(Key+".Stage","")=="probe")
+                        BootExtractionReview.Capture(story,rig,(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story),character,frame);
                     var camera=story.CameraControls.GetComponent<Camera>();
                     var aim=rig.transform.position+new Vector3(0,.84f,0);
                     camera.transform.position=aim+new Vector3(.36f,.04f,-2.85f);camera.transform.LookAt(aim);camera.fieldOfView=38;
@@ -85,15 +95,18 @@ namespace Homecoming.Editor
                         var up=rig.transform.InverseTransformDirection(rig.hips.TransformDirection(hipUp));
                         File.AppendAllText(folder+"/walking.csv",string.Join(",",new[]{frame,time,rig.hips.position.y-rig.transform.position.y,rig.head.position.y-rig.transform.position.y,Mathf.Atan2(-up.x,up.y)*Mathf.Rad2Deg,Mathf.Atan2(up.z,up.y)*Mathf.Rad2Deg,rig.transform.eulerAngles.y}.Select(v=>v.ToString("R",System.Globalization.CultureInfo.InvariantCulture)))+"\n");
                     }
-                    if(LastFrame!=600&&frame>=300&&frame<=435)
+                    var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story);
+                    float action=motion.ActionTime(time);
+                    int shot=Mathf.RoundToInt(motion.StoryTime(time)*30);
+                    if(LastFrame!=600&&((action>=HomecomingShoeGrip.Start(0)&&action<=HomecomingShoeGrip.Release(0))||(action>=HomecomingShoeGrip.Start(1)&&action<=HomecomingShoeGrip.Release(1))))
                     {
                         aim=(rig.leftCalf.position+rig.transform.position+Vector3.up*.35f)*.5f;
                         camera.transform.position=aim+new Vector3(.85f,.05f,-1.15f);camera.transform.LookAt(aim);camera.fieldOfView=43;
                         Capture(camera,folder+"/contact/"+frame.ToString("D4")+".png");
                     }
-                    if(frame>=FirstSavedFrame&&new[]{360,389,390,405,420,435,570,580,581,582,600,720,750,810,840,960}.Contains(frame))
+                    if(frame>=FirstSavedFrame&&new[]{360,389,390,396,405,414,420,432,435,570,580,581,582,594,600,612,720,750,810,840,960}.Contains(shot))
                     {
-                        CaptureDiagnostics(camera,frame);
+                        CaptureDiagnostics(camera,shot,time);
                     }
                     if(++frame>LastFrame)
                     {
@@ -105,16 +118,16 @@ namespace Homecoming.Editor
             }
             catch(Exception error){Debug.LogException(error);EditorApplication.update-=Tick;SessionState.SetBool(Key,false);EditorApplication.Exit(1);}
         }
-        static void CaptureDiagnostics(Camera camera,int number)
+        static void CaptureDiagnostics(Camera camera,int number,float time)
         {
             string path=folder+"/diagnostic/"+number;Directory.CreateDirectory(path);
             var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story);
             var proxies=story.transform.Find("脱下的通勤鞋");
-            var report=new ContactReport{frame=number,anatomical=motion.Shoes.AnatomicalExtraction,sides=new ContactSide[2]};
+            var report=new ContactReport{frame=number,elapsed=time,action=motion.ActionTime(time),anatomical=motion.Shoes.AnatomicalExtraction,sides=new ContactSide[2]};
             for(int side=0;side<2;side++)
             {
                 var ankle=rig.GetComponentsInChildren<Transform>().Single(t=>t.name==(side==0?"J_Bip_L_Foot":"J_Bip_R_Foot"));
-                var proxy=proxies.GetChild(side);float action=number/30f-1;
+                var proxy=proxies.GetChild(side);float action=motion.ActionTime(time);
                 report.sides[side]=new ContactSide{ankle=ankle.position,knee=(side==0?rig.leftCalf:rig.rightCalf).position,proxy=proxy.position,proxyRotation=proxy.rotation,desiredWrist=motion.Shoes.WristTarget(side,action),wrist=motion.Hands.Hand(side).position,cuff=motion.Shoes.HeelOnFoot(side),contactError=motion.Shoes.ContactError(proxy,side),pinchGap=motion.Hands.PinchGap(side)};
             }
             File.WriteAllText(path+"/contacts.json",JsonUtility.ToJson(report,true));
@@ -156,7 +169,7 @@ namespace Homecoming.Editor
             }
         }
         [Serializable] class Surface{public float[] vertices;public int[] triangles;}
-        [Serializable] class ContactReport{public int frame;public bool anatomical;public ContactSide[] sides;}
+        [Serializable] class ContactReport{public int frame;public float elapsed,action;public bool anatomical;public ContactSide[] sides;}
         [Serializable] class ContactSide{public Vector3 ankle,knee,proxy,desiredWrist,wrist,cuff;public Quaternion proxyRotation;public float contactError,pinchGap;}
         static void Capture(Camera camera,string path)
         {

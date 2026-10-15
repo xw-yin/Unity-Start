@@ -56,7 +56,7 @@ namespace Homecoming.Editor
                     var motion=(HomecomingMotion)type.GetField("motion",flags).GetValue(story);
                     for(int side=0;side<2;side++)
                     {
-                        float action=time-1;
+                        float action=story.ActionTime;
                         if(action<HomecomingShoeGrip.Detach(side)) continue;
                         var proxy=story.transform.Find("脱下的通勤鞋").GetChild(side);
                         if(!proxy.gameObject.activeSelf) throw new Exception("脱下的鞋未显示");
@@ -89,7 +89,7 @@ namespace Homecoming.Editor
                             var sock=rig.hosiery[side];
                             if(!sock||!sock.enabled||!sock.gameObject.activeInHierarchy)throw new Exception("Stocking disappeared during runtime extraction: "+index);
                             var properties=new MaterialPropertyBlock();sock.GetPropertyBlock(properties);
-                            if(time-1>=HomecomingShoeGrip.Detach(side)&&properties.GetFloat("_BootMask")!=0)throw new Exception("Removed boot still clips stocking / foot: "+index);
+                            if(story.ActionTime>=HomecomingShoeGrip.Detach(side)&&properties.GetFloat("_BootMask")!=0)throw new Exception("Removed boot still clips stocking / foot: "+index);
                         }
                     }
                     type.GetField("elapsed",flags).SetValue(story,27f);type.GetMethod("Update",flags).Invoke(story,null);

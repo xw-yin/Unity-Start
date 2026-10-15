@@ -30,12 +30,13 @@ namespace Homecoming.Editor
             var reachLog=new System.Text.StringBuilder("time,side,dx,dy,dz\n");
             for(int frame=0;frame<=220;frame++)
             {
-                float time=10+frame*.05f,action=time-1;
+                float time=10+frame*.05f;
                 typeof(HomecomingScene).GetField("elapsed",flags).SetValue(story,time);typeof(HomecomingScene).GetMethod("Update",flags).Invoke(story,null);
                 var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",flags).GetValue(story);
+                float action=motion.ActionTime(time);
                 foreach(var hand in rig.GetComponentsInChildren<Transform>())
                 {
-                    int side=hand.name=="J_Bip_L_Hand"?0:hand.name=="J_Bip_R_Hand"?1:-1;if(side<0||action<HomecomingShoeGrip.Detach(side)||action>HomecomingShoeGrip.Release(side))continue;
+                    int handSide=hand.name=="J_Bip_L_Hand"?0:hand.name=="J_Bip_R_Hand"?1:-1;if(handSide<0)continue;int side=motion.Shoes.FootwearSide(handSide);if(action<HomecomingShoeGrip.Detach(side)||action>HomecomingShoeGrip.Release(side))continue;
                     float error=Vector3.Distance(hand.position,motion.Shoes.WristTarget(side,action));if(error>worstReach){worstReach=error;worst=time+" side="+side+" wrist="+hand.position+" target="+motion.Shoes.WristTarget(side,action);}
                     var delta=hand.position-motion.Shoes.WristTarget(side,action);reachLog.AppendLine(time+","+side+","+delta.x+","+delta.y+","+delta.z);
                 }

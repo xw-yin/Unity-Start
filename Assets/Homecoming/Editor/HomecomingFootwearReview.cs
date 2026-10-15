@@ -9,6 +9,26 @@ namespace Homecoming.Editor
 {
     public static class HomecomingFootwearReview
     {
+        static string PointKey(Vector3 p)=>Mathf.RoundToInt(p.x*100000)+","+Mathf.RoundToInt(p.y*100000)+","+Mathf.RoundToInt(p.z*100000);
+        static string[] SurfaceTriangles(Mesh mesh)
+        {
+            var vertices=mesh.vertices;var triangles=mesh.triangles;
+            return Enumerable.Range(0,triangles.Length/3).Select(face=>
+            {
+                var points=new[]{PointKey(vertices[triangles[face*3]]),PointKey(vertices[triangles[face*3+1]]),PointKey(vertices[triangles[face*3+2]])};
+                Array.Sort(points,StringComparer.Ordinal);return string.Join(";",points);
+            }).OrderBy(key=>key,StringComparer.Ordinal).ToArray();
+        }
+        static bool ValidWeights(SkinnedMeshRenderer skin)
+        {
+            foreach(var w in skin.sharedMesh.boneWeights)
+            {
+                if(Mathf.Abs(w.weight0+w.weight1+w.weight2+w.weight3-1)>.001f)return false;
+                foreach(var influence in new[]{(w.boneIndex0,w.weight0),(w.boneIndex1,w.weight1),(w.boneIndex2,w.weight2),(w.boneIndex3,w.weight3)})
+                    if(influence.Item2>0&&(influence.Item1<0||influence.Item1>=skin.bones.Length||!skin.bones[influence.Item1]))return false;
+            }
+            return true;
+        }
         public static void RebuildYenneferAndAudit(){YenneferDLCImport.Import();Run();CaptureDetails();}
         public static void AuditAndCapture(){Run();CaptureDetails();}
         public static void RefreshSurfacesAndAudit()
@@ -71,6 +91,7 @@ namespace Homecoming.Editor
                 {
                     var leg=rig.anatomicalLegs[side];var sock=rig.hosiery[side];var shoe=(side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>();
                     if(leg==sock||leg.sharedMesh==sock.sharedMesh||sock.sharedMesh==shoe.sharedMesh||leg.sharedMesh==shoe.sharedMesh)throw new Exception("Leg, sock and shoe do not have independent meshes");
+                    if(!ValidWeights(leg)||!ValidWeights(sock)||!ValidWeights(shoe))throw new Exception("Leg, hosiery or shoe contains invalid skin weights");
                     if(index==1)
                     {
                         if(!sock.name.StartsWith("夏妮原版")||!AssetDatabase.GetAssetPath(sock.sharedMaterial.GetTexture("_BaseMap")).Contains("WitcherShaniOriginalSocks/"))throw new Exception("Shani is missing her original game sock model/material");
@@ -78,10 +99,13 @@ namespace Homecoming.Editor
                     }
                     else if(index==0)
                     {
-                        var source=leg.sharedMesh;var hosiery=sock.sharedMesh;var a=source.triangles;var b=hosiery.triangles;var av=source.vertices;var bv=hosiery.vertices;var aw=source.boneWeights;var bw=hosiery.boneWeights;
-                        if(a.Length!=b.Length||Enumerable.Range(0,a.Length).Any(i=>av[a[i]]!=bv[b[i]]||!aw[a[i]].Equals(bw[b[i]])))throw new Exception("Lace UV seam changes the original leg / foot geometry or skinning");
+                        var source=leg.sharedMesh;var hosiery=sock.sharedMesh;
+                        // Pattern continuation deliberately duplicates vertices at UV seams and the
+                        // worn boot fit uses temporary calf weights. Compare actual triangle surfaces,
+                        // then validate those temporary weights independently above.
+                        if(!SurfaceTriangles(source).SequenceEqual(SurfaceTriangles(hosiery)))throw new Exception("Lace UV seam changed the original leg / foot surface geometry");
                     }
-                    else if(!leg.sharedMesh.vertices.SequenceEqual(sock.sharedMesh.vertices)||!leg.sharedMesh.triangles.SequenceEqual(sock.sharedMesh.triangles)||!leg.sharedMesh.boneWeights.SequenceEqual(sock.sharedMesh.boneWeights))throw new Exception("Sock does not retain complete source leg and foot surface");
+                    else if(!SurfaceTriangles(leg.sharedMesh).SequenceEqual(SurfaceTriangles(sock.sharedMesh)))throw new Exception("Sock does not retain complete source leg and foot surface");
                     if(!leg.bones.SequenceEqual(sock.bones)||leg.transform.localToWorldMatrix!=sock.transform.localToWorldMatrix)throw new Exception("Sock does not follow the anatomical leg");
                     if(sock.transform.IsChildOf(rig.leftShoe.transform)||sock.transform.IsChildOf(rig.rightShoe.transform))throw new Exception("Sock moves with removable footwear");
                     report.AppendLine(HomecomingCharacters.Names[index]+","+rig.footwearKind+","+side+","+leg.sharedMesh.vertexCount+","+sock.sharedMesh.vertexCount+","+shoe.sharedMesh.vertexCount+","+leg.sharedMesh.bounds.min.y+","+leg.sharedMesh.bounds.max.y+","+shoe.sharedMesh.bounds.size.y);
@@ -99,7 +123,7 @@ namespace Homecoming.Editor
                 var motion=new HomecomingMotion(rig);
                 foreach(float time in new[]{0f,10.95f,13.4f,19.4f,27f})
                 {
-                    motion.Sample(time);
+                    motion.Sample(time==0?0:motion.ElapsedForAction(time));
                     if(legs.Any(s=>!s.gameObject.activeSelf)||!meshes.SequenceEqual(legs.Select(s=>s.sharedMesh)))throw new Exception("Hosiery changes when a shoe is removed");
                     foreach(var sock in rig.hosiery)
                     {
@@ -111,12 +135,12 @@ namespace Homecoming.Editor
                 }
                 if(rig.skirt.sharedMesh.GetBlendShapeIndex("BootLeft")>=0)
                 {
-                    motion.Sample(10.95f);
+                    motion.Sample(motion.ElapsedForAction(10.95f));
                     if(rig.LeftDressLift<.99f)throw new Exception("Shoe reach began before the gown was raised");
-                    var hand=rig.GetComponentsInChildren<Transform>().Single(t=>t.name=="J_Bip_R_Hand");
-                    float error=Vector3.Distance(motion.Hands.Contact(1,HomecomingHandPose.Hold.Fabric),rig.DressHoldPoint(0));
+                    int freeHand=1-motion.Shoes.HandSide(0);var hand=motion.Hands.Hand(freeHand);
+                    float error=Vector3.Distance(motion.Hands.Contact(freeHand,HomecomingHandPose.Hold.Fabric),rig.DressHoldPoint(0));
                     if(error>.06f)throw new Exception("The free hand does not hold the raised gown: "+index+" error="+error+" hand="+hand.position+" hem="+rig.DressHoldPoint(0));
-                    motion.Sample(16.95f);
+                    motion.Sample(motion.ElapsedForAction(16.95f));
                     if(rig.RightDressLift<.99f)throw new Exception("Right shoe reach began before the gown was raised");
                 }
                 // The duchess' original stocking submesh must stay in the body.

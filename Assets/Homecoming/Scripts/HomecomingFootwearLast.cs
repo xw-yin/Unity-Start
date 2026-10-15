@@ -9,11 +9,13 @@ namespace Homecoming
     {
         [Serializable] class Shape { public string character;public int vertexCount;public float[] baseVertices,delta,normalDelta,weights;public int[] boneIndices;public string[] boneNames; }
         SkinnedMeshRenderer skin;
-        Mesh mesh;
+        Mesh mesh,sampledMesh;
+        readonly System.Collections.Generic.List<Vector3> samplePoints=new System.Collections.Generic.List<Vector3>();
         int shape=-1;
         BoneWeight[] originalWeights,fittedWeights,mixedWeights;
         readonly int[] indices=new int[8];readonly float[] values=new float[8];
         float previous=-1;
+        public float RequiredPointAngle {get;internal set;}
         public void Initialize(string prefix="FootLast_")
         {
             if(skin)return;skin=GetComponent<SkinnedMeshRenderer>();
@@ -69,6 +71,16 @@ namespace Homecoming
             if(value<=0)return;for(int j=0;j<count;j++)if(indices[j]==bone){values[j]+=value;return;}
             indices[count]=bone;values[count++]=value;
         }
-        void OnDestroy(){if(mesh){if(Application.isPlaying)Destroy(mesh);else DestroyImmediate(mesh);}}
+        public Vector3 SampleFootAxis(int[] heel,int[] ball)
+        {
+            if(!sampledMesh)sampledMesh=new Mesh{hideFlags=HideFlags.DontSave};
+            skin.BakeMesh(sampledMesh);sampledMesh.GetVertices(samplePoints);
+            Vector3 Average(int[] ids){var sum=Vector3.zero;foreach(int id in ids)sum+=samplePoints[id];return sum/ids.Length;}
+            return skin.transform.TransformVector(Average(ball)-Average(heel));
+        }
+        void OnDestroy()
+        {
+            foreach(var owned in new[]{mesh,sampledMesh})if(owned){if(Application.isPlaying)Destroy(owned);else DestroyImmediate(owned);}
+        }
     }
 }

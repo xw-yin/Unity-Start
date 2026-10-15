@@ -39,13 +39,14 @@ namespace Homecoming.Editor
                     float t=frame/30f,action=t-1;
                     type.GetField("elapsed",flags).SetValue(story,t);type.GetMethod("Update",flags).Invoke(story,null);
                     var motion=(HomecomingMotion)type.GetField("motion",flags).GetValue(story);
+                    action=story.ActionTime;
                     for(int side=0;side<2;side++)
                     {
                         if(action>=HomecomingShoeGrip.Detach(side) && action<=HomecomingShoeGrip.Release(side))
                         {
-                            var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(side==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
+                            var hand=rig.GetComponentsInChildren<Transform>().Single(b=>b.name==(motion.Shoes.HandSide(side)==0?"J_Bip_L_Hand":"J_Bip_R_Hand"));
                             float error=Vector3.Distance(hand.position,motion.Shoes.WristTarget(side,action));
-                            if(error>worstReach){worstReach=error;worst="character="+index+" time="+t+" side="+side+" hand="+hand.position+" target="+motion.Shoes.WristTarget(side,action)+" shoulder="+(side==0?rig.leftArm:rig.rightArm).position;}
+                            if(error>worstReach){worstReach=error;worst="character="+index+" time="+t+" side="+side+" hand="+hand.position+" target="+motion.Shoes.WristTarget(side,action)+" shoulder="+(motion.Shoes.HandSide(side)==0?rig.leftArm:rig.rightArm).position;}
                         }
                     }
                     if(frame==195 || frame==312 || frame==330 || frame==345 || frame==405 || frame==435 || frame==810)

@@ -20,9 +20,10 @@ namespace Homecoming
         HomecomingCameraController cameraControls;
         public bool Started => started;
         public bool Paused => paused;
-        public bool Finished => elapsed >= 32;
+        public bool Finished => elapsed >= (motion!=null?motion.CompleteTime:32);
         public HomecomingCameraController CameraControls => cameraControls;
         public int CharacterIndex => characterIndex;
+        public float ActionTime=>motion!=null?motion.ActionTime(elapsed):elapsed-1;
         public void SelectCharacter(int index)
         {
             if(index<0 || index>=HomecomingCharacters.ResourcesPaths.Length || index==characterIndex) return;
@@ -121,8 +122,10 @@ namespace Homecoming
             Box("鞋柜",new Vector3(.45f,.55f,3.02f),new Vector3(1.9f,1.1f,.65f),wood);
             Box("鞋柜台面",new Vector3(.45f,1.13f,3.0f),new Vector3(2.0f,.09f,.75f),oak);
             for(int i=0;i<3;i++) { Box("柜门",new Vector3(-.16f+i*.62f,.59f,2.675f),new Vector3(.59f,.95f,.035f),cream); Ball("柜门把手",new Vector3(-.16f+i*.62f,.78f,2.63f),Vector3.one*.05f,gold); }
-            Box("换鞋凳软垫",new Vector3(-1.25f,.34f,1.62f),new Vector3(1.10f,.16f,.58f),fabric);
-            foreach(float x in new[]{-1.68f,-.82f}) foreach(float z in new[]{1.42f,1.82f}) Box("凳腿",new Vector3(x,.13f,z),new Vector3(.07f,.26f,.07f),wood);
+            Box("换鞋凳软垫",new Vector3(-1.25f,.34f+CharacterRig.SeatRaise,1.62f),new Vector3(1.10f,.16f,.58f),fabric);
+            foreach(float x in new[]{-1.68f,-.82f}) foreach(float z in new[]{1.42f,1.82f}) Box("凳腿",new Vector3(x,(.26f+CharacterRig.SeatRaise)*.5f,z),new Vector3(.07f,.26f+CharacterRig.SeatRaise,.07f),wood);
+            Box("换鞋凳脚踏",new Vector3(-1.25f,CharacterRig.FootrestHeight-.035f,1.15f),new Vector3(.52f,.07f,.20f),wood);
+            Box("脚踏支座",new Vector3(-1.25f,(CharacterRig.FootrestHeight-.07f)*.5f,1.15f),new Vector3(.46f,CharacterRig.FootrestHeight-.07f,.16f),wood);
             Box("沙发底座",new Vector3(2.50f,.36f,1.6f),new Vector3(2.20f,.40f,.90f),green);
             Box("沙发靠背",new Vector3(2.50f,.83f,2.02f),new Vector3(2.20f,.77f,.20f),green);
             foreach(float x in new[]{1.42f,3.58f}) Box("沙发扶手",new Vector3(x,.66f,1.6f),new Vector3(.22f,.57f,.95f),green);
@@ -220,7 +223,22 @@ namespace Homecoming
             leftArm=rig.leftArm; rightArm=rig.rightArm; leftThigh=rig.leftThigh; rightThigh=rig.rightThigh;
             leftCalf=rig.leftCalf; rightCalf=rig.rightCalf; leftShoe=rig.leftShoe; rightShoe=rig.rightShoe;
             rig.RemoveHomeAccessories();
+            ConfigureSeat();
             motion=new HomecomingMotion(rig);
+        }
+        void ConfigureSeat()
+        {
+            float raise=rig.longBoots?CharacterRig.SeatRaise:0;
+            foreach(Transform part in transform)
+            {
+                if(part.name=="换鞋凳软垫")part.localPosition=new Vector3(-1.25f,.34f+raise,1.62f);
+                if(part.name=="凳腿")
+                {
+                    var p=part.localPosition;p.y=(.26f+raise)*.5f;part.localPosition=p;
+                    part.localScale=new Vector3(1,(.26f+raise)/(.26f+CharacterRig.SeatRaise),1);
+                }
+                if(part.name=="换鞋凳脚踏"||part.name=="脚踏支座")part.gameObject.SetActive(rig.longBoots);
+            }
         }
         void ResetStory()
         {
@@ -248,15 +266,16 @@ namespace Homecoming
             if(Keyboard.current != null) { if(Keyboard.current.spaceKey.wasPressedThisFrame) TogglePlayback(); if(Keyboard.current.rKey.wasPressedThisFrame) Replay(); if(Keyboard.current.cKey.wasPressedThisFrame) cameraControls.SetView((cameraControls.ViewIndex+1)%3); }
             if(paused)return;
             if(!started){idleElapsed+=Time.deltaTime;motion.SampleWaiting(idleElapsed);return;}
-            if(Finished){idleElapsed+=Time.deltaTime;motion.Sample(32+idleElapsed);rig.Expression(32+idleElapsed,true);return;}
+            if(Finished){elapsed+=Time.deltaTime;idleElapsed=elapsed-motion.CompleteTime;motion.Sample(elapsed);rig.Expression(motion.StoryTime(elapsed),true);return;}
             idleElapsed=0;
             elapsed+=Time.deltaTime; float t=elapsed;
             motion.Sample(t);
-            phase=t<1.5f?0:t<8?1:t<22?2:t<27?3:4;
-            float action=t-1;
+            float storyTime=motion.StoryTime(t);
+            phase=t<1.5f?0:t<motion.ArrivalTime?1:storyTime<22?2:storyTime<27?3:4;
+            float action=motion.ActionTime(t);
             rig.Expression(t,phase==4);
             door.localRotation=Quaternion.Euler(0,DoorAngle(t),0);
-            leftShoe.SetActive(action<12); rightShoe.SetActive(action<18);
+            leftShoe.SetActive(action<HomecomingShoeGrip.Detach(0)); rightShoe.SetActive(action<HomecomingShoeGrip.Detach(1));
             var shoes=transform.Find("脱下的通勤鞋");
             if(!shoes)
             {
