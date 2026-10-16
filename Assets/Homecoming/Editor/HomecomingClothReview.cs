@@ -9,19 +9,23 @@ namespace Homecoming.Editor
         public static void Run()
         {
             HomecomingSetup.CreateScene();
-            var rig = UnityEngine.Object.FindAnyObjectByType<CharacterRig>();
-            var source = rig.skirt.sharedMesh;
+            var story=UnityEngine.Object.FindAnyObjectByType<HomecomingScene>();
+            story.ReloadCharacter();
+            var rig=story.GetComponentInChildren<CharacterRig>();
+            var cloth=rig.GetComponent<HomecomingClothDynamics>();
+            var source=cloth&&cloth.SourceMesh?cloth.SourceMesh:rig.skirt.sharedMesh;
             var original = source.vertices;
             var motion = new HomecomingMotion(rig);
             Directory.CreateDirectory("Artifacts/Cloth");
             var camera = UnityEngine.Object.FindAnyObjectByType<HomecomingScene>().GetComponentInChildren<Camera>();
-            float maximum = 0, moving = 0;
+            float maximum = 0, moving = 0,seatCorrection=0;
             for(int frame = 0; frame <= 1620; frame++)
             {
                 float time = frame / 60f;
                 motion.Sample(time);
                 var dynamic = rig.GetComponent<HomecomingClothDynamics>();
                 maximum = Mathf.Max(maximum, dynamic.MaximumDisplacement);
+                seatCorrection=Mathf.Max(seatCorrection,dynamic.MaximumSeatCorrection);
                 if(time > 2 && time < 7) moving = Mathf.Max(moving, dynamic.MaximumDisplacement);
                 var vertices = rig.skirt.sharedMesh.vertices;
                 for(int i = 0; i < vertices.Length; i++)
@@ -51,7 +55,7 @@ namespace Homecoming.Editor
                 motion.Sample(frame / 20f);
                 if(rig.GetComponent<HomecomingClothDynamics>().MaximumDisplacement > .065f) throw new Exception("Cloth is unstable at 20 FPS");
             }
-            Debug.Log("CLOTH REVIEW PASSED: 1621 frames; pinned waist, finite bounded vertices, pause/replay, immutable source; maximum=" + maximum + " walking=" + moving);
+            Debug.Log("CLOTH REVIEW PASSED: 1621 frames; pinned waist, finite bounded vertices, pause/replay, immutable source; maximum=" + maximum + " walking=" + moving+" static seat correction="+seatCorrection);
             HomecomingMotionReview.Run();
         }
     }

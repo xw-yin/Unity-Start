@@ -122,8 +122,8 @@ namespace Homecoming
             Box("鞋柜",new Vector3(.45f,.55f,3.02f),new Vector3(1.9f,1.1f,.65f),wood);
             Box("鞋柜台面",new Vector3(.45f,1.13f,3.0f),new Vector3(2.0f,.09f,.75f),oak);
             for(int i=0;i<3;i++) { Box("柜门",new Vector3(-.16f+i*.62f,.59f,2.675f),new Vector3(.59f,.95f,.035f),cream); Ball("柜门把手",new Vector3(-.16f+i*.62f,.78f,2.63f),Vector3.one*.05f,gold); }
-            Box("换鞋凳软垫",new Vector3(-1.25f,.34f+CharacterRig.SeatRaise,1.62f),new Vector3(1.10f,.16f,.58f),fabric);
-            foreach(float x in new[]{-1.68f,-.82f}) foreach(float z in new[]{1.42f,1.82f}) Box("凳腿",new Vector3(x,(.26f+CharacterRig.SeatRaise)*.5f,z),new Vector3(.07f,.26f+CharacterRig.SeatRaise,.07f),wood);
+            Box("换鞋凳软垫",new Vector3(-1.25f,.34f+CharacterRig.SeatRaise,1.66f),new Vector3(1.10f,.16f,.50f),fabric);
+            foreach(float x in new[]{-1.68f,-.82f}) foreach(float z in new[]{1.46f,1.86f}) Box("凳腿",new Vector3(x,(.26f+CharacterRig.SeatRaise)*.5f,z),new Vector3(.07f,.26f+CharacterRig.SeatRaise,.07f),wood);
             Box("沙发底座",new Vector3(2.50f,.36f,1.6f),new Vector3(2.20f,.40f,.90f),green);
             Box("沙发靠背",new Vector3(2.50f,.83f,2.02f),new Vector3(2.20f,.77f,.20f),green);
             foreach(float x in new[]{1.42f,3.58f}) Box("沙发扶手",new Vector3(x,.66f,1.6f),new Vector3(.22f,.57f,.95f),green);
@@ -229,7 +229,7 @@ namespace Homecoming
             float raise=rig.longBoots?CharacterRig.SeatRaise:0;
             foreach(Transform part in transform)
             {
-                if(part.name=="换鞋凳软垫")part.localPosition=new Vector3(-1.25f,.34f+raise,1.62f);
+                if(part.name=="换鞋凳软垫")part.localPosition=new Vector3(-1.25f,.34f+raise,1.66f);
                 if(part.name=="凳腿")
                 {
                     var p=part.localPosition;p.y=(.26f+raise)*.5f;part.localPosition=p;
@@ -259,7 +259,13 @@ namespace Homecoming
         {
             // Unity may reload scripts while keeping the scene and its objects alive.
             if(!rig || !cameraControls) { if(Application.isPlaying) Build(); else return; }
-            if(motion==null) motion=new HomecomingMotion(rig);
+            if(motion==null)
+            {
+                // A script reload leaves a posed skeleton and temporary fitted
+                // meshes alive. Reusing them would cache that pose as bind data.
+                bool resume=started,wasPaused=paused;int viewIndex=cameraControls.ViewIndex;
+                Build();started=resume;paused=wasPaused;cameraControls.SetView(viewIndex);
+            }
             if(Keyboard.current != null) { if(Keyboard.current.spaceKey.wasPressedThisFrame) TogglePlayback(); if(Keyboard.current.rKey.wasPressedThisFrame) Replay(); if(Keyboard.current.cKey.wasPressedThisFrame) cameraControls.SetView((cameraControls.ViewIndex+1)%3); }
             if(paused)return;
             if(!started){idleElapsed+=Time.deltaTime;motion.SampleWaiting(idleElapsed);return;}

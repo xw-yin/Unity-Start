@@ -1,0 +1,65 @@
+[
+  {
+    "name": "FaceAmbient",
+    "source": "characters/models/main_npc/yennefer/h_01_wa__yennefer/h_01_wa__yennefer_a01.dds",
+    "sourceSHA256": "b3b145e2430676d205bc4be9ebfabd1601a5cdf14e2a04a5abde7bbc703a862e",
+    "size": [
+      2048,
+      2048
+    ]
+  },
+  {
+    "name": "SkinDetail",
+    "source": "characters/models/common/textures/detailmaps_pbr/detailmap_skin_02.dds",
+    "sourceSHA256": "c4f33e84f97aa5f8115370707231c30d1e92d74459e2dc57f74980d4f3ca5399",
+    "size": [
+      1024,
+      1024
+    ]
+  },
+  {
+    "name": "HairShift",
+    "source": "characters/models/common/textures/hair/detailshift_hair_01.dds",
+    "sourceSHA256": "dfd203c6739c44d7e85937d534dde017d074eeef904ffbe2d02ba103f34d19b5",
+    "size": [
+      512,
+      512
+    ]
+  },
+  {
+    "name": "EyeNormal",
+    "source": "characters/models/common/textures/eyes/eye_n01.dds",
+    "sourceSHA256": "f1837183198a45ecde43fdc2002f839429b4235a8a830959660de8afc690c8e1",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "name": "EyeShadow",
+    "source": "characters/models/common/textures/eyes/eye_shadow_d01.dds",
+    "sourceSHA256": "74c86972b649d41df9877c780649dfd03f6daf83aa4a7f72112727c515109192",
+    "size": [
+      256,
+      256
+    ]
+  },
+  {
+    "name": "FaceDiffuse",
+    "source": "F:\\Unity\\ExtractedModels\\Yennefer\\characters\\models\\main_npc\\yennefer\\h_01_wa__yennefer\\h_01_wa__yennefer_d01.dds",
+    "sourceSHA256": "2e79da362b60950e60900186ca40e99b1168abd4ec15314ec981ce92f4bfa076",
+    "size": [
+      4096,
+      4096
+    ]
+  },
+  {
+    "name": "FaceNormal",
+    "source": "F:\\Unity\\ExtractedModels\\Yennefer\\characters\\models\\main_npc\\yennefer\\h_01_wa__yennefer\\h_01_wa__yennefer_n01.dds",
+    "sourceSHA256": "12a041b54576a62303b1818a8af4d84d20f7f0cc69a94cba93b796843bd76b14",
+    "size": [
+      4096,
+      4096
+    ]
+  }
+]

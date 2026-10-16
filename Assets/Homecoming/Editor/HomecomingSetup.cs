@@ -167,11 +167,16 @@ namespace Homecoming.Editor
                 if(!skin.enabled) continue;
                 var mesh=new Mesh(); skin.BakeMesh(mesh);
                 var preview=ModelMesh.Object("临时姿态检查",mesh,skin.sharedMaterial,skin.transform,Vector3.zero);
-                preview.GetComponent<Renderer>().sharedMaterials=skin.sharedMaterials;
+                preview.layer=skin.gameObject.layer;
+                var previewRenderer=preview.GetComponent<Renderer>();
+                previewRenderer.renderingLayerMask=skin.renderingLayerMask;previewRenderer.shadowCastingMode=skin.shadowCastingMode;previewRenderer.receiveShadows=skin.receiveShadows;
+                previewRenderer.sharedMaterials=skin.sharedMaterials;
                 var properties=new MaterialPropertyBlock();skin.GetPropertyBlock(properties);preview.GetComponent<Renderer>().SetPropertyBlock(properties);
                 frozen.Add((skin,preview,mesh)); skin.enabled=false;
             }
             var target=new RenderTexture(width,height,24);
+            var pipeline=UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset;
+            target.antiAliasing=pipeline?Mathf.Max(1,pipeline.msaaSampleCount):Mathf.Max(1,QualitySettings.antiAliasing);
             camera.targetTexture=target; camera.Render();
             var previous=RenderTexture.active; RenderTexture.active=target;
             var image=new Texture2D(width,height,TextureFormat.RGB24,false); image.ReadPixels(new Rect(0,0,width,height),0,0); image.Apply();

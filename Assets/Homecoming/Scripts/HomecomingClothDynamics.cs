@@ -8,7 +8,7 @@ namespace Homecoming
     {
         CharacterRig rig;
         Mesh source, mesh;
-        Vector3[] rest, normals, vertices, deformedNormals;
+        Vector3[] rest, normals, vertices, deformedNormals, sittingDelta;
         readonly Vector2[] displacement = new Vector2[6], velocity = new Vector2[6];
         Vector3 lastPosition;
         Quaternion lastRotation;
@@ -16,12 +16,16 @@ namespace Homecoming
         int sittingShape, hipIndex;
         Matrix4x4 hipBindPose;
         Transform leftFoot, rightFoot;
+        Renderer seat;
         public float MaximumDisplacement { get; private set; }
+        public float MaximumSeatCorrection { get; private set; }
         public Mesh SourceMesh => source;
 
         void Initialize(CharacterRig character)
         {
             rig = character;
+            var cushion=rig.transform.parent?rig.transform.parent.Find("换鞋凳软垫"):null;
+            if(cushion)seat=cushion.GetComponent<Renderer>();
             source = rig.skirt.sharedMesh;
             mesh = Instantiate(source);
             mesh.name = source.name + " (dynamic cloth)";
@@ -29,6 +33,8 @@ namespace Homecoming
             rest = source.vertices; normals = source.normals;
             vertices = new Vector3[rest.Length]; deformedNormals = new Vector3[rest.Length];
             sittingShape = mesh.GetBlendShapeIndex("Sitting");
+            sittingDelta=new Vector3[rest.Length];
+            if(sittingShape>=0)source.GetBlendShapeFrameVertices(sittingShape,0,sittingDelta,null,null);
             hipIndex = System.Array.IndexOf(rig.skirt.bones, rig.hips);
             hipBindPose = hipIndex >= 0 ? source.bindposes[hipIndex] : Matrix4x4.identity;
             foreach(var bone in rig.GetComponentsInChildren<Transform>())
@@ -72,7 +78,8 @@ namespace Homecoming
             }
             var hipMatrix = hipIndex >= 0 ? rig.hips.localToWorldMatrix * hipBindPose : rig.skirt.transform.localToWorldMatrix;
             var inverseHip = hipMatrix.inverse;
-            MaximumDisplacement = 0;
+            MaximumDisplacement = 0;MaximumSeatCorrection=0;
+            var seatBounds=seat?seat.bounds:new Bounds();
             for (int i = 0; i < rest.Length; i++)
             {
                 Vector3 p = rest[i];
@@ -84,24 +91,31 @@ namespace Homecoming
                 float fold = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.93f, .85f, p.y));
                 Quaternion bend = Quaternion.Euler((front ? -70 : 60) * fold * sitting, 0, 0);
                 Vector3 offset = bend * new Vector3(sway.x, Mathf.Sin(time * 5 + p.x * 17) * sway.magnitude * .15f, sway.y) * free;
-                // Check the displacement in the already folded pose. Only constrain
-                // added motion: the authored sitting shape remains intact.
-                Vector3 folded = p;
-                if (sittingShape >= 0)
-                {
-                    var pivot = new Vector3(0, .905f, 0);
-                    folded += (pivot + Quaternion.Euler((front ? -70 : 60) * fold, 0, 0) * (p - pivot) - p + new Vector3(p.x * .08f * free, 0, 0)) * sitting;
-                }
+                // Use the imported corrective, not a reconstructed approximation:
+                // the authored coat fold has changed since the first procedural draft.
+                Vector3 folded=p+sittingDelta[i]*sitting;
                 Vector3 worldBase = hipMatrix.MultiplyPoint3x4(folded);
                 Vector3 world = worldBase + hipMatrix.MultiplyVector(offset);
                 Constrain(ref world, worldBase, rig.leftThigh.position, rig.leftCalf.position, .075f);
                 Constrain(ref world, worldBase, rig.rightThigh.position, rig.rightCalf.position, .075f);
                 if(leftFoot) Constrain(ref world, worldBase, rig.leftCalf.position, leftFoot.position, .052f);
                 if(rightFoot) Constrain(ref world, worldBase, rig.rightCalf.position, rightFoot.position, .052f);
+                // Inertial cloth travel and static contact correction have different
+                // meanings; keep the secondary-motion stability metric independent.
+                MaximumDisplacement=Mathf.Max(MaximumDisplacement,inverseHip.MultiplyVector(world-worldBase).magnitude);
+                var beforeSeat=world;
+                // A seated coat rests on the real cushion, including during the
+                // approach. Its free back panels must not sink through a raised seat.
+                if(seat&&sitting>0&&free>0)
+                {
+                    var bounds=seatBounds;
+                    if(world.x>bounds.min.x&&world.x<bounds.max.x&&world.z>bounds.min.z&&world.z<bounds.max.z&&world.y>bounds.min.y&&world.y<bounds.max.y+.003f)
+                        world.y=Mathf.Lerp(world.y,bounds.max.y+.003f,Mathf.Clamp01(sitting*4));
+                }
                 offset = inverseHip.MultiplyVector(world - worldBase);
                 vertices[i] = p + offset;
                 deformedNormals[i] = Quaternion.Euler(-sway.y * free * 80, 0, sway.x * free * 80) * normals[i];
-                MaximumDisplacement = Mathf.Max(MaximumDisplacement, offset.magnitude);
+                MaximumSeatCorrection=Mathf.Max(MaximumSeatCorrection,Vector3.Distance(world,beforeSeat));
             }
             mesh.vertices = vertices; mesh.normals = deformedNormals;
             lastPosition = position; lastRotation = rotation; lastTime = time;

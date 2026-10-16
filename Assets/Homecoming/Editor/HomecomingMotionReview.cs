@@ -22,6 +22,8 @@ namespace Homecoming.Editor
         {
             HomecomingSetup.CreateScene();
             var story=Object.FindAnyObjectByType<HomecomingScene>();
+            // Scene serialization replaces temporary meshes; evaluate a fresh runtime actor.
+            story.ReloadCharacter();
             var rig=story.GetComponentInChildren<CharacterRig>();
             var timelineFlags=BindingFlags.NonPublic|BindingFlags.Instance;
             var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",timelineFlags).GetValue(story);

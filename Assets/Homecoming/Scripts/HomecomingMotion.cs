@@ -12,12 +12,15 @@ namespace Homecoming
         readonly Transform[] shoulders=new Transform[2];
         readonly Quaternion[] upperArmFrames=new Quaternion[2],forearmFrames=new Quaternion[2];
         readonly Quaternion[] thighFrames=new Quaternion[2],calfFrames=new Quaternion[2];
+        readonly Quaternion[] thighBindTurn=new Quaternion[2],calfBindRelative=new Quaternion[2];
+        readonly Vector3[] thighBindDirection=new Vector3[2],calfBindAxis=new Vector3[2],kneeHingeLocal=new Vector3[2];
         readonly Vector3[] priorLegDirection=new Vector3[2],priorLegBend=new Vector3[2];
         bool legContinuity;
         readonly Quaternion leftFootRest,rightFootRest;
         readonly Quaternion leftCalfRest,rightCalfRest;
+        readonly float leftWornHeight=.10f,rightWornHeight=.10f;
         public const float Duration=27;
-        const float BootLegLift=.28f,BootLegBack=.02f,BootLean=12,BootHipForward=.04f;
+        const float BootLegLift=.28f,BootLegBack=.02f,BootLean=12,BootHipForward=.13f;
         readonly HomecomingWalkCycle walk;
         readonly Transform[] walkBones;
         readonly Vector3[] route=new Vector3[321];
@@ -196,6 +199,11 @@ namespace Homecoming
                 upper=side==0?rig.leftThigh:rig.rightThigh;lower=side==0?rig.leftCalf:rig.rightCalf;hand=side==0?lf:rf;
                 u=lower.position-upper.position;v=hand.position-lower.position;
                 normal=Vector3.Cross(u,rig.transform.forward).normalized;
+                thighBindTurn[side]=upper.rotation;
+                thighBindDirection[side]=u.normalized;
+                calfBindRelative[side]=Quaternion.Inverse(upper.rotation)*lower.rotation;
+                calfBindAxis[side]=lower.InverseTransformDirection(v).normalized;
+                kneeHingeLocal[side]=upper.InverseTransformDirection(normal);
                 thighFrames[side]=Quaternion.Inverse(Quaternion.LookRotation(upper.InverseTransformDirection(u),upper.InverseTransformDirection(normal)));
                 calfFrames[side]=Quaternion.Inverse(Quaternion.LookRotation(lower.InverseTransformDirection(v),lower.InverseTransformDirection(normal)));
             }
@@ -219,6 +227,11 @@ namespace Homecoming
                 }
             }
             leftCalfRest=RestRotation(rig.leftCalf);rightCalfRest=RestRotation(rig.rightCalf);
+            if(rig.longBoots&&leftSole!=null)
+            {
+                leftWornHeight=lf.position.y+.012f-leftSole.Minimum();
+                rightWornHeight=rf.position.y+.012f-rightSole.Minimum();
+            }
             if(dlcBoots||rig.openToeFootwear)for(int side=0;side<2;side++)
             {
                 var shoe=side==0?rig.leftShoe:rig.rightShoe;
@@ -251,10 +264,11 @@ namespace Homecoming
             if(cloth)cloth.Sample(rig,time);
             foreach(var garment in garments)garment.Sample(rig,time);
         }
+        float HeelFit(int side,float action)=>1-Ease(action,HomecomingShoeGrip.Detach(side)+.25f,Shoes.Cleared(side)-.10f);
         void FitBoots(float action)
         {
             for(int i=0;i<bootFit.Length;i++)bootFit[i].SetBlendShapeWeight(bootFitIndices[i],100*(1-Ease(action,Shoes.Cleared(bootFitSides[i]),Shoes.Cleared(bootFitSides[i])+.4f)));
-            for(int side=0;side<2;side++)if(wornFeet[side])wornFeet[side].Set(1-Ease(action,Shoes.Cleared(side),Shoes.Cleared(side)+.4f));
+            for(int side=0;side<2;side++)if(wornFeet[side])wornFeet[side].Set(HeelFit(side,action));
             for(int side=0;side<2;side++)if(bootOpenings[side])bootOpenings[side].Set(Ease(action,HomecomingShoeGrip.Start(side)+1.4f,HomecomingShoeGrip.Detach(side)));
         }
         public void ResetFace()
@@ -449,29 +463,51 @@ namespace Homecoming
             float lp=Ease(t,rig.longBoots?Shoes.Cleared(0):leftStart+2.3f,rig.longBoots?Shoes.Cleared(0)+.8f:leftStart+3.1f)*(1-Ease(t,leftRelease,leftRelease+.8f));
             float rp=Ease(t,rig.longBoots?Shoes.Cleared(1):rightStart+2.3f,rig.longBoots?Shoes.Cleared(1)+.8f:rightStart+3.1f)*(1-Ease(t,rightRelease,rightRelease+.8f));
             rig.hips.position+=Vector3.right*(Shoes.AnatomicalExtraction?.18f:.25f)*(rig.longBoots?-1:1)*(lp-rp);
-            rig.hips.position+=Vector3.back*(rig.longBoots?BootHipForward:.12f)*(l+r);
+            // Sit onto the front of the cushion and stay there for both boots.
+            // Repeating this slide on each leg made the pelvis drift between pulls.
+            float seatFront=Ease(t,7.2f,8.05f)*(1-Ease(t,23,26));
+            rig.hips.position+=Vector3.back*(rig.longBoots?BootHipForward*seatFront:.12f*(l+r));
+            if(rig.longBoots)
+            {
+                // Transfer weight onto the supporting sit bone before the foot leaves
+                // the floor; hold that support instead of adding a periodic sway.
+                float unweightLeft=Ease(t,leftStart-.95f,leftStart-.35f)*(1-Ease(t,leftRelease+.35f,leftRelease+1.05f));
+                float unweightRight=Ease(t,rightStart-.95f,rightStart-.35f)*(1-Ease(t,rightRelease+.35f,rightRelease+1.05f));
+                rig.hips.position+=rig.transform.right*.018f*(unweightRight-unweightLeft);
+            }
             // Anticipate the downward pull with a modest, continuous torso reach.
             // The old emergency solver changed the torso after the grip began.
             // Reach anticipates the pull and follows the gripping hand to its
             // own side, instead of reaching across the body to the other floor target.
             float leftPull=Ease(t,leftStart+1.2f,leftStart+2.2f)*(1-Ease(t,leftRelease,leftRelease+.8f));
             float rightPull=Ease(t,rightStart+1.2f,rightStart+2.2f)*(1-Ease(t,rightRelease,rightRelease+.8f));
-            float lean=(dlcBoots?25:rig.openToeFootwear?30:rig.longBoots?BootLean:28)*(l+r)+(dlcBoots?31:rig.openToeFootwear?32:rig.longBoots?8:10)*(leftPull+rightPull)+12*Ease(t,7,8)*(1-Ease(t,8,9))+17*Ease(t,22.4f,23.4f)*(1-Ease(t,24,26));
-            rig.Pose(rig.spine,V(-lean+.35f*Mathf.Sin(t*1.1f),1.5f*(l-r),2*(lp-rp)));
-            rig.Pose(rig.head,V(-3*(l+r),-4*(l-r),-1.5f*(l-r)));
+            float lean=(dlcBoots?18:rig.openToeFootwear?20:rig.longBoots?BootLean:28)*(l+r)+(dlcBoots?18:rig.openToeFootwear?22:rig.longBoots?8:10)*(leftPull+rightPull)+12*Ease(t,7,8)*(1-Ease(t,8,9))+17*Ease(t,22.4f,23.4f)*(1-Ease(t,24,26));
+            // The deeper reach belongs to the final extraction, not to the whole
+            // seated action. Keep the cuff reachable without a constant deep hunch.
+            if(dlcBoots)
+            {
+                float finalPullLeft=Ease(t,HomecomingShoeGrip.Detach(0)+.35f,Shoes.Cleared(0)-.25f)*(1-Ease(t,leftRelease,leftRelease+.8f));
+                float finalPullRight=Ease(t,HomecomingShoeGrip.Detach(1)+.35f,Shoes.Cleared(1)-.25f)*(1-Ease(t,rightRelease,rightRelease+.8f));
+                lean+=10*(finalPullLeft+finalPullRight);
+            }
+            float lookLeft=Ease(t,leftStart-.85f,leftStart-.25f)*(1-Ease(t,leftRelease-.25f,leftRelease+.5f));
+            float lookRight=Ease(t,rightStart-.85f,rightStart-.25f)*(1-Ease(t,rightRelease-.25f,rightRelease+.5f));
+            rig.Pose(rig.spine,V(-lean,1.5f*(l-r),2*(lp-rp)));
+            // The eyes/head lead the foot presentation and recover after the hand.
+            rig.Pose(rig.head,V(-5*(lookLeft+lookRight),-5*(lookLeft-lookRight),-1.5f*(lookLeft-lookRight)));
             foreach(var pose in rig.restPoses)
             {
                 if(pose.bone.name=="J_Bip_L_Shoulder")rig.Pose(pose.bone,V(0,dlcBoots?15:20,dlcBoots?-4:-6)*Mathf.Max(l,.75f*r));
                 if(pose.bone.name=="J_Bip_R_Shoulder")rig.Pose(pose.bone,V(0,dlcBoots?-15:-20,dlcBoots?4:6)*Mathf.Max(r,.75f*l));
             }
-            Vector3 left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,.10f,-.035f)),V(-1.145f,.10f,1.10f),sit);
-            Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
+            Vector3 left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,leftWornHeight,-.035f)),V(-1.145f,leftWornHeight,1.10f),sit);
+            Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,rightWornHeight,-.035f)),V(-1.355f,rightWornHeight,1.10f),sit);
             float ll=Ease(t,leftStart,leftStart+1.4f)*(1-Ease(t,Shoes.Cleared(0)+.15f,leftRelease));
             float rl=Ease(t,rightStart,rightStart+1.4f)*(1-Ease(t,Shoes.Cleared(1)+.15f,rightRelease));
             // Stage the long-boot leg-cross before the boot hand reaches. Hold
             // it through placement, then lower the leg as the hands return.
-            float leftLegPose=rig.longBoots?Ease(t,leftStart-.75f,leftStart+.45f)*(1-Ease(t,leftRelease,leftRelease+.8f)):ll;
-            float rightLegPose=rig.longBoots?Ease(t,rightStart-.75f,rightStart+.45f)*(1-Ease(t,rightRelease,rightRelease+.8f)):rl;
+            float leftLegPose=rig.longBoots?CrossPoseWeight(0,t):ll;
+            float rightLegPose=rig.longBoots?CrossPoseWeight(1,t):rl;
             // The leg only needs to clear the heel; the hand does the remaining
             // work by drawing the soft shaft down. A 30 cm extra lift made the
             // knee climb into the chest and read as a stretch, not boot removal.
@@ -502,7 +538,7 @@ namespace Homecoming
             if(barefoot[0]!=null)
             {
                 float leftHeight=barefoot[0].AnkleHeight(flatFootRest[0]),rightHeight=barefoot[1].AnkleHeight(flatFootRest[1]);
-                left.y+=(leftHeight-.10f)*leftBare;right.y+=(rightHeight-.10f)*rightBare;
+                left.y+=(leftHeight-leftWornHeight)*leftBare;right.y+=(rightHeight-rightWornHeight)*rightBare;
                 rig.hips.position+=Vector3.up*((leftHeight+rightHeight)*.5f-.10f)*Mathf.Min(leftBare,rightBare)*(1-sit);
             }
             // A raised ankle can pass through a front-only pole's direction.
@@ -526,8 +562,8 @@ namespace Homecoming
             }
             if(rig.longBoots)
             {
-                if(leftLegPose>rightLegPose)CrossKnees(0,leftLegPose,t);
-                else if(rightLegPose>leftLegPose)CrossKnees(1,rightLegPose,t);
+                if(leftLegPose>0)CrossKnees(0,leftLegPose,t);
+                if(rightLegPose>0)CrossKnees(1,rightLegPose,t);
             }
             if(rig.longBoots){AlignBoot(lf,rig.leftCalf,leftFootRest);AlignBoot(rf,rig.rightCalf,rightFootRest);}
             else{lf.rotation=leftFootRest;rf.rotation=rightFootRest;}
@@ -545,12 +581,19 @@ namespace Homecoming
                 float shaftEntry=.60f;
                 float pointLeft=rig.longBoots?(.15f*Ease(t,leftStart+1.35f,leftStart+1.95f)+.85f*Ease(t,leftStart+2+heelRelease,leftStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(0),leftRelease-.2f)):0;
                 float pointRight=rig.longBoots?(.15f*Ease(t,rightStart+1.35f,rightStart+1.95f)+.85f*Ease(t,rightStart+2+heelRelease,rightStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(1),rightRelease-.2f)):0;
-                var leftFlat=Quaternion.Slerp(lf.rotation,flatFootRest[0],Mathf.Max(leftBare,pointLeft));
-                var rightFlat=Quaternion.Slerp(rf.rotation,flatFootRest[1],Mathf.Max(rightBare,pointRight));
+                // Airborne feet use an anatomical frame carried by the calf.
+                // World-flat is only a planted-foot target. Blending towards it
+                // during a lifted knee extension folded the ankle backwards.
+                float leftFit=wornFeet[0]?HeelFit(0,t):1-leftBare;
+                float rightFit=wornFeet[1]?HeelFit(1,t):1-rightBare;
+                var leftGround=Quaternion.Slerp(flatFootRest[0],leftFootRest,leftFit);
+                var rightGround=Quaternion.Slerp(flatFootRest[1],rightFootRest,rightFit);
+                var leftNeutral=rig.leftCalf.rotation*Quaternion.Inverse(leftCalfRest)*leftGround;
+                var rightNeutral=rig.rightCalf.rotation*Quaternion.Inverse(rightCalfRest)*rightGround;
+                var leftFlat=Quaternion.Slerp(leftNeutral,leftGround,1-leftLegPose);
+                var rightFlat=Quaternion.Slerp(rightNeutral,rightGround,1-rightLegPose);
                 var leftDirection=(lf.position-rig.leftCalf.position).normalized;
                 var rightDirection=(rf.position-rig.rightCalf.position).normalized;
-                if(Shoes.AnatomicalExtraction&&t>=HomecomingShoeGrip.Detach(0))leftDirection=Vector3.Slerp(-Shoes.ExtractionAxis(0),leftDirection,Ease(t,Shoes.Cleared(0),leftRelease-.2f));
-                if(Shoes.AnatomicalExtraction&&t>=HomecomingShoeGrip.Detach(1))rightDirection=Vector3.Slerp(-Shoes.ExtractionAxis(1),rightDirection,Ease(t,Shoes.Cleared(1),rightRelease-.2f));
                 lf.rotation=wornFeet[0]?barefoot[0].PointFitted(leftFlat,leftDirection,pointLeft,wornFeet[0]):barefoot[0].Point(leftFlat,leftDirection,pointLeft);
                 rf.rotation=wornFeet[1]?barefoot[1].PointFitted(rightFlat,rightDirection,pointRight,wornFeet[1]):barefoot[1].Point(rightFlat,rightDirection,pointRight);
                 barefoot[0].PlantToes(leftBare);barefoot[1].PlantToes(rightBare);
@@ -558,27 +601,45 @@ namespace Homecoming
             KeepAboveFloor();
             PoseHands(t,sit,l,r,lean,lp-rp);
         }
+        static float CrossPoseWeight(int side,float action)
+        {
+            float start=HomecomingShoeGrip.Start(side),release=HomecomingShoeGrip.Release(side);
+            return Ease(action,start-.70f,start+.15f)*(1-Ease(action,release+.25f,release+1.05f));
+        }
         void CrossKnees(int side,float amount,float action)
         {
             if(amount<=0)return;
             var upper=side==0?rig.leftThigh:rig.rightThigh;
             var knee=side==0?rig.leftCalf:rig.rightCalf;
-            var ankle=side==0?lf:rf;
             var supportingKnee=side==0?rig.rightCalf:rig.leftCalf;
             var root=rig.transform;float sign=side==0?1:-1;
             var thighRest=upper.rotation;var calfRest=knee.rotation;
-            var baseKnee=knee.position;var baseCalf=(ankle.position-baseKnee).normalized;
-            float lift=Ease(amount,0,.45f),across=Ease(amount,.25f,.95f);
+            var baseKnee=knee.position;
+            // Separate time channels: unweight/lift, pass over the support knee,
+            // settle onto it. Reverse the order to uncross before putting the foot down.
+            float start=HomecomingShoeGrip.Start(side),release=HomecomingShoeGrip.Release(side);
+            float lift=CrossPoseWeight(side,action);
+            float across=Ease(action,start-.10f,start+.85f)*(1-Ease(action,release,release+.65f));
+            float settled=Ease(action,start+.60f,start+1.10f)*(1-Ease(action,release,release+.65f));
             float withdraw=Ease(action,Mathf.Lerp(HomecomingShoeGrip.Detach(side),Shoes.Cleared(side),.35f),Shoes.Cleared(side))*(1-Ease(action,Shoes.Cleared(side)+.1f,HomecomingShoeGrip.Release(side)+.3f));
             var wanted=Vector3.Lerp(baseKnee,supportingKnee.position-root.right*(sign*.06f)-root.forward*.025f,across);
-            wanted.y=Mathf.Lerp(baseKnee.y+.145f*lift,supportingKnee.position.y+.145f,across)+.04f*withdraw;
+            wanted.y=Mathf.Lerp(baseKnee.y,supportingKnee.position.y+.145f,across)
+                +.14f*(lift-across)+.025f*(across-settled)+.04f*withdraw;
             var thighDirection=(wanted-upper.position).normalized;
-            var hanging=(-root.up-root.forward*.14f-root.right*(sign*.32f)).normalized;
-            var extended=(-root.up*(rig.openToeFootwear?.06f:.12f)-root.forward*.96f-root.right*(sign*.28f)).normalized;
-            var calfDirection=Vector3.Slerp(baseCalf,Vector3.Slerp(hanging,extended,withdraw),lift);
-            var hinge=Vector3.Cross(thighDirection,calfDirection).normalized;
-            upper.rotation=Quaternion.Slerp(thighRest,Quaternion.LookRotation(thighDirection,hinge)*thighFrames[side],lift);
-            knee.rotation=Quaternion.Slerp(calfRest,Quaternion.LookRotation(calfDirection,hinge)*calfFrames[side],lift);
+            // The hip swings towards the crossed knee. The knee then bends
+            // about its imported anatomical hinge, rather than rebuilding two
+            // independent roll frames from a nearly straight triangle.
+            var swing=Quaternion.FromToRotation(thighBindDirection[side],thighDirection)*thighBindTurn[side];
+            var crossedTurn=Quaternion.AngleAxis(sign*12,thighDirection)*swing;
+            upper.rotation=Quaternion.Slerp(thighRest,crossedTurn,lift);
+            var neutralCalf=upper.rotation*calfBindRelative[side];
+            var hinge=upper.TransformDirection(kneeHingeLocal[side]);
+            var straight=neutralCalf*calfBindAxis[side];
+            float hangingFlex=Mathf.Clamp(Vector3.SignedAngle(straight,-root.up-root.forward*.14f,hinge),70,110);
+            float flex=Mathf.Lerp(hangingFlex,35,withdraw);
+            var calfTurn=Quaternion.AngleAxis(flex,hinge)*neutralCalf;
+            var desiredLocal=Quaternion.Inverse(upper.rotation)*calfTurn;
+            knee.localRotation=Quaternion.Slerp(Quaternion.Inverse(thighRest)*calfRest,desiredLocal,lift);
         }
         void MeasureThighClearance()
         {

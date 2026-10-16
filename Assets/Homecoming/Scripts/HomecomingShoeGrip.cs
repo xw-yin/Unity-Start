@@ -85,7 +85,7 @@ namespace Homecoming
         // Reach shortly after settling into the seat. These are authored action
         // times (the walk clock remaps arrival to action 7), so they stay tied
         // to the arrival instead of waiting on the old longer walk duration.
-        public static float Start(int side)=>side==0?9:14.5f;
+        public static float Start(int side)=>side==0?9:15.25f;
         public static float Detach(int side)=>Start(side)+2;
         public float Cleared(int side)=>Start(side)+(longBoots?(originalBoot[side]||openToeFootwear?3.4f:3.05f):2.8f);
         public static float Release(int side)=>Start(side)+4.4f;
@@ -132,8 +132,8 @@ namespace Homecoming
         }
         float Fold(int side,float action)
         {
-            float loaded=originalBoot[side]?.45f:openToeFootwear?.45f:.0875f;
-            float empty=originalBoot[side]?.65f:openToeFootwear?.5f:.35f;
+            float loaded=originalBoot[side]?.85f:openToeFootwear?.45f:.0875f;
+            float empty=originalBoot[side]?1:openToeFootwear?.5f:.35f;
             return loaded*Ease(action,Detach(side),Cleared(side))+(empty-loaded)*Ease(action,Cleared(side),Release(side));
         }
         public Vector3 GroundHeel(int side)
