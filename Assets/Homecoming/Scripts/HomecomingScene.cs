@@ -124,8 +124,6 @@ namespace Homecoming
             for(int i=0;i<3;i++) { Box("柜门",new Vector3(-.16f+i*.62f,.59f,2.675f),new Vector3(.59f,.95f,.035f),cream); Ball("柜门把手",new Vector3(-.16f+i*.62f,.78f,2.63f),Vector3.one*.05f,gold); }
             Box("换鞋凳软垫",new Vector3(-1.25f,.34f+CharacterRig.SeatRaise,1.62f),new Vector3(1.10f,.16f,.58f),fabric);
             foreach(float x in new[]{-1.68f,-.82f}) foreach(float z in new[]{1.42f,1.82f}) Box("凳腿",new Vector3(x,(.26f+CharacterRig.SeatRaise)*.5f,z),new Vector3(.07f,.26f+CharacterRig.SeatRaise,.07f),wood);
-            Box("换鞋凳脚踏",new Vector3(-1.25f,CharacterRig.FootrestHeight-.035f,1.15f),new Vector3(.52f,.07f,.20f),wood);
-            Box("脚踏支座",new Vector3(-1.25f,(CharacterRig.FootrestHeight-.07f)*.5f,1.15f),new Vector3(.46f,CharacterRig.FootrestHeight-.07f,.16f),wood);
             Box("沙发底座",new Vector3(2.50f,.36f,1.6f),new Vector3(2.20f,.40f,.90f),green);
             Box("沙发靠背",new Vector3(2.50f,.83f,2.02f),new Vector3(2.20f,.77f,.20f),green);
             foreach(float x in new[]{1.42f,3.58f}) Box("沙发扶手",new Vector3(x,.66f,1.6f),new Vector3(.22f,.57f,.95f),green);
@@ -237,7 +235,6 @@ namespace Homecoming
                     var p=part.localPosition;p.y=(.26f+raise)*.5f;part.localPosition=p;
                     part.localScale=new Vector3(1,(.26f+raise)/(.26f+CharacterRig.SeatRaise),1);
                 }
-                if(part.name=="换鞋凳脚踏"||part.name=="脚踏支座")part.gameObject.SetActive(rig.longBoots);
             }
         }
         void ResetStory()

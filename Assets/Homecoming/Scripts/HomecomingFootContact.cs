@@ -10,6 +10,10 @@ namespace Homecoming
     {
         readonly Transform foot,toe;
         readonly Vector3 heel,ball,tip;
+        // Extraction point cap: passive ankle plantar flexion tops out near
+        // 50 degrees, and the old 58-degree cap bent the foot past anatomy
+        // (before PlantToes added its own toe curl on top).
+        const float MaxPoint=40;
         readonly int[] heelVertices,ballVertices;
         public HomecomingFootContact(SkinnedMeshRenderer skin,Transform joint,Transform toe)
         {
@@ -44,7 +48,7 @@ namespace Homecoming
         public Quaternion Point(Quaternion flat,Vector3 direction,float amount)
         {
             var aligned=Quaternion.FromToRotation(flat*(ball-heel),direction)*flat;
-            return Quaternion.Slerp(flat,Quaternion.RotateTowards(flat,aligned,58),amount);
+            return Quaternion.Slerp(flat,Quaternion.RotateTowards(flat,aligned,MaxPoint),amount);
         }
         public Quaternion PointFitted(Quaternion basis,Vector3 direction,float amount,HomecomingFootwearLast fit)
         {
@@ -55,7 +59,7 @@ namespace Homecoming
             var sole=fit.SampleFootAxis(heelVertices,ballVertices);
             fit.RequiredPointAngle=Vector3.Angle(sole,direction);
             var aligned=Quaternion.FromToRotation(sole,direction)*basis;
-            return Quaternion.Slerp(basis,Quaternion.RotateTowards(basis,aligned,58),amount);
+            return Quaternion.Slerp(basis,Quaternion.RotateTowards(basis,aligned,MaxPoint),amount);
         }
         public float AnkleHeight(Quaternion rotation)=>.012f-Mathf.Min((rotation*heel).y,(rotation*ball).y);
         public void PlantToes(float amount)

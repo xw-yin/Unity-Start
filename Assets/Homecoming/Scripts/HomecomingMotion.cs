@@ -421,8 +421,8 @@ namespace Homecoming
             Vector3 left=rig.transform.TransformPoint(V(.105f,.10f,-.035f));
             Vector3 right=rig.transform.TransformPoint(V(-.105f,.10f,-.035f));
             {
-                left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,.10f,-.035f)),V(-1.145f,.10f+(rig.longBoots?CharacterRig.FootrestHeight:0),1.10f),Ease(t,7,8.2f));
-                right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f+(rig.longBoots?CharacterRig.FootrestHeight:0),1.10f),Ease(t,7,8.2f));
+                left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,.10f,-.035f)),V(-1.145f,.10f,1.10f),Ease(t,7,8.2f));
+                right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),Ease(t,7,8.2f));
                 // Lift one heel toward the reaching hand; the other foot remains planted.
                 left+=V(.04f,.42f,-.055f)*Ease(t,leftStart,leftStart+1.4f)*(1-Ease(t,leftStart+2.8f,leftStart+3.8f));
                 right+=V(-.04f,.42f,-.055f)*Ease(t,rightStart,rightStart+1.4f)*(1-Ease(t,rightStart+2.8f,rightStart+3.8f));
@@ -464,8 +464,8 @@ namespace Homecoming
                 if(pose.bone.name=="J_Bip_L_Shoulder")rig.Pose(pose.bone,V(0,dlcBoots?15:20,dlcBoots?-4:-6)*Mathf.Max(l,.75f*r));
                 if(pose.bone.name=="J_Bip_R_Shoulder")rig.Pose(pose.bone,V(0,dlcBoots?-15:-20,dlcBoots?4:6)*Mathf.Max(r,.75f*l));
             }
-            Vector3 left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,.10f,-.035f)),V(-1.145f,.10f+(rig.longBoots?CharacterRig.FootrestHeight:0),1.10f),sit);
-            Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f+(rig.longBoots?CharacterRig.FootrestHeight:0),1.10f),sit);
+            Vector3 left=Vector3.Lerp(rig.transform.TransformPoint(V(.105f,.10f,-.035f)),V(-1.145f,.10f,1.10f),sit);
+            Vector3 right=Vector3.Lerp(rig.transform.TransformPoint(V(-.105f,.10f,-.035f)),V(-1.355f,.10f,1.10f),sit);
             float ll=Ease(t,leftStart,leftStart+1.4f)*(1-Ease(t,Shoes.Cleared(0)+.15f,leftRelease));
             float rl=Ease(t,rightStart,rightStart+1.4f)*(1-Ease(t,Shoes.Cleared(1)+.15f,rightRelease));
             // Stage the long-boot leg-cross before the boot hand reaches. Hold
@@ -535,18 +535,16 @@ namespace Homecoming
             // follows the calf, so the ankle can flex independently inside its opening.
             if(barefoot[0]!=null)
             {
-                float pointLeft=rig.longBoots?Ease(t,leftStart+(Shoes.AnatomicalExtraction?1.35f:2.2f),leftStart+(Shoes.AnatomicalExtraction?1.95f:2.65f))*(1-Ease(t,Shoes.Cleared(0),leftRelease-.2f)):0;
-                float pointRight=rig.longBoots?Ease(t,rightStart+(Shoes.AnatomicalExtraction?1.35f:2.2f),rightStart+(Shoes.AnatomicalExtraction?1.95f:2.65f))*(1-Ease(t,Shoes.Cleared(1),rightRelease-.2f)):0;
-                if(Shoes.AnatomicalExtraction)
-                {
-                    // The heel counter limits the ankle while the boot is worn.
-                    // Complete the toe point as the heel leaves the shoe, rather
-                    // than forcing the full plantar flexion through its back wall.
-                    float heelRelease=.20f;
-                    float shaftEntry=.60f;
-                    pointLeft=(.15f*Ease(t,leftStart+1.35f,leftStart+1.95f)+.85f*Ease(t,leftStart+2+heelRelease,leftStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(0),leftRelease-.2f));
-                    pointRight=(.15f*Ease(t,rightStart+1.35f,rightStart+1.95f)+.85f*Ease(t,rightStart+2+heelRelease,rightStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(1),rightRelease-.2f));
-                }
+                // The heel counter limits the ankle while the boot is worn.
+                // Complete the toe point as the heel leaves the shoe, rather
+                // than forcing the full plantar flexion through its back wall.
+                // The staged curve used to exist only on the anatomical path;
+                // every other long boot slammed to a full point in .45s while
+                // its heel was still seated, so it now applies to all of them.
+                float heelRelease=.20f;
+                float shaftEntry=.60f;
+                float pointLeft=rig.longBoots?(.15f*Ease(t,leftStart+1.35f,leftStart+1.95f)+.85f*Ease(t,leftStart+2+heelRelease,leftStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(0),leftRelease-.2f)):0;
+                float pointRight=rig.longBoots?(.15f*Ease(t,rightStart+1.35f,rightStart+1.95f)+.85f*Ease(t,rightStart+2+heelRelease,rightStart+2+shaftEntry))*(1-Ease(t,Shoes.Cleared(1),rightRelease-.2f)):0;
                 var leftFlat=Quaternion.Slerp(lf.rotation,flatFootRest[0],Mathf.Max(leftBare,pointLeft));
                 var rightFlat=Quaternion.Slerp(rf.rotation,flatFootRest[1],Mathf.Max(rightBare,pointRight));
                 var leftDirection=(lf.position-rig.leftCalf.position).normalized;

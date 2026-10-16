@@ -4,7 +4,7 @@ namespace Homecoming
 {
     public class CharacterRig : MonoBehaviour
     {
-        public const float SeatRaise=.14f,FootrestHeight=.12f;
+        public const float SeatRaise=.14f;
         public Transform hips,spine,head,leftArm,rightArm,leftElbow,rightElbow,leftThigh,rightThigh,leftCalf,rightCalf;
         public GameObject leftShoe,rightShoe,bag,leftSlipper,rightSlipper;
         public SkinnedMeshRenderer skirt;
