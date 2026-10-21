@@ -8,6 +8,8 @@ namespace Homecoming
     public sealed class HomecomingMotion
     {
         readonly CharacterRig rig;
+        readonly HomecomingFacePlayer face;
+        public HomecomingFacePlayer Face=>face;
         readonly Transform lf,rf,lh,rh;
         readonly Transform[] shoulders=new Transform[2];
         readonly Quaternion[] upperArmFrames=new Quaternion[2],forearmFrames=new Quaternion[2];
@@ -58,10 +60,8 @@ namespace Homecoming
         readonly Vector3[] solvedDirection=new Vector3[2],solvedBend=new Vector3[2],priorDirection=new Vector3[2],priorBend=new Vector3[2];
         readonly Transform[] smileBones=new Transform[2];
         readonly Vector3[] smileRest=new Vector3[2];
-        // Facial bones: Witcher characters ship zero facial blendshapes, so the
-        // face is frozen unless these bones are driven. Same safe pattern as
-        // smileBones: cache rest localPosition, apply millimeter-scale positional
-        // nudges only (no rotations), all restored by ResetFace().
+        // Legacy positional facial motion remains for characters without an
+        // imported native face library. The source player owns Yennefer's face.
         readonly Transform[] eyelidBones=new Transform[4]; // 0,1 upper L/R; 2,3 lower L/R
         readonly Vector3[] eyelidRest=new Vector3[4];
         readonly Transform[] browBones=new Transform[2];
@@ -137,6 +137,7 @@ namespace Homecoming
         }
         public HomecomingMotion(CharacterRig source)
         {
+            if(source.faceLibrary)face=new HomecomingFacePlayer(source);
             rig=source;garments=rig.GetComponentsInChildren<HomecomingGarmentDynamics>();
             dlcBoots=rig.leftShoe&&rig.leftShoe.GetComponent<SkinnedMeshRenderer>()&&rig.leftShoe.GetComponent<SkinnedMeshRenderer>().sharedMesh.name.StartsWith("OriginalYenneferBootDLC");
             bootFit=dlcBoots||rig.openToeFootwear?rig.GetComponentsInChildren<SkinnedMeshRenderer>().Where(s=>s.sharedMesh.GetBlendShapeIndex("BootFit")>=0).ToArray():new SkinnedMeshRenderer[0];
@@ -255,6 +256,7 @@ namespace Homecoming
             else if(t<1.5f) ApplyCutePose(t+1,Ease(t,0,.65f)*(1-Ease(t,.85f,1.5f)));
             if(cloth) cloth.Sample(rig,t);
             foreach(var garment in garments)garment.Sample(rig,t);
+            if(face!=null)face.Sample(t,.35f*Ease(story,25,29));
         }
         public void SampleWaiting(float time)
         {
@@ -263,6 +265,7 @@ namespace Homecoming
             FitBoots(-1);
             if(cloth)cloth.Sample(rig,time);
             foreach(var garment in garments)garment.Sample(rig,time);
+            if(face!=null)face.Sample(time,.08f);
         }
         float HeelFit(int side,float action)=>1-Ease(action,HomecomingShoeGrip.Detach(side)+.25f,Shoes.Cleared(side)-.10f);
         void FitBoots(float action)
@@ -273,6 +276,7 @@ namespace Homecoming
         }
         public void ResetFace()
         {
+            if(face!=null){face.Reset();return;}
             for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i];
             for(int i=0;i<4;i++)if(eyelidBones[i])eyelidBones[i].localPosition=eyelidRest[i];
             for(int i=0;i<2;i++)if(browBones[i])browBones[i].localPosition=browRest[i];
@@ -290,6 +294,8 @@ namespace Homecoming
             rig.hips.position+=root.right*(.018f*Mathf.Sin(time*.72f)*amount)+root.up*(.0025f*Mathf.Sin(time*2.1f)*amount);
             rig.Pose(rig.spine,new Vector3(-1.5f,1.2f*Mathf.Sin(time*.72f),2.2f*Mathf.Sin(time*.72f))*amount);
             rig.Pose(rig.head,new Vector3(-2+2*Mathf.Sin(time*1.1f),-5*wave,6*Mathf.Sin(time*.72f+.6f))*amount);
+            if(face==null)
+            {
             var faceUp=rig.head.rotation*Quaternion.Inverse(headRest)*Vector3.up;
             for(int i=0;i<2;i++)if(smileBones[i])smileBones[i].localPosition=smileRest[i]+smileBones[i].parent.InverseTransformVector(faceUp*(.0014f*amount));
             // Blink: quick close-open on a ~3.1s cycle (mirrors the old blendshape
@@ -309,6 +315,7 @@ namespace Homecoming
             {
                 float jawOpen=(.5f+.5f*Mathf.Sin(time*1.1f))*.0016f*amount;
                 jawBone.localPosition=jawRest+jawBone.parent.InverseTransformVector(faceUp*(-jawOpen));
+            }
             }
             Solve(rig.leftThigh,rig.leftCalf,lf,left,rig.hips.position+root.right*.13f-root.forward);
             Solve(rig.rightThigh,rig.rightCalf,rf,right,rig.hips.position-root.right*.13f-root.forward);

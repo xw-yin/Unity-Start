@@ -73,13 +73,13 @@ namespace Homecoming.Editor
                 if(mat.shader==shader&&mat.GetTexture("_BumpMap"))Import(AssetDatabase.GetAssetPath(mat.GetTexture("_BumpMap")),true,false,name.StartsWith("h_01_"));
                 EditorUtility.SetDirty(mat);
             }
+            YenneferCostumeMaterials.ApplyToRig(rig);
             BuildFringes(rig);
             Debug.Log("YENNEFER APPEARANCE INPUTS: original diffuse/normal retained; skin AO=R roughness=G, source pore normal, strand shift, original eye normal and socket mask; no geometry edits.");
         }
         static void BuildFringes(CharacterRig rig)
         {
-            foreach(var old in rig.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r=>r.name.EndsWith("_HairFringe")).ToArray())UnityEngine.Object.DestroyImmediate(old.gameObject);
-            var source=rig.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r=>r.sharedMaterial&&r.sharedMaterial.IsKeywordEnabled("_CHARACTER_HAIR")).ToArray();
+            var source=rig.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r=>r.sharedMaterial&&r.sharedMaterial.IsKeywordEnabled("_CHARACTER_HAIR")&&!r.sharedMaterial.IsKeywordEnabled("_HAIR_FRINGE")).ToArray();
             for(int i=0;i<source.Length;i++)
             {
                 var skin=source[i];string path=Folder+"HairFringe_"+i.ToString("D2")+".mat";
@@ -87,8 +87,9 @@ namespace Homecoming.Editor
                 if(!material){material=new Material(skin.sharedMaterial);AssetDatabase.CreateAsset(material,path);}else{material.shader=skin.sharedMaterial.shader;material.CopyPropertiesFromMaterial(skin.sharedMaterial);}
                 material.EnableKeyword("_HAIR_FRINGE");material.SetFloat("_SrcBlend",5);material.SetFloat("_DstBlend",10);material.SetFloat("_ZWrite",0);material.SetFloat("_AlphaToMask",0);material.renderQueue=3000;material.SetOverrideTag("RenderType","Transparent");EditorUtility.SetDirty(material);
                 material.SetShaderPassEnabled("ShadowCaster",false);material.SetShaderPassEnabled("DepthOnly",false);material.SetShaderPassEnabled("DepthNormals",false);
-                var obj=new GameObject(skin.name+"_HairFringe");obj.transform.SetParent(skin.transform,false);obj.layer=skin.gameObject.layer;
-                var fringe=obj.AddComponent<SkinnedMeshRenderer>();fringe.sharedMesh=skin.sharedMesh;fringe.bones=skin.bones;fringe.rootBone=skin.rootBone;fringe.localBounds=skin.localBounds;fringe.updateWhenOffscreen=true;fringe.sharedMaterial=material;fringe.shadowCastingMode=ShadowCastingMode.Off;fringe.renderingLayerMask=skin.renderingLayerMask;
+                var child=skin.transform.Find(skin.name+"_HairFringe");
+                var obj=child?child.gameObject:new GameObject(skin.name+"_HairFringe");obj.transform.SetParent(skin.transform,false);obj.transform.localPosition=Vector3.zero;obj.transform.localRotation=Quaternion.identity;obj.transform.localScale=Vector3.one;obj.layer=skin.gameObject.layer;
+                var fringe=obj.GetComponent<SkinnedMeshRenderer>();if(!fringe)fringe=obj.AddComponent<SkinnedMeshRenderer>();fringe.sharedMesh=skin.sharedMesh;fringe.bones=skin.bones;fringe.rootBone=skin.rootBone;fringe.localBounds=skin.localBounds;fringe.updateWhenOffscreen=true;fringe.sharedMaterial=material;fringe.shadowCastingMode=ShadowCastingMode.Off;fringe.renderingLayerMask=skin.renderingLayerMask;
             }
         }
         static void Skin(Material m,Shader shader,bool face)

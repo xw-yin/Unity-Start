@@ -106,7 +106,9 @@ namespace Homecoming
         public static void ApplyMaterial(Renderer renderer,Material material)
         {
             renderer.sharedMaterial=material;
-            var properties=new MaterialPropertyBlock(); properties.SetColor("_BaseColor",material.color);
+            var properties=new MaterialPropertyBlock();
+            if(material.HasProperty("_BaseColor"))properties.SetColor("_BaseColor",material.GetColor("_BaseColor"));
+            else if(material.HasProperty("_Color"))properties.SetColor("_Color",material.GetColor("_Color"));
             if(material.HasProperty("_EmissionColor")) properties.SetColor("_EmissionColor",material.GetColor("_EmissionColor"));
             renderer.SetPropertyBlock(properties);
         }

@@ -144,6 +144,7 @@ namespace Homecoming.Editor
             rig.CaptureRestPose(); rig.Expression(1,false);
             WitcherCostumeMaterials.Apply(rig,Source);
             YenneferAppearanceMaterials.ApplyToRig(rig);
+            YenneferFaceImport.ApplyToRig(rig);
 
             PrefabUtility.SaveAsPrefabAsset(root,"Assets/Homecoming/Resources/Homecoming/YenneferDLC.prefab");
             AssetDatabase.SaveAssets(); UnityEngine.Object.DestroyImmediate(root); AssetDatabase.Refresh();

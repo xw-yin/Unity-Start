@@ -1,0 +1,159 @@
+{
+  "textures": [
+    {
+      "name": "FeatherDiffuse",
+      "source": "dlc/dlc4/data/characters/models/main_npc/yennefer/model/yennefer_feathers_d01.dds",
+      "sourceSHA256": "1eaa08c6fb16983685748cdcfac674ee6e1f7ff8b1dead3139b3892f34869328",
+      "size": [
+        1024,
+        1024
+      ],
+      "prepared": "Texture_12.png",
+      "channels": "unchanged RGBA"
+    },
+    {
+      "name": "FeatherNormal",
+      "source": "characters/models/main_npc/avallach/model/feathers_01_ma__avallach_n01.dds",
+      "sourceSHA256": "986e5bc3d0337fc87e19f79edfd0753d02174e46defc5b1d20761cb20e942a5f",
+      "size": [
+        2048,
+        2048
+      ],
+      "prepared": "Texture_13.png",
+      "channels": "unchanged RGBA"
+    },
+    {
+      "name": "FeatherSurface",
+      "source": "characters/models/main_npc/avallach/model/feathers_01_ma__avallach_n01.dds",
+      "sourceSHA256": "986e5bc3d0337fc87e19f79edfd0753d02174e46defc5b1d20761cb20e942a5f",
+      "size": [
+        2048,
+        2048
+      ],
+      "prepared": "CostumeAppearance/FeatherSurface.png",
+      "channels": "R=1 G=normal DDS alpha roughness B=0 A=1"
+    },
+    {
+      "name": "ScarfDiffuse",
+      "source": "dlc/dlc4/data/characters/models/main_npc/yennefer/model/scarf_01_wa__yennefer_d01.dds",
+      "sourceSHA256": "d4d7af6ce680a446b2a98c3c50944c2130b398cfb47ba68bd26179ba67b5209a",
+      "size": [
+        512,
+        512
+      ],
+      "prepared": "Texture_24.png",
+      "channels": "unchanged RGBA"
+    },
+    {
+      "name": "ScarfNormal",
+      "source": "dlc/dlc4/data/characters/models/main_npc/yennefer/model/scarf_01_wa__yennefer_n01.dds",
+      "sourceSHA256": "0feaaa279154bea0531235e1f172da85000e626e1d422144047f14b3d8f6bfe7",
+      "size": [
+        512,
+        512
+      ],
+      "prepared": "Texture_25.png",
+      "channels": "unchanged RGBA"
+    },
+    {
+      "name": "ScarfSurface",
+      "source": "dlc/dlc4/data/characters/models/main_npc/yennefer/model/scarf_01_wa__yennefer_n01.dds",
+      "sourceSHA256": "0feaaa279154bea0531235e1f172da85000e626e1d422144047f14b3d8f6bfe7",
+      "size": [
+        512,
+        512
+      ],
+      "prepared": "CostumeAppearance/ScarfSurface.png",
+      "channels": "R=1 G=normal DDS alpha roughness B=0 A=1"
+    },
+    {
+      "name": "ScarfDetail",
+      "source": "characters/models/common/textures/detailmaps_pbr/detailmap_cloth_02.dds",
+      "sourceSHA256": "402cdf1b042b26782f5c0159ce7880f027d62efa73be11cb746de06439107454",
+      "size": [
+        512,
+        512
+      ],
+      "prepared": "CostumeAppearance/ScarfDetail.png",
+      "channels": "unchanged RGBA"
+    },
+    {
+      "name": "ScarfPattern",
+      "source": "characters/models/common/textures/patterns/pattern_array.texarray.texture_3.dds",
+      "sourceSHA256": "f3180ba0b31398a014a365d5b214bc6e2bfde1d610454d7cf2d7d16392f009a3",
+      "size": [
+        256,
+        256
+      ],
+      "prepared": "CostumeAppearance/ScarfPattern.png",
+      "channels": "unchanged RGBA"
+    }
+  ],
+  "materials": [
+    {
+      "name": "feathers_05_wa__yennefer_Material0",
+      "shader": "engine\\materials\\graphs\\pbr_hair_moving.w2mg",
+      "parameters": {
+        "VarianceOffset": "0.0",
+        "VarianceColor": "255; 255; 255; 255",
+        "Anisotropy": "0.0",
+        "Normal": "characters\\models\\main_npc\\avallach\\model\\feathers_01_ma__avallach_n01.xbm",
+        "Diffuse": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\yennefer_feathers_d01.xbm",
+        "Translucency": "0.4000000059604645",
+        "SpecularColor": "42; 97; 95; 255",
+        "RSpecScale": "0.30000001192092896",
+        "RSpecBase": "-0.03999999910593033",
+        "ColorShift_Power": "0.0",
+        "ColorShift_ BlendColors": "0.0",
+        "ColorShift_ KeepGray": "1.0",
+        "TranslucencyRim": "1.0",
+        "TranslucencyRimScale": "0.0",
+        "SubsurfaceFactor": "0.0",
+        "SSAOImpact": "0.5",
+        "SpecularShiftUVScale": "1.0; 1.0; 0.0; 0.0",
+        "SpecularShiftTexture": "characters\\models\\common\\textures\\hair\\detailshift_hair_01.xbm",
+        "SpecularShiftScale": "0.0",
+        "MovementSpeed": "8.0",
+        "Amplitude": "0.03999999910593033",
+        "Frequency": "0.699999988079071",
+        "Gusts": "12.0"
+      }
+    },
+    {
+      "name": "scarf_01_wa__yennefer_Material0",
+      "shader": "engine\\materials\\graphs\\pbr_std_tint_mask_det_pattern.w2mg",
+      "parameters": {
+        "Normal": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\scarf_01_wa__yennefer_n01.xbm",
+        "Diffuse": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\scarf_01_wa__yennefer_d01.xbm",
+        "Translucency": "0.0",
+        "DetailPower": "0.8999999761581421",
+        "SpecularColor": "51; 62; 83; 255",
+        "RSpecScale": "0.5",
+        "RSpecBase": "0.0",
+        "Roughness_min": "0.0",
+        "Roughness_max": "1.0",
+        "DetailAlbedoPower": "2.0",
+        "TintMask": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\scarf_01_wa__yennefer_a01.xbm",
+        "AOPower": "0.5",
+        "ColorShift_ BlendColors": "0.0",
+        "ColorShift_ KeepGray": "1.0",
+        "DetailRange": "5.0",
+        "ColorShift_Enabled": "1.0",
+        "DetailTile": "20.0; 20.0; 1.0; 1.0",
+        "DetailRotation": "0.0",
+        "DetailNormal": "characters\\models\\common\\textures\\detailmaps_pbr\\detailmap_cloth_02.xbm",
+        "Pattern_Mixer": "1.0; 0.0; 0.0; 0.0",
+        "Pattern_Index": "3.0",
+        "Pattern_Offset": "0.0; 0.0; 0.0; 0.0",
+        "Pattern_Size": "0.07000000029802322; 0.07000000029802322; 0.0; 0.0",
+        "Pattern_DistortionPower": "0.019999999552965164",
+        "Pattern_Rotation": "0.0",
+        "Pattern_Array": "characters\\models\\common\\textures\\patterns\\pattern_array.texarray",
+        "Pattern_Roughness_Influence": "0.699999988079071",
+        "Pattern_Color1": "0; 0; 0; 255",
+        "Pattern_Color2": "0; 0; 0; 255",
+        "Pattern_Color3": "15; 16; 15; 255"
+      }
+    }
+  ]
+}

@@ -18,6 +18,7 @@ namespace Homecoming
         public SkinnedMeshRenderer[] dressedLegs,dressedHosiery;
         public GameObject leftGroundShoe, rightGroundShoe;
         public SkinnedMeshRenderer[] expressionRenderers;
+        public HomecomingFaceLibrary faceLibrary;
         public Vector3 hipRestPosition=new Vector3(0,.91f,0);
         [System.Serializable] public struct RestPose { public Transform bone; public Quaternion rotation,parentBasis; }
         public RestPose[] restPoses;
@@ -100,6 +101,7 @@ namespace Homecoming
         }
         public void Expression(float time,bool happy)
         {
+            if(faceLibrary)return; // The source mimic player owns this character's face.
             if(expressionRenderers==null) return;
             float interval=Mathf.Repeat(time,4.3f),blink=Mathf.Clamp01(1-Mathf.Abs(interval-.11f)/.11f)*100;
             foreach(var renderer in expressionRenderers)

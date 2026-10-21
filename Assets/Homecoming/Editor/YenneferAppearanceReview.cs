@@ -12,10 +12,12 @@ namespace Homecoming.Editor
     public static class YenneferAppearanceReview
     {
         const BindingFlags Flags=BindingFlags.NonPublic|BindingFlags.Instance;
+        public const string OutputRoot="Artifacts/CostumeReview";
         [Serializable] class Surface {public string name,mesh,material,shader;public bool enabled;public int vertices;public float smoothness,normalStrength;public string albedo,normal,specular;}
         [Serializable] class Inventory {public Surface[] surfaces;}
         public static void Baseline()=>Capture("baseline");
         public static void Current()=>Capture("current");
+        public static void CostumeIteration(){Baseline();YenneferAppearanceMaterials.Apply();Current();}
         [MenuItem("Homecoming/审阅叶奈法外观还原")]
         public static void Review()=>Current();
         static void Capture(string label)
@@ -25,12 +27,16 @@ namespace Homecoming.Editor
             var motion=(HomecomingMotion)typeof(HomecomingScene).GetField("motion",Flags).GetValue(story);
             motion.Sample(motion.ElapsedForAction(7.01f));motion.ResetFace();
             var cam=story.CameraControls.GetComponent<Camera>();
-            string folder="Artifacts/AppearanceReview/"+label;Directory.CreateDirectory(folder);
+            string folder=OutputRoot+"/"+label;Directory.CreateDirectory(folder);
             var headSkin=rig.GetComponentsInChildren<SkinnedMeshRenderer>().First(s=>s.name.StartsWith("h_01_wa__yennefer_hq"));
             var headMesh=new Mesh();headSkin.BakeMesh(headMesh);var vertices=headMesh.vertices.Select(v=>headSkin.transform.TransformPoint(v)).ToArray();var headBounds=new Bounds(vertices[0],Vector3.zero);foreach(var v in vertices)headBounds.Encapsulate(v);UnityEngine.Object.DestroyImmediate(headMesh);
             var face=headBounds.center+Vector3.up*headBounds.size.y*.12f;
             Debug.Log("APPEARANCE HEAD BOUNDS "+headBounds+" HEAD BONE "+rig.head.position+" FACE AIM "+face);
             Take(cam,face,new Vector3(0,.015f,-.65f),38,folder+"/room-face.png",1000,1100);
+            var body=rig.transform.position+new Vector3(0,.92f,0);
+            Take(cam,body,new Vector3(.35f,.05f,-3.05f),38,folder+"/room-body.png",1000,1300);
+            var collar=rig.transform.position+new Vector3(0,1.38f,0);
+            Take(cam,collar,new Vector3(.32f,.03f,-1.12f),38,folder+"/room-costume.png",1100,1000);
             var lights=UnityEngine.Object.FindObjectsByType<Light>();foreach(var light in lights)light.enabled=false;
             cam.cullingMask=1<<8;cam.backgroundColor=new Color(.24f,.25f,.27f);cam.clearFlags=CameraClearFlags.SolidColor;
             RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=new Color(.40f,.42f,.45f);RenderSettings.ambientEquatorColor=new Color(.30f,.31f,.33f);RenderSettings.ambientGroundColor=new Color(.18f,.18f,.19f);
@@ -42,7 +48,8 @@ namespace Homecoming.Editor
             Take(cam,face,new Vector3(0,.015f,-.65f),38,folder+"/face-front.png",1000,1100);
             Take(cam,face,new Vector3(.35f,.015f,-.55f),38,folder+"/face-three-quarter.png",1000,1100);
             Take(cam,face,new Vector3(.65f,.015f,-.07f),38,folder+"/face-side.png",1000,1100);
-            var body=rig.transform.position+new Vector3(0,.92f,0);
+            Take(cam,collar,new Vector3(.32f,.03f,-1.12f),38,folder+"/costume-front.png",1100,1000);
+            Take(cam,collar,new Vector3(1.12f,.04f,-.28f),38,folder+"/costume-side.png",1100,1000);
             foreach(var view in new[]{("front",new Vector3(0,0,-3.05f)),("side",new Vector3(3.05f,0,0)),("back",new Vector3(0,0,3.05f))})
                 Take(cam,body,view.Item2,38,folder+"/body-"+view.Item1+".png",1000,1300);
             string PathOf(Material m,string property)=>m.HasProperty(property)&&m.GetTexture(property)?AssetDatabase.GetAssetPath(m.GetTexture(property)):"";

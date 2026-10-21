@@ -23,6 +23,13 @@ Shader "Homecoming/Character Surface"
   _ShiftOffset("Strand highlight offset",Float)=.22
   _HairSpecular("Strand reflection",Color)=(.075,.08,.085,1)
   _HairExponent("Strand lobe exponent",Float)=48
+  [Toggle(_CHARACTER_FEATHER)] _Feather("Source feather response",Float)=0
+  [Toggle(_CHARACTER_COSTUME)] _Costume("Source scarf response",Float)=0
+  _Translucency("Thin feather transmission",Range(0,1))=0
+  _PatternMap("Source scarf ornament",2D)="black" {}
+  _PatternTiling("Source ornament tiling",Float)=14.285714
+  _PatternStrength("Ornament color adaptation",Range(0,1))=.08
+  _PatternRoughness("Source ornament roughness influence",Range(0,1))=.7
   _Cutoff("Source alpha threshold",Range(0,1))=.35
   [HideInInspector] _SrcBlend("Source blend",Float)=1
   [HideInInspector] _DstBlend("Destination blend",Float)=0
@@ -42,9 +49,11 @@ Shader "Homecoming/Character Surface"
   TEXTURE2D(_AmbientMap);SAMPLER(sampler_AmbientMap);
   TEXTURE2D(_DetailNormalMap);SAMPLER(sampler_DetailNormalMap);
   TEXTURE2D(_ShiftMap);SAMPLER(sampler_ShiftMap);
+  TEXTURE2D(_PatternMap);SAMPLER(sampler_PatternMap);
   CBUFFER_START(UnityPerMaterial)
   float4 _BaseMap_ST,_ShiftTiling;half4 _BaseColor,_SpecColor,_ScatterColor,_HairSpecular;
   half _BumpScale,_UseSurfaceMap,_DetailStrength,_DetailTiling,_Smoothness,_OcclusionStrength,_Wrap,_ScatterStrength,_Hair,_ShiftScale,_ShiftOffset,_HairExponent,_Cutoff,_SrcBlend,_DstBlend,_ZWrite,_AlphaToMask;
+  half _Feather,_Costume,_Translucency,_PatternTiling,_PatternStrength,_PatternRoughness;
   CBUFFER_END
   struct Attributes {float4 positionOS:POSITION;float3 normalOS:NORMAL;float4 tangentOS:TANGENT;float2 uv:TEXCOORD0;UNITY_VERTEX_INPUT_INSTANCE_ID};
   struct Varyings {float4 positionCS:SV_POSITION;float3 positionWS:TEXCOORD0;half3 normalWS:TEXCOORD1;half4 tangentWS:TEXCOORD2;float2 uv:TEXCOORD3;half3 vertexLighting:TEXCOORD4;UNITY_VERTEX_OUTPUT_STEREO};
@@ -75,7 +84,13 @@ Shader "Homecoming/Character Surface"
   // It changes direct diffuse response only and respects every light's shadows.
   half3 ExtraLight(Light light,InputData inputData,half3 geometric,half3 normal,half3 strand,half3 albedo,half shift) {
    half attenuation=light.distanceAttenuation*light.shadowAttenuation;
-   #if defined(_CHARACTER_HAIR)
+   #if defined(_CHARACTER_FEATHER)
+   // The source feather material has anisotropy=0. Its colored reflection
+   // comes from the PBR lobe; only thin-sheet transmission is added here.
+   return albedo*_Translucency*saturate(-dot(geometric,light.direction))*light.color*attenuation;
+   #elif defined(_CHARACTER_COSTUME)
+   return 0;
+   #elif defined(_CHARACTER_HAIR)
    half3 h=SafeNormalize(light.direction+inputData.viewDirectionWS);
    half3 a=normalize(strand+normal*shift),b=normalize(strand+normal*(shift-.14h));
    half x=saturate(1-dot(a,h)*dot(a,h)),y=saturate(1-dot(b,h)*dot(b,h));
@@ -122,6 +137,17 @@ Shader "Homecoming/Character Surface"
     surface.alpha=saturate((hairAlpha-_Cutoff)/max(fwidth(hairAlpha),.001h)+.5h);
     #endif
     surface.specular=_SpecColor.rgb;surface.smoothness=_Smoothness;surface.occlusion=1;
+    #if defined(_CHARACTER_FEATHER)
+    surface.smoothness=1-clamp(SAMPLE_TEXTURE2D(_AmbientMap,sampler_AmbientMap,i.uv).g,.12h,.95h);
+    #endif
+   #elif defined(_CHARACTER_COSTUME)
+    half roughness=SAMPLE_TEXTURE2D(_AmbientMap,sampler_AmbientMap,i.uv).g;
+    half ornament=SAMPLE_TEXTURE2D(_PatternMap,sampler_PatternMap,i.uv*_PatternTiling).r;
+    // Preserve the source ornament and scale. These bounded color/roughness
+    // weights adapt the pattern graph to URP rather than claiming engine parity.
+    surface.albedo*=1-ornament*_PatternStrength;
+    roughness=lerp(roughness,saturate(roughness+(ornament-.5h)*.25h),_PatternRoughness);
+    surface.specular=_SpecColor.rgb;surface.smoothness=1-clamp(roughness,.2h,.95h);surface.occlusion=1;
    #else
     half3 map=SAMPLE_TEXTURE2D(_AmbientMap,sampler_AmbientMap,i.uv).rgb;
     surface.specular=_SpecColor.rgb;surface.smoothness=lerp(_Smoothness,1-clamp(map.g*.5h+.12h,.22h,.8h),_UseSurfaceMap);surface.occlusion=lerp(1,map.r,_OcclusionStrength*_UseSurfaceMap);
@@ -156,6 +182,8 @@ Shader "Homecoming/Character Surface"
    #pragma fragment Frag
    #pragma shader_feature_local _CHARACTER_HAIR
    #pragma shader_feature_local _HAIR_FRINGE
+   #pragma shader_feature_local _CHARACTER_FEATHER
+   #pragma shader_feature_local _CHARACTER_COSTUME
    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
    #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
    #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
