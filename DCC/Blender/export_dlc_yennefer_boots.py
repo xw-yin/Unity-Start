@@ -1,4 +1,4 @@
-import bpy,json,struct,pathlib,math
+import bpy,json,struct,pathlib,math,argparse,sys
 from mathutils import Vector,Matrix
 bpy.ops.wm.open_mainfile(filepath='F:/Unity/ExtractedModels/Yennefer/Yennefer-dlc-dress.blend')
 for o in bpy.data.objects:
@@ -9,7 +9,10 @@ def reveal(c):
  for child in c.children:reveal(child)
 reveal(bpy.context.view_layer.layer_collection)
 bpy.context.view_layer.update()
-OUT=pathlib.Path('F:/Unity/Project/Start/Assets/ThirdParty/WitcherYenneferDLC/DLCBoots');OUT.mkdir(parents=True,exist_ok=True)
+parser=argparse.ArgumentParser()
+parser.add_argument('--output',default='F:/Unity/Project/Start/Assets/ThirdParty/WitcherYenneferDLC/DLCBoots')
+args=parser.parse_args(sys.argv[sys.argv.index('--')+1:] if '--' in sys.argv else [])
+OUT=pathlib.Path(args.output);OUT.mkdir(parents=True,exist_ok=True)
 a=bpy.data.objects['yennefer_dlc:CMovingPhysicalAgentComponent3_ARM']; scale=.92
 # Rotate each arm chain from the source A pose into a horizontal bind pose.
 for side,sign in [('l',-1),('r',1)]:
@@ -91,8 +94,10 @@ while unvisited:
 print('DLC BOOT COMPONENTS',json.dumps(components))
 uv=me.uv_layers.active;parts=[]
 for side in ['Left','Right']:
- for material in [0,1]:
-  tris=[t for t in me.loop_triangles if ((material==0 and t.index in keep) or (material==1 and t.material_index==8)) and ((sum(posed(me.vertices[v])[0].x for v in t.vertices)<0)==(side=='Left'))]
+ for material in [0,1,2]:
+  # Material 4 shares the glove texture, but its lower components are knee leather.
+  # Keep their original topology, UVs and knee weights; exclude the actual gloves.
+  tris=[t for t in me.loop_triangles if ((material==0 and t.index in keep) or (material==1 and t.material_index==8) or (material==2 and t.material_index==4 and max(posed(me.vertices[v])[0].y for v in t.vertices)<.8)) and ((sum(posed(me.vertices[v])[0].x for v in t.vertices)<0)==(side=='Left'))]
   lookup={};vertices=[];indices=[]
   for t in tris:
    face=[]
@@ -115,6 +120,6 @@ for side in ['Left','Right']:
     bind=Matrix.Translation(-pos)
     f.write(struct.pack('<16f',*[bind[r][c] for c in range(4) for r in range(4)]))
   parts.append(dict(side=side,material=material,file=filename,vertices=len(vertices),triangles=len(tris),height=max(p.y for p,n,t,w in vertices)-min(p.y for p,n,t,w in vertices)))
-report=dict(source='dlc/dlc4/data/characters/models/main_npc/yennefer/model/body_05_wa__yennefer.w2mesh',blend='F:/Unity/ExtractedModels/Yennefer/Yennefer-dlc-dress.blend',scale=scale,originalMaterials=[1,8],components=components,parts=parts)
+report=dict(source='dlc/dlc4/data/characters/models/main_npc/yennefer/model/body_05_wa__yennefer.w2mesh',blend='F:/Unity/ExtractedModels/Yennefer/Yennefer-dlc-dress.blend',scale=scale,originalMaterials=[1,8,4],components=components,parts=parts)
 (OUT/'manifest.json').write_text(json.dumps(report,indent=2))
 print('ORIGINAL BOOT EXPORT',json.dumps(report))

@@ -4,7 +4,8 @@
   "scale": 0.92,
   "originalMaterials": [
     1,
-    8
+    8,
+    4
   ],
   "components": [
     {
@@ -272,6 +273,14 @@
       "height": 0.6170335561037064
     },
     {
+      "side": "Left",
+      "material": 2,
+      "file": "OriginalBootLeft_2.bin",
+      "vertices": 110,
+      "triangles": 182,
+      "height": 0.13432052731513977
+    },
+    {
       "side": "Right",
       "material": 0,
       "file": "OriginalBootRight_0.bin",
@@ -286,6 +295,14 @@
       "vertices": 1000,
       "triangles": 1459,
       "height": 0.6170335114002228
+    },
+    {
+      "side": "Right",
+      "material": 2,
+      "file": "OriginalBootRight_2.bin",
+      "vertices": 110,
+      "triangles": 182,
+      "height": 0.13432049751281738
     }
   ]
 }

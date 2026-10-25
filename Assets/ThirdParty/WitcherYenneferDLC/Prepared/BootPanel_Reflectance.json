@@ -1,0 +1,39 @@
+{
+  "source": "body_05_wa__yennefer_Material4",
+  "sourceMap": "Costume_04_SpecGloss.png",
+  "sourceMapSHA256": "a2a93c95aab42a61263baa0143cb7aea630d71bfd1c30945a5dcd269da7869c9",
+  "sourceParameters": {
+    "Normal": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\glove_01_wa__yennefer_n01.xbm",
+    "Diffuse": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\glove_01_wa__yennefer_d01.xbm",
+    "Translucency": "0.0",
+    "DetailPower": "1.0",
+    "SpecularColor": "176; 174; 178; 255",
+    "RSpecScale": "0.6000000238418579",
+    "RSpecBase": "-0.20000000298023224",
+    "Roughness_min": "0.0",
+    "Roughness_max": "1.0",
+    "DetailAlbedoPower": "2.0",
+    "TintMask": "dlc\\dlc4\\data\\characters\\models\\main_npc\\yennefer\\model\\glove_01_wa__yennefer_a01.xbm",
+    "AOPower": "1.0",
+    "ColorShift_ BlendColors": "0.0",
+    "ColorShift_ KeepGray": "1.0",
+    "DetailRange": "0.8999999761581421",
+    "ColorShift_Enabled": "1.0",
+    "DetailTile": "5.0; 5.0; 1.0; 1.0",
+    "DetailRotation": "0.0",
+    "DetailNormal": "characters\\models\\common\\textures\\detailmaps_pbr\\detailmap_metal_04.xbm"
+  },
+  "output": "BootPanel_SpecGloss.png",
+  "linearF0": [
+    0.03900740982031878,
+    0.038029338213794325,
+    0.04
+  ],
+  "encodedRGB": [
+    56,
+    55,
+    56
+  ],
+  "roughnessAlpha": "unchanged",
+  "adaptation": "Original specular hue on dielectric F0; independent boot material; original diffuse and normals unchanged"
+}

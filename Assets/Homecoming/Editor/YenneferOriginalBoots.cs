@@ -1,42 +1,82 @@
 using System;
 using System.Linq;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 namespace Homecoming.Editor
 {
-    // DLC body material 1 contains the boot shells; material 8 adds cuff / straps.
+    // Original DLC materials: 1 shell, 8 straps, 4 knee panels (shared glove texture).
     public static class YenneferOriginalBoots
     {
         const string Source="Assets/ThirdParty/WitcherYenneferDLC/DLCBoots/";
         const string Folder="Assets/ThirdParty/WitcherYenneferDLC/Unity/";
+        [Serializable] class Skeleton {public Node[] nodes;}
+        [Serializable] class Node {public string name;}
+        [MenuItem("Homecoming/Repair Original Yennefer Boot Panels")]
+        public static void RepairPrefab()
+        {
+            const string path="Assets/Homecoming/Resources/Homecoming/YenneferDLC.prefab";
+            var root=PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var rig=root.GetComponent<CharacterRig>();rig.Neutral();Restore(rig);
+                for(int side=0;side<2;side++)
+                {
+                    var skin=(side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>();
+                    var prop=side==0?rig.leftGroundShoe:rig.rightGroundShoe;
+                    var baked=new Mesh();skin.BakeMesh(baked);
+                    var vertices=baked.vertices;var normals=baked.normals;
+                    var matrix=root.transform.worldToLocalMatrix*skin.transform.localToWorldMatrix;
+                    var bounds=new Bounds(matrix.MultiplyPoint3x4(vertices[0]),Vector3.zero);
+                    for(int i=0;i<vertices.Length;i++){vertices[i]=matrix.MultiplyPoint3x4(vertices[i]);normals[i]=matrix.MultiplyVector(normals[i]).normalized;bounds.Encapsulate(vertices[i]);}
+                    var center=bounds.center;center.y=bounds.min.y;
+                    for(int i=0;i<vertices.Length;i++)vertices[i]-=center;
+                    baked.vertices=vertices;baked.normals=normals;baked.RecalculateBounds();
+                    var target=prop.GetComponent<MeshFilter>().sharedMesh;baked.name=target.name;
+                    WitcherCharacterImport.CopyMesh(baked,target);UnityEngine.Object.DestroyImmediate(baked);
+                    prop.GetComponent<Renderer>().sharedMaterials=skin.sharedMaterials;
+                }
+                PrefabUtility.SaveAsPrefabAsset(root,path);AssetDatabase.SaveAssets();
+            }
+            finally{PrefabUtility.UnloadPrefabContents(root);}
+        }
         public static void Restore(CharacterRig rig)
         {
             for(int side=0;side<2;side++)
             {
                 string name="OriginalYenneferBootDLC"+(side==0?"Left":"Right");
-                var pieces=Enumerable.Range(0,2).Select(i=>WitcherCharacterImport.ReadPreparedMesh(Source,"OriginalBoot"+(side==0?"Left":"Right")+"_"+i+".bin",name)).ToArray();
-                var mesh=new Mesh{name=name,vertices=pieces.SelectMany(m=>m.vertices).ToArray(),normals=pieces.SelectMany(m=>m.normals).ToArray(),uv=pieces.SelectMany(m=>m.uv).ToArray(),boneWeights=pieces.SelectMany(m=>m.boneWeights).ToArray(),bindposes=pieces[0].bindposes,subMeshCount=2};
-                mesh.SetTriangles(pieces[0].triangles,0);mesh.SetTriangles(pieces[1].triangles.Select(v=>v+pieces[0].vertexCount).ToArray(),1);mesh.RecalculateBounds();mesh.RecalculateTangents();
+                var pieces=Enumerable.Range(0,3).Select(i=>WitcherCharacterImport.ReadPreparedMesh(Source,"OriginalBoot"+(side==0?"Left":"Right")+"_"+i+".bin",name)).ToArray();
+                var shoe=(side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>();
+                var nodes=JsonUtility.FromJson<Skeleton>(File.ReadAllText("Assets/ThirdParty/WitcherYenneferDLC/Prepared/manifest.json")).nodes;
+                var palette=shoe.bones.Select((b,i)=>(b.name,i)).ToDictionary(x=>x.name,x=>x.i);
+                int Map(int bone,float weight)=>weight<=0?0:palette.TryGetValue(nodes[bone].name,out int index)?index:throw new Exception("Original knee bone is missing: "+nodes[bone].name);
+                var weights=pieces.SelectMany(m=>m.boneWeights).Select(w=>new BoneWeight{boneIndex0=Map(w.boneIndex0,w.weight0),boneIndex1=Map(w.boneIndex1,w.weight1),boneIndex2=Map(w.boneIndex2,w.weight2),boneIndex3=Map(w.boneIndex3,w.weight3),weight0=w.weight0,weight1=w.weight1,weight2=w.weight2,weight3=w.weight3}).ToArray();
+                var sourceIndices=nodes.Select((n,i)=>(n.name,i)).ToDictionary(x=>x.name,x=>x.i);
+                var binds=shoe.bones.Select((b,i)=>sourceIndices.TryGetValue(b.name,out int sourceIndex)?pieces[0].bindposes[sourceIndex]:shoe.sharedMesh.bindposes[i]).ToArray();
+                var mesh=new Mesh{name=name,vertices=pieces.SelectMany(m=>m.vertices).ToArray(),normals=pieces.SelectMany(m=>m.normals).ToArray(),uv=pieces.SelectMany(m=>m.uv).ToArray(),boneWeights=weights,bindposes=binds,subMeshCount=3};
+                int offset=0;for(int slot=0;slot<pieces.Length;slot++){mesh.SetTriangles(pieces[slot].triangles.Select(v=>v+offset).ToArray(),slot);offset+=pieces[slot].vertexCount;}mesh.RecalculateBounds();mesh.RecalculateTangents();
                 var contour=Cuff(mesh);var marker=new Vector2[mesh.vertexCount];
                 foreach(int i in contour)marker[i]=Vector2.one;mesh.uv2=marker;
-                var shoe=(side==0?rig.leftShoe:rig.rightShoe).GetComponent<SkinnedMeshRenderer>();
                 WitcherCharacterImport.CopyMesh(mesh,shoe.sharedMesh);
                 shoe.sharedMesh.uv2=mesh.uv2;
                 if(!shoe.sharedMesh.vertices.SequenceEqual(mesh.vertices)||!shoe.sharedMesh.boneWeights.SequenceEqual(mesh.boneWeights)||!shoe.sharedMesh.uv.SequenceEqual(mesh.uv)||!shoe.sharedMesh.triangles.SequenceEqual(mesh.triangles)||!shoe.sharedMesh.bindposes.SequenceEqual(mesh.bindposes))throw new Exception("Boot differs from the original game export");
-                var materials=new Material[2];
+                var materials=new Material[3];
                 for(int i=0;i<2;i++)
                 {
                     string path=Folder+"Materials/DLCBoot"+(i==0?"Shell":"Straps")+".mat";var mat=AssetDatabase.LoadAssetAtPath<Material>(path);
-                    if(!mat){mat=new Material(Shader.Find("Universal Render Pipeline/Lit")){name="YenneferDLCBoot"+i};AssetDatabase.CreateAsset(mat,path);}
+                    if(!mat){mat=new Material(Shader.Find("Universal Render Pipeline/Lit")){name="YenneferDLCBoot"+i};AssetDatabase.CreateAsset(mat,path);
                     mat.color=Color.white;mat.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ThirdParty/WitcherYenneferDLC/Prepared/Texture_00.png"));
                     mat.SetTexture("_BumpMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/ThirdParty/WitcherYenneferDLC/Prepared/Texture_01.png"));mat.EnableKeyword("_NORMALMAP");mat.SetFloat("_BumpScale",.7f);
-                    mat.SetFloat("_Metallic",0);mat.SetFloat("_Smoothness",.28f);mat.SetFloat("_Cull",0);EditorUtility.SetDirty(mat);materials[i]=mat;
+                    mat.SetFloat("_Metallic",0);mat.SetFloat("_Smoothness",.28f);mat.SetFloat("_Cull",0);EditorUtility.SetDirty(mat);}materials[i]=mat;
                 }
+                materials[2]=AssetDatabase.LoadAssetAtPath<Material>(Folder+"Materials/Surface_05.mat");
+                if(!materials[2])throw new Exception("Original shared glove/knee leather material is missing");
                 shoe.sharedMaterials=materials;
                 Debug.Log("ORIGINAL BOOT RESTORED: "+name+" vertices="+mesh.vertexCount+" triangles="+mesh.triangles.Length/3+" height="+mesh.bounds.size.y+" submeshes="+mesh.subMeshCount+" weighted joints="+mesh.boneWeights.SelectMany(w=>new[]{w.boneIndex0,w.weight1>0?w.boneIndex1:-1,w.weight2>0?w.boneIndex2:-1,w.weight3>0?w.boneIndex3:-1}).Where(i=>i>=0).Distinct().Count());
                 foreach(var piece in pieces)UnityEngine.Object.DestroyImmediate(piece);UnityEngine.Object.DestroyImmediate(mesh);
             }
+            YenneferBootMaterials.Apply(rig);
         }
         internal static int[] Cuff(Mesh mesh)
         {
@@ -46,9 +86,10 @@ namespace Homecoming.Editor
             for(int i=0;i<t.Length;i+=3)for(int j=0;j<3;j++){int a=ids[t[i+j]],b=ids[t[i+(j+1)%3]];long key=((long)Mathf.Min(a,b)<<32)|(uint)Mathf.Max(a,b);edges.TryGetValue(key,out int count);edges[key]=count+1;}
             var positions=new Vector3[welded.Count];for(int i=0;i<v.Length;i++)positions[ids[i]]=v[i];
             var links=new System.Collections.Generic.Dictionary<int,System.Collections.Generic.List<int>>();
+            float cuffMinimum=mesh.bounds.max.y-.08f;
             foreach(var edge in edges.Where(e=>e.Value==1))
             {
-                int a=(int)(edge.Key>>32),b=(int)edge.Key;if(positions[a].y<=.55f||positions[b].y<=.55f)continue;
+                int a=(int)(edge.Key>>32),b=(int)edge.Key;if(positions[a].y<=cuffMinimum||positions[b].y<=cuffMinimum)continue;
                 if(!links.ContainsKey(a))links[a]=new System.Collections.Generic.List<int>();if(!links.ContainsKey(b))links[b]=new System.Collections.Generic.List<int>();links[a].Add(b);links[b].Add(a);
             }
             var remaining=new System.Collections.Generic.HashSet<int>(links.Keys);var best=new System.Collections.Generic.HashSet<int>();float area=0;

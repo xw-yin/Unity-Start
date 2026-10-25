@@ -13,6 +13,7 @@ namespace Homecoming
         readonly Transform lf,rf,lh,rh;
         readonly Transform[] shoulders=new Transform[2];
         readonly Quaternion[] upperArmFrames=new Quaternion[2],forearmFrames=new Quaternion[2];
+        readonly Quaternion[] wristRestInForearm=new Quaternion[2];
         readonly Quaternion[] thighFrames=new Quaternion[2],calfFrames=new Quaternion[2];
         readonly Quaternion[] thighBindTurn=new Quaternion[2],calfBindRelative=new Quaternion[2];
         readonly Vector3[] thighBindDirection=new Vector3[2],calfBindAxis=new Vector3[2],kneeHingeLocal=new Vector3[2];
@@ -197,6 +198,7 @@ namespace Homecoming
                 normal.Normalize();
                 upperArmFrames[side]=Quaternion.Inverse(Quaternion.LookRotation(upper.InverseTransformDirection(u),upper.InverseTransformDirection(normal)));
                 forearmFrames[side]=Quaternion.Inverse(Quaternion.LookRotation(lower.InverseTransformDirection(v),lower.InverseTransformDirection(normal)));
+                wristRestInForearm[side]=Quaternion.Inverse(lower.rotation)*hand.rotation;
                 upper=side==0?rig.leftThigh:rig.rightThigh;lower=side==0?rig.leftCalf:rig.rightCalf;hand=side==0?lf:rf;
                 u=lower.position-upper.position;v=hand.position-lower.position;
                 normal=Vector3.Cross(u,rig.transform.forward).normalized;
@@ -254,6 +256,10 @@ namespace Homecoming
                 else ApplyCutePose(story-27,Ease(story,26.7f,28),false);
             }
             else if(t<1.5f) ApplyCutePose(t+1,Ease(t,0,.65f)*(1-Ease(t,.85f,1.5f)));
+            // Apply after the ending-pose blend: blending local wrist poses
+            // against an already rolled forearm sends the hand around an arc.
+            float releaseRoll=Ease(ActionTime(t),20.4f,21.8f);
+            if(releaseRoll>0)for(int side=0;side<2;side++)AlignForearmRoll(side,side==0?rig.leftElbow:rig.rightElbow,Hands.Hand(side),Hands.Hand(side).rotation,releaseRoll);
             if(cloth) cloth.Sample(rig,t);
             foreach(var garment in garments)garment.Sample(rig,t);
             if(face!=null)face.Sample(t,.35f*Ease(story,25,29));
@@ -850,6 +856,18 @@ namespace Homecoming
                 if(fabric[side]>0)Hands.Overlay(side,HomecomingHandPose.Hold.Fabric,fingers[side],fabric[side]);
             }
             elbowsInitialized=true;
+        }
+        void AlignForearmRoll(int side,Transform elbow,Transform hand,Quaternion desiredHand,float amount=1)
+        {
+            // Pronation belongs to the forearm. An IK bend plane determines
+            // where the elbow goes, but must not leave the wrist to counter-
+            // rotate against that plane as the hand releases the thigh.
+            var axis=(hand.position-elbow.position).normalized;
+            var neutralPalm=Vector3.ProjectOnPlane(Hands.Palm(side,elbow.rotation*wristRestInForearm[side]),axis);
+            var desiredPalm=Vector3.ProjectOnPlane(Hands.Palm(side,desiredHand),axis);
+            if(neutralPalm.sqrMagnitude>.0001f&&desiredPalm.sqrMagnitude>.0001f)
+                elbow.rotation=Quaternion.AngleAxis(Vector3.SignedAngle(neutralPalm,desiredPalm,axis)*amount,axis)*elbow.rotation;
+            hand.rotation=desiredHand;
         }
         void SolveArm(Transform upper,Transform lower,Transform end,Vector3 target,Vector3 pole)
         {

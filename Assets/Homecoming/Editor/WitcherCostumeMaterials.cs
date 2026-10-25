@@ -47,6 +47,7 @@ namespace Homecoming.Editor
                     EditorUtility.SetDirty(mat);Debug.Log("ORIGINAL COSTUME MATERIAL: "+mat.name+"; source colored specular, roughness and cloth normals restored.");
                 }
             }
+            if(source.Contains("YenneferDLC"))YenneferBootMaterials.Apply(rig);
         }
         static void ImportMap(string path,bool normal)
         {
